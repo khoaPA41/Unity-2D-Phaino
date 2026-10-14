@@ -1,4 +1,7 @@
 
+using System;
+using System.Collections.Generic;
+
 public enum CardNameId
 {
     // Bài quái
@@ -50,7 +53,6 @@ public enum CardNameId
     ChainsOfSubmission = 41,      // Xiềng Xích Thế Thủ
 }
 
-
 public enum CardElemental // Hệ
 {
     Astral,      // Tinh Tú
@@ -74,3 +76,16 @@ public enum CardType // Loại
     Rupture
 }
 
+[Serializable]
+public class CardInfomationEntry
+{
+    public CardNameId CardNameId;
+    public CardType CardType;
+}
+
+[Serializable]
+public class CardElementGroup
+{
+    public CardElemental CardElemental;
+    public List<CardInfomationEntry> CardInfomationEntries;
+}

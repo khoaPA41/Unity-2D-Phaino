@@ -1,0 +1,123 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bef944071bfe2840b03dd1492a74457, type: 3}
+  m_Name: MainCardInformation
+  m_EditorClassIdentifier: Assembly-CSharp::CardInformation
+  Groups:
+  - CardElemental: 0
+    CardInfomationEntries:
+    - CardNameId: 8
+      CardType: 0
+    - CardNameId: 9
+      CardType: 0
+    - CardNameId: 32
+      CardType: 1
+    - CardNameId: 33
+      CardType: 1
+    - CardNameId: 38
+      CardType: 2
+  - CardElemental: 1
+    CardInfomationEntries:
+    - CardNameId: 1
+      CardType: 0
+    - CardNameId: 5
+      CardType: 0
+    - CardNameId: 10
+      CardType: 0
+    - CardNameId: 11
+      CardType: 0
+  - CardElemental: 2
+    CardInfomationEntries:
+    - CardNameId: 12
+      CardType: 0
+    - CardNameId: 13
+      CardType: 0
+  - CardElemental: 3
+    CardInfomationEntries:
+    - CardNameId: 3
+      CardType: 0
+    - CardNameId: 4
+      CardType: 0
+    - CardNameId: 14
+      CardType: 0
+    - CardNameId: 15
+      CardType: 0
+    - CardNameId: 40
+      CardType: 2
+  - CardElemental: 4
+    CardInfomationEntries:
+    - CardNameId: 16
+      CardType: 0
+    - CardNameId: 17
+      CardType: 0
+    - CardNameId: 34
+      CardType: 1
+    - CardNameId: 36
+      CardType: 1
+    - CardNameId: 37
+      CardType: 2
+    - CardNameId: 41
+      CardType: 2
+  - CardElemental: 5
+    CardInfomationEntries:
+    - CardNameId: 18
+      CardType: 0
+    - CardNameId: 19
+      CardType: 0
+  - CardElemental: 6
+    CardInfomationEntries:
+    - CardNameId: 6
+      CardType: 0
+    - CardNameId: 20
+      CardType: 0
+    - CardNameId: 21
+      CardType: 0
+  - CardElemental: 7
+    CardInfomationEntries:
+    - CardNameId: 22
+      CardType: 0
+    - CardNameId: 23
+      CardType: 0
+    - CardNameId: 39
+      CardType: 2
+  - CardElemental: 8
+    CardInfomationEntries:
+    - CardNameId: 24
+      CardType: 0
+    - CardNameId: 25
+      CardType: 0
+    - CardNameId: 35
+      CardType: 1
+  - CardElemental: 9
+    CardInfomationEntries:
+    - CardNameId: 7
+      CardType: 0
+    - CardNameId: 26
+      CardType: 0
+    - CardNameId: 27
+      CardType: 0
+  - CardElemental: 10
+    CardInfomationEntries:
+    - CardNameId: 28
+      CardType: 0
+    - CardNameId: 29
+      CardType: 0
+  - CardElemental: 11
+    CardInfomationEntries:
+    - CardNameId: 0
+      CardType: 0
+    - CardNameId: 2
+      CardType: 0
+    - CardNameId: 30
+      CardType: 0
+    - CardNameId: 31
+      CardType: 0
