@@ -10,5 +10,5 @@ public class Card : ScriptableObject
     public Sprite CardDetailImage;
     public Sprite CardElementalImage;
     public Sprite CardTypeImage;
-    public string CardStar;
+    [Range(1, 12)] public int CardStar;
 }
