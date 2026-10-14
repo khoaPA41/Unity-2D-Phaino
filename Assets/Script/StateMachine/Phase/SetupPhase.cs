@@ -4,7 +4,7 @@ namespace Raziel.StateMachine
 {
     public class SetupPhase : DuelBaseState
     {
-
+        DuelStateMachine _stateMachine;
         public SetupPhase(DuelStateMachine duelStateMachine) : base(duelStateMachine)
         {
         }
@@ -13,11 +13,17 @@ namespace Raziel.StateMachine
         {
             Debug.Log("SetupPhase");
 
-            _duelStateMachine.TurnController.BuildInitial(_duelStateMachine.DuelInformation_I, _duelStateMachine.DuelInformation_II);
-            _duelStateMachine.CurrentTurn = _duelStateMachine.TurnController.GetCurrentTurn();
+            _stateMachine = _duelStateMachine;
+
+            _stateMachine.TurnController.BuildInitial(_stateMachine.DuelInformation_I, _stateMachine.DuelInformation_II);
+            _stateMachine.CurrentTurn = _stateMachine.TurnController.GetCurrentTurn();
+
             SetupPlayerDeck();
             SetupEnemyDeck();
-            _duelStateMachine.SwitchState(_duelStateMachine.DrawPhase);
+
+            DrawFirstTime();
+
+            _stateMachine.SwitchState(_stateMachine.StandbyPhase);
         }
 
         public override void Tick(float deltaTime)
@@ -26,16 +32,26 @@ namespace Raziel.StateMachine
 
         public override void Exit()
         {
+            _stateMachine = null;
         }
 
         private void SetupPlayerDeck()
         {
-            _duelStateMachine.DuelInformation_I.SetupDeck();
+            _stateMachine.DuelInformation_I.SetupDeck();
         }
 
         private void SetupEnemyDeck()
         {
-            _duelStateMachine.DuelInformation_II.SetupDeck();
+            _stateMachine.DuelInformation_II.SetupDeck();
+        }
+
+        private void DrawFirstTime()
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                _stateMachine.DuelInformation_I.DrawCard();
+                _stateMachine.DuelInformation_II.DrawCard();
+            }
         }
     }
 }

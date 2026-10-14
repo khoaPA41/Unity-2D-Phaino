@@ -10,30 +10,28 @@ namespace Raziel.Pure.TurnController
 
         public IReadOnlyList<DuelInformation> TurnList => _queue;
 
+        private int currentIndex = 0;
 
         public void BuildInitial(DuelInformation player, DuelInformation enemy)
         {
+            currentIndex = 0;
             if (_queue.Count > 0)
                 _queue.Clear();
-            // _queue.AddRange(turnList);
+
             _queue.Add(player);
             _queue.Add(enemy);
         }
 
         public DuelInformation GetCurrentTurn()
         {
-            var currentTurn = _queue[0];
-            _queue.RemoveAt(0);
-            foreach (var item in _queue)
-            {
-                Debug.Log(item.character);
-            }
-            return currentTurn;
-        }
+            var currentTurn = _queue[currentIndex];
 
-        public void EnqueueBack(DuelInformation duelInformation)
-        {
-            _queue.Add(duelInformation);
+            var index = ++currentIndex;
+            if (index >= _queue.Count) index = 0;
+
+            currentIndex = index;
+
+            return currentTurn;
         }
     }
 }

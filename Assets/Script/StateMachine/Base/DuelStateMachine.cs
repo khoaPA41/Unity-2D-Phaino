@@ -1,3 +1,4 @@
+using System;
 using Raziel.Battle;
 using Raziel.Pure.TurnController;
 using UnityEngine;
@@ -7,8 +8,18 @@ namespace Raziel.StateMachine
 {
     public class DuelStateMachine : StateMachine
     {
+        [field: SerializeField] public int TwoFirstTurnBattle { get; private set; } = 2;
+
         [field: SerializeField] public DuelInformation DuelInformation_I { get; private set; }
         [field: SerializeField] public DuelInformation DuelInformation_II { get; private set; }
+
+
+        [field: Header("Button")]
+        [field: SerializeField] public GameObject DrawButton { get; private set; }
+        [field: SerializeField] public GameObject BattleButton { get; private set; }
+        [field: SerializeField] public GameObject MainIIButton { get; private set; }
+
+        [field: SerializeField] public GameObject EndButton { get; private set; }
 
         public TurnController TurnController { get; private set; }
         public DuelInformation CurrentTurn { get; set; }
@@ -21,6 +32,15 @@ namespace Raziel.StateMachine
         public State BattlePhase;
         public State EndPhase;
         public State Setup;
+
+        // Event
+        public event Action DrawCardAction = delegate { };
+        public event Action BattleAction = delegate { };
+        public event Action MainIIAction = delegate { };
+        public event Action EndAction = delegate { };
+
+        // Situation
+        public int Turn { get; set; }
 
         private void Awake()
         {
@@ -41,22 +61,23 @@ namespace Raziel.StateMachine
 
         public void Draw()
         {
-            SwitchState(StandbyPhase);
+            DrawCardAction?.Invoke();
         }
 
 
         public void Battle()
         {
-            SwitchState(BattlePhase);
+            BattleAction?.Invoke();
         }
 
         public void MainII()
         {
-            SwitchState(SecondMainPhase);
+            MainIIAction?.Invoke();
+            // SwitchState(SecondMainPhase);
         }
         public void End()
         {
-            SwitchState(EndPhase);
+            EndAction?.Invoke();
         }
     }
 }

@@ -137,7 +137,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &123696964
 RectTransform:
   m_ObjectHideFlags: 0
@@ -153,9 +153,9 @@ RectTransform:
   - {fileID: 593261388}
   m_Father: {fileID: 1549258921}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 571.13, y: -15}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &123696965
@@ -1094,7 +1094,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &534852768
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1110,9 +1110,9 @@ RectTransform:
   - {fileID: 174485638}
   m_Father: {fileID: 1549258921}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 80, y: -15}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &534852769
@@ -1864,7 +1864,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &788720233
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1880,9 +1880,9 @@ RectTransform:
   - {fileID: 2099759690}
   m_Father: {fileID: 1549258921}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 243.71, y: -15}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &788720234
@@ -2737,9 +2737,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1666014822}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 383.42963, y: -72}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 96, y: 144}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1349225883
@@ -2811,8 +2811,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59cda66a23ed3bb43a087ae46d6ee195, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Raziel.StateMachine.DuelStateMachine
+  <TwoFirstTurnBattle>k__BackingField: 2
   <DuelInformation_I>k__BackingField: {fileID: 1361341194}
   <DuelInformation_II>k__BackingField: {fileID: 1361341193}
+  <DrawButton>k__BackingField: {fileID: 534852767}
+  <BattleButton>k__BackingField: {fileID: 1743671185}
+  <MainIIButton>k__BackingField: {fileID: 1534140621}
+  <EndButton>k__BackingField: {fileID: 123696963}
 --- !u!4 &1361341192
 Transform:
   m_ObjectHideFlags: 0
@@ -2841,27 +2846,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Raziel.Battle.DuelInformation
   _cards:
-  - {fileID: 11400000, guid: e6f2b7a55c8d78c49a74f080670e4bc0, type: 2}
-  - {fileID: 11400000, guid: 25f1ead91e43b4c4a9bee9f1075b133b, type: 2}
-  - {fileID: 11400000, guid: 9ef598ab7c7f78342b55d51c1e36fe22, type: 2}
-  - {fileID: 11400000, guid: 157ebcb145f23fc43acacf7d289a76e1, type: 2}
-  - {fileID: 11400000, guid: cd0351b29bcdd3042831214e3bdc17e5, type: 2}
-  - {fileID: 11400000, guid: b8cc19bb637b8904583afb8941348baf, type: 2}
-  - {fileID: 11400000, guid: 21c66bba93429f344b96c57647f70707, type: 2}
-  - {fileID: 11400000, guid: 5e36030842156c742a6bcda87f8b28be, type: 2}
-  - {fileID: 11400000, guid: 7eaa92b61dc141d46ad34a591bef30d2, type: 2}
-  - {fileID: 11400000, guid: dbfac82a74e000d478f64f1766e4aa0c, type: 2}
-  - {fileID: 11400000, guid: 08a587937e554a340be7dec4ed470642, type: 2}
-  - {fileID: 11400000, guid: 82e562f477b944441b2121ba2a4b03ea, type: 2}
-  - {fileID: 11400000, guid: 254f1476d52c88d4d81bfb4730c3b95f, type: 2}
-  - {fileID: 11400000, guid: 8c2a01380a516d44aa720a559049dd3e, type: 2}
-  - {fileID: 11400000, guid: 65e3f18a54cfd754d80b2c64b8253865, type: 2}
-  - {fileID: 11400000, guid: eac5bd0686f9c28459ee5d51ae454564, type: 2}
-  - {fileID: 11400000, guid: dbefa1c4aaa38754ba1bb805b89a2bcc, type: 2}
-  - {fileID: 11400000, guid: 27970b7a15a2a8245b81f9d29193ec68, type: 2}
-  - {fileID: 11400000, guid: 63dbb38cc471eb74abc33b582b04d573, type: 2}
-  - {fileID: 11400000, guid: 385dd90c4805b0544bb703403cb4f0a7, type: 2}
+  - {fileID: 11400000, guid: f71fda4604acab74a9f7cd093a2fb5ba, type: 2}
+  - {fileID: 11400000, guid: 6674aa808d6a19c45a6a26b668c1a6a7, type: 2}
+  - {fileID: 11400000, guid: 45a2664842a39f54c925e65711527cce, type: 2}
+  - {fileID: 11400000, guid: a66444c85560a74418f9dda472444b64, type: 2}
+  - {fileID: 11400000, guid: 97a2b020c4712e0428509c1315002d97, type: 2}
+  - {fileID: 11400000, guid: a727d15dee4dda14195fce99fffd3815, type: 2}
+  - {fileID: 11400000, guid: 47ab3f3e694d82a42a50537be73a7a96, type: 2}
+  - {fileID: 11400000, guid: 6586a2a08c5f39045897ab8d134602ce, type: 2}
+  - {fileID: 11400000, guid: 62abb6082fa68dc4b8a73afb53c446bc, type: 2}
+  - {fileID: 11400000, guid: dce41fb96859548488eaea40628121ef, type: 2}
+  - {fileID: 11400000, guid: bb3daa990ba9ef34a87c98dad4dcfa88, type: 2}
+  - {fileID: 11400000, guid: 279edb73b6b986f4b8d48be8630345e1, type: 2}
+  - {fileID: 11400000, guid: 5b02b3a2725fbc04eafb8905097a942f, type: 2}
+  - {fileID: 11400000, guid: 6d8ab0106728ce745b7cd54b47e5e9a6, type: 2}
+  - {fileID: 11400000, guid: 3659efc8be521cb459957ca49577595d, type: 2}
+  - {fileID: 11400000, guid: 739191f911fb5694eb22a06cbf37d93e, type: 2}
+  - {fileID: 11400000, guid: 8e63d2cdceb11074e830fae7b21d89f8, type: 2}
+  - {fileID: 11400000, guid: 89582cecf5ca546458db38f22c82ac01, type: 2}
+  - {fileID: 11400000, guid: be79b33f7e6b5b347a80a0565960f108, type: 2}
+  - {fileID: 11400000, guid: be8d547ec8c5f184eadd7c9b3867fb10, type: 2}
   character: 1
+  CardsHand: []
 --- !u!114 &1361341194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2875,27 +2881,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Raziel.Battle.DuelInformation
   _cards:
-  - {fileID: 11400000, guid: 093f9e2a2308fa74eb44efba59eebaa7, type: 2}
-  - {fileID: 11400000, guid: e6f2b7a55c8d78c49a74f080670e4bc0, type: 2}
-  - {fileID: 11400000, guid: 25f1ead91e43b4c4a9bee9f1075b133b, type: 2}
-  - {fileID: 11400000, guid: 9ef598ab7c7f78342b55d51c1e36fe22, type: 2}
-  - {fileID: 11400000, guid: 157ebcb145f23fc43acacf7d289a76e1, type: 2}
-  - {fileID: 11400000, guid: cd0351b29bcdd3042831214e3bdc17e5, type: 2}
-  - {fileID: 11400000, guid: b8cc19bb637b8904583afb8941348baf, type: 2}
-  - {fileID: 11400000, guid: 21c66bba93429f344b96c57647f70707, type: 2}
-  - {fileID: 11400000, guid: 5e36030842156c742a6bcda87f8b28be, type: 2}
-  - {fileID: 11400000, guid: 7eaa92b61dc141d46ad34a591bef30d2, type: 2}
-  - {fileID: 11400000, guid: dbfac82a74e000d478f64f1766e4aa0c, type: 2}
-  - {fileID: 11400000, guid: 08a587937e554a340be7dec4ed470642, type: 2}
-  - {fileID: 11400000, guid: 82e562f477b944441b2121ba2a4b03ea, type: 2}
-  - {fileID: 11400000, guid: 254f1476d52c88d4d81bfb4730c3b95f, type: 2}
-  - {fileID: 11400000, guid: 8c2a01380a516d44aa720a559049dd3e, type: 2}
-  - {fileID: 11400000, guid: 65e3f18a54cfd754d80b2c64b8253865, type: 2}
-  - {fileID: 11400000, guid: eac5bd0686f9c28459ee5d51ae454564, type: 2}
-  - {fileID: 11400000, guid: dbefa1c4aaa38754ba1bb805b89a2bcc, type: 2}
-  - {fileID: 11400000, guid: 27970b7a15a2a8245b81f9d29193ec68, type: 2}
-  - {fileID: 11400000, guid: 63dbb38cc471eb74abc33b582b04d573, type: 2}
+  - {fileID: 11400000, guid: d8bbf6acc4f2ba24b9d826fcdc03c08a, type: 2}
+  - {fileID: 11400000, guid: f707d14c062f79c45b24d33be2ad3b78, type: 2}
+  - {fileID: 11400000, guid: 012df0340f427324b82da29be69568f1, type: 2}
+  - {fileID: 11400000, guid: 220915da135b7834bb42b3b864a1b152, type: 2}
+  - {fileID: 11400000, guid: ee7844a74e738fa4c900e22c564a3632, type: 2}
+  - {fileID: 11400000, guid: 7e895ad5cbf579d418b0d82dcbd67c09, type: 2}
+  - {fileID: 11400000, guid: abada933954a2b4488d1179210aa043c, type: 2}
+  - {fileID: 11400000, guid: 632935b68817f284cbf73eaf3d2e80ec, type: 2}
+  - {fileID: 11400000, guid: 5c50b36cdb899b7479d6c98802abbe6b, type: 2}
+  - {fileID: 11400000, guid: a9bb4cc48fd65f7498d38061851d2135, type: 2}
+  - {fileID: 11400000, guid: a270372f45bf9924cad862a562a7b572, type: 2}
+  - {fileID: 11400000, guid: 15f941051f2e6bf4085e28dca5e7e87f, type: 2}
+  - {fileID: 11400000, guid: 878dd1f5f4aff074ab3d02d453c58e2a, type: 2}
+  - {fileID: 11400000, guid: 50aec16c954f6d6479735a4261848e17, type: 2}
+  - {fileID: 11400000, guid: 62620258c3b41b0478dc8f0258607fe8, type: 2}
+  - {fileID: 11400000, guid: 05790d506cb22cb4eabde624b04ab2bf, type: 2}
+  - {fileID: 11400000, guid: b6c381ea7cdba394abbea23abc122f39, type: 2}
+  - {fileID: 11400000, guid: 3e2a0c78baa13684f9b126bbee5c4b69, type: 2}
+  - {fileID: 11400000, guid: e058377d1663ae94492ec5ad0befff13, type: 2}
+  - {fileID: 11400000, guid: a9a7d8fe2c05e544d85a6a0b05337462, type: 2}
   character: 0
+  CardsHand: []
 --- !u!1 &1366740822
 GameObject:
   m_ObjectHideFlags: 0
@@ -2964,7 +2971,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1534140622
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2980,9 +2987,9 @@ RectTransform:
   - {fileID: 994321152}
   m_Father: {fileID: 1549258921}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 80, y: -15}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1534140623
@@ -3348,7 +3355,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1666014822
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3356,7 +3363,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1666014821}
-  m_LocalRotation: {x: 0.28995064, y: 0, z: 0, w: 0.9570416}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -26}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3367,7 +3374,7 @@ RectTransform:
   - {fileID: 1349225882}
   - {fileID: 1845287029}
   m_Father: {fileID: 847436032}
-  m_LocalEulerAnglesHint: {x: 33.71, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 259, y: 110}
@@ -3431,9 +3438,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1666014822}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 159.80988, y: -72}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 96, y: 144}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1693604565
@@ -3492,7 +3499,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1743671186
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3508,9 +3515,9 @@ RectTransform:
   - {fileID: 469227204}
   m_Father: {fileID: 1549258921}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 80, y: -15}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1743671187
@@ -3672,9 +3679,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1666014822}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 271.61975, y: -72}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 96, y: 144}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1819183071
@@ -3747,9 +3754,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1666014822}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 495.2395, y: -72}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 96, y: 144}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1845287030
@@ -3822,9 +3829,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1666014822}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 48, y: -72}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 96, y: 144}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1875247427
