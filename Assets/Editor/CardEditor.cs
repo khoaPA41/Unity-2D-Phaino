@@ -1,15 +1,20 @@
 using UnityEditor;
 using UnityEngine;
 
+[CanEditMultipleObjects]
 [CustomEditor(typeof(Card))]
 public class CardEditor : Editor
 {
+    private const string ImagePathRoot = "Assets/Third-Party Assets/Card/ChatGpt/Card Image";
     private SerializedProperty _cardInformation;
     private SerializedProperty _cardNameId;
     private SerializedProperty _cardType;
     private SerializedProperty _cardElemental;
+    private SerializedProperty _cardDetailImage;
+
 
     private string _message;
+    private string _imageMessage;
 
     private void OnEnable()
     {
@@ -17,11 +22,21 @@ public class CardEditor : Editor
         _cardNameId = serializedObject.FindProperty("CardNameId");
         _cardType = serializedObject.FindProperty("CardType");
         _cardElemental = serializedObject.FindProperty("CardElemental");
+        _cardDetailImage = serializedObject.FindProperty("CardDetailImage");
     }
 
     public override void OnInspectorGUI()
     {
         serializedObject.Update();
+
+        if (serializedObject.isEditingMultipleObjects)
+        {
+            EditorGUILayout.LabelField($"Choosing {targets.Length} card assets");
+
+            if (GUILayout.Button("Synchronize Image"))
+                SyncSelectedArtwork();
+            return;
+        }
 
         EditorGUI.BeginChangeCheck();
 
@@ -68,7 +83,11 @@ public class CardEditor : Editor
             "CardNameId",
             "CardType",
             "CardElemental"
+        // "CardDetailImage"
         );
+
+        if (!string.IsNullOrEmpty(_imageMessage))
+            EditorGUILayout.HelpBox(_imageMessage, MessageType.Error);
 
         serializedObject.ApplyModifiedProperties();
 
@@ -107,7 +126,7 @@ public class CardEditor : Editor
         _cardType.intValue = (int)type;
         _cardElemental.intValue = (int)element;
 
-
+        ArtWork();
         _message = null;
     }
 
@@ -153,4 +172,124 @@ public class CardEditor : Editor
         _message = null;
     }
 
+    private void ArtWork()
+    {
+        string folder;
+
+        switch ((CardType)_cardType.intValue)
+        {
+            case CardType.Mighty:
+                folder = "Mighty";
+                break;
+            case CardType.Rupture:
+                folder = "Rupture";
+                break;
+            case CardType.Soul:
+                folder = "Soul";
+                break;
+            default:
+                _imageMessage = "Card type is invalid";
+                return;
+        }
+
+        var id = (CardNameId)_cardNameId.intValue;
+
+        string path = $"{ImagePathRoot}/{folder}/{id}.png";
+
+        Sprite result = null;
+
+        foreach (var asset in AssetDatabase.LoadAllAssetsAtPath(path))
+        {
+            if (!(asset is Sprite sprite)) continue;
+
+            if (result != null)
+            {
+                _imageMessage = $"Image has many sprite, cannot choose: {path}.";
+                return;
+            }
+
+            result = sprite;
+        }
+
+        if (result == null)
+        {
+            _imageMessage = $"Cannot find sprite {path}. Check file and import settings.";
+        }
+
+        _cardDetailImage.objectReferenceValue = result;
+        _imageMessage = null;
+    }
+
+    private void SyncSelectedArtwork()
+    {
+        int updated = 0;
+        int failed = 0;
+
+        foreach (var target in targets)
+        {
+            if (!(target is Card card)) continue;
+
+            string folder;
+
+            switch (card.CardType)
+            {
+                case CardType.Mighty:
+                    folder = "Mighty";
+                    break;
+                case CardType.Rupture:
+                    folder = "Rupture";
+                    break;
+                case CardType.Soul:
+                    folder = "Soul";
+                    break;
+                default:
+                    Debug.LogWarning(
+                    $"{card.name}: loại bài không hợp lệ.", card);
+                    failed++;
+                    continue;
+            }
+
+            string path = $"{ImagePathRoot}/{folder}/{card.CardNameId}.png";
+            Sprite result = null;
+            bool multipleSprites = false;
+
+            foreach (var asset in AssetDatabase.LoadAllAssetsAtPath(path))
+            {
+                if (!(asset is Sprite sprite)) continue;
+
+                if (result != null)
+                {
+                    multipleSprites = true;
+                    break;
+                }
+
+                result = sprite;
+            }
+
+            if (result == null || multipleSprites)
+            {
+                Debug.LogWarning(
+                $"{card.name}: Just one Sprite at {path}. "
+                + "Keep older.",
+                card);
+
+                failed++;
+                continue;
+            }
+
+            if (card.CardDetailImage == result) continue;
+
+            Undo.RecordObject(card, "Sync Card Artwork");
+            EditorUtility.SetDirty(card);
+            card.CardDetailImage = result;
+            updated++;
+        }
+
+        Debug.Log(
+            $"Sync Image: updated {updated}, error {failed}. "
+            + "Card has right image will keep.");
+
+        serializedObject.Update();
+        Repaint();
+    }
 }

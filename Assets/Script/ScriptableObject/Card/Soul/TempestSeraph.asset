@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 042e7780fc9e55141b02969e1cbe1698, type: 3}
+  m_Name: TempestSeraph
+  m_EditorClassIdentifier: Assembly-CSharp::Card
+  CardInformation: {fileID: 11400000, guid: 67035f9dc3ff4384ea9a10204e21be21, type: 2}
+  CardNameId: 30
+  CardType: 0
+  CardElemental: 11
+  CardDetailImage: {fileID: 21300000, guid: 007496fadb214874abf786c1f2de241f, type: 3}
+  CardElementalImage: {fileID: 0}
+  CardTypeImage: {fileID: 0}
+  CardStar: 4
