@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6812197293521151813}
   - component: {fileID: 8794042673312454363}
   m_Layer: 5
-  m_Name: Card Details
+  m_Name: Card Detail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -2095571229108026118, guid: 98b0c0bc1a318f84ebc641a9affd76a2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: eec6950adbc14b443aefc4bb1d0099ed, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -86,6 +86,7 @@ GameObject:
   - component: {fileID: 197248025684040015}
   - component: {fileID: 3310166230617103892}
   - component: {fileID: 1674767549417370646}
+  - component: {fileID: 3766142705272364425}
   m_Layer: 5
   m_Name: CardHand
   m_TagString: Untagged
@@ -145,6 +146,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd4bd5da30152174885cd6fe6a4e7972, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardHandDrag
+--- !u!114 &3766142705272364425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3233267265701042482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a9eef09404e8ec44996cf47a0222e05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PooledObject
 --- !u!1 &3860623846236161954
 GameObject:
   m_ObjectHideFlags: 0

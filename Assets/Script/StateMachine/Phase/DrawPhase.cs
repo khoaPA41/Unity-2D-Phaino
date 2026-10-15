@@ -8,6 +8,7 @@ namespace Raziel.StateMachine
     {
         DuelStateMachine _stateMachine;
         DuelInformation _current;
+        UiBattleManagers _uiBattleManagers;
 
         public DrawPhase(DuelStateMachine duelStateMachine) : base(duelStateMachine)
         {
@@ -16,13 +17,17 @@ namespace Raziel.StateMachine
         public override void Enter()
         {
             _stateMachine = _duelStateMachine;
+            _uiBattleManagers = UiBattleManagers.Instance;
             _stateMachine.DrawButton.SetActive(true);
+
 
             Debug.Log("DrawPhase: " + _stateMachine.CurrentTurn.character);
 
             _current = _stateMachine.CurrentTurn;
             ActionByCharacter();
             ChangePhaseAfterDraw();
+
+
         }
 
         public override void Tick(float deltaTime)
@@ -33,9 +38,6 @@ namespace Raziel.StateMachine
 
         public override void Exit()
         {
-            _stateMachine.DrawButton.SetActive(false);
-
-
             if (_current != null)
             {
                 _current.DrawCardSucces -= ChangeMain_I;
@@ -43,7 +45,10 @@ namespace Raziel.StateMachine
             }
 
             if (_stateMachine != null)
+            {
+                _stateMachine.DrawButton.SetActive(false);
                 _stateMachine.DrawCardAction -= _current.DrawCard;
+            }
 
             _stateMachine = null;
             _current = null;
@@ -75,6 +80,11 @@ namespace Raziel.StateMachine
         private void ChangeMain_II()
         {
             _stateMachine.SwitchState(_stateMachine.SecondMainPhase);
+        }
+
+        private void UpdateCardHand()
+        {
+            // _current.UpdateCardHand += () => _uiBattleManagers.SpawnCardElementOnHand();
         }
     }
 }

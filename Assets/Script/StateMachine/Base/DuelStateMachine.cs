@@ -18,7 +18,7 @@ namespace Raziel.StateMachine
         [field: SerializeField] public GameObject DrawButton { get; private set; }
         [field: SerializeField] public GameObject BattleButton { get; private set; }
         [field: SerializeField] public GameObject MainIIButton { get; private set; }
-
+        [field: SerializeField] public GameObject SummonButton { get; private set; }
         [field: SerializeField] public GameObject EndButton { get; private set; }
 
         public TurnController TurnController { get; private set; }
@@ -37,6 +37,7 @@ namespace Raziel.StateMachine
         public event Action DrawCardAction = delegate { };
         public event Action BattleAction = delegate { };
         public event Action MainIIAction = delegate { };
+        public event Action SummonAction = delegate { };
         public event Action EndAction = delegate { };
 
         // Situation
@@ -64,7 +65,6 @@ namespace Raziel.StateMachine
             DrawCardAction?.Invoke();
         }
 
-
         public void Battle()
         {
             BattleAction?.Invoke();
@@ -73,8 +73,13 @@ namespace Raziel.StateMachine
         public void MainII()
         {
             MainIIAction?.Invoke();
-            // SwitchState(SecondMainPhase);
         }
+
+        public void Summon()
+        {
+            SummonAction?.Invoke();
+        }
+
         public void End()
         {
             EndAction?.Invoke();

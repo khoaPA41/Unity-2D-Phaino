@@ -47,11 +47,8 @@ namespace Raziel.StateMachine
 
         private void DrawFirstTime()
         {
-            for (int i = 0; i < 5; i++)
-            {
-                _stateMachine.DuelInformation_I.DrawCard();
-                _stateMachine.DuelInformation_II.DrawCard();
-            }
+            _stateMachine.DuelInformation_I.DrawCardFirstTimes();
+            _stateMachine.DuelInformation_II.DrawCardFirstTimes();
         }
     }
 }
