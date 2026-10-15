@@ -6,11 +6,16 @@ using UnityEngine;
 public class CardEditor : Editor
 {
     private const string ImagePathRoot = "Assets/Third-Party Assets/Card/ChatGpt/Card Image";
+    private const string ImageElementPathRoot = "Assets/Third-Party Assets/Card/ChatGpt/Card Icon/Elemental";
+    private const string ImageTypePathRoot = "Assets/Third-Party Assets/Card/ChatGpt/Card Icon/Type";
+
     private SerializedProperty _cardInformation;
     private SerializedProperty _cardNameId;
     private SerializedProperty _cardType;
     private SerializedProperty _cardElemental;
     private SerializedProperty _cardDetailImage;
+    private SerializedProperty _cardElementalImage;
+    private SerializedProperty _cardTypeImage;
 
 
     private string _message;
@@ -23,6 +28,8 @@ public class CardEditor : Editor
         _cardType = serializedObject.FindProperty("CardType");
         _cardElemental = serializedObject.FindProperty("CardElemental");
         _cardDetailImage = serializedObject.FindProperty("CardDetailImage");
+        _cardElementalImage = serializedObject.FindProperty("CardElementalImage");
+        _cardTypeImage = serializedObject.FindProperty("CardTypeImage");
     }
 
     public override void OnInspectorGUI()
@@ -193,10 +200,16 @@ public class CardEditor : Editor
         }
 
         var id = (CardNameId)_cardNameId.intValue;
+        var typeId = (CardType)_cardType.intValue;
+        var elementId = (CardElemental)_cardElemental.intValue;
 
         string path = $"{ImagePathRoot}/{folder}/{id}.png";
+        string typePath = $"{ImageTypePathRoot}/{typeId}.png";
+        string elementPath = $"{ImageElementPathRoot}/{elementId}.png";
 
         Sprite result = null;
+        Sprite type = null;
+        Sprite element = null;
 
         foreach (var asset in AssetDatabase.LoadAllAssetsAtPath(path))
         {
@@ -215,8 +228,36 @@ public class CardEditor : Editor
         {
             _imageMessage = $"Cannot find sprite {path}. Check file and import settings.";
         }
+        //
+        foreach (var asset in AssetDatabase.LoadAllAssetsAtPath(typePath))
+        {
+            if (!(asset is Sprite sprite)) continue;
+
+            if (type != null)
+            {
+                _imageMessage = $"Image has many sprite, cannot choose: {path}.";
+                return;
+            }
+
+            type = sprite;
+        }
+        //
+        foreach (var asset in AssetDatabase.LoadAllAssetsAtPath(elementPath))
+        {
+            if (!(asset is Sprite sprite)) continue;
+
+            if (element != null)
+            {
+                _imageMessage = $"Image has many sprite, cannot choose: {path}.";
+                return;
+            }
+
+            element = sprite;
+        }
 
         _cardDetailImage.objectReferenceValue = result;
+        _cardElementalImage.objectReferenceValue = element;
+        _cardTypeImage.objectReferenceValue = type;
         _imageMessage = null;
     }
 
@@ -250,7 +291,13 @@ public class CardEditor : Editor
             }
 
             string path = $"{ImagePathRoot}/{folder}/{card.CardNameId}.png";
+            string typePath = $"{ImageTypePathRoot}/{card.CardType}.png";
+            string elementPath = $"{ImageElementPathRoot}/{card.CardElemental}.png";
+
             Sprite result = null;
+            Sprite type = AssetDatabase.LoadAssetAtPath<Sprite>(typePath);
+            Sprite element = AssetDatabase.LoadAssetAtPath<Sprite>(elementPath);
+
             bool multipleSprites = false;
 
             foreach (var asset in AssetDatabase.LoadAllAssetsAtPath(path))
@@ -277,11 +324,13 @@ public class CardEditor : Editor
                 continue;
             }
 
-            if (card.CardDetailImage == result) continue;
+            if (card.CardDetailImage == result && card.CardTypeImage == type && card.CardElementalImage == element) continue;
 
             Undo.RecordObject(card, "Sync Card Artwork");
             EditorUtility.SetDirty(card);
             card.CardDetailImage = result;
+            card.CardTypeImage = type;
+            card.CardElementalImage = element;
             updated++;
         }
 
