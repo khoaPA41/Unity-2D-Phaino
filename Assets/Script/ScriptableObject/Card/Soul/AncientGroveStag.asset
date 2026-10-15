@@ -17,6 +17,6 @@ MonoBehaviour:
   CardType: 0
   CardElemental: 2
   CardDetailImage: {fileID: 21300000, guid: 21dd8f8596582c54a86f7e9f1fee1f31, type: 3}
-  CardElementalImage: {fileID: 0}
-  CardTypeImage: {fileID: 0}
+  CardElementalImage: {fileID: 21300000, guid: 45df9c91b151ffb46a3b88d93b317150, type: 3}
+  CardTypeImage: {fileID: 21300000, guid: dbe612e3293efd847b04936d12d73a06, type: 3}
   CardStar: 4
