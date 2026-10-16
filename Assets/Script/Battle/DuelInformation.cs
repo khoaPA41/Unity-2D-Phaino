@@ -25,26 +25,26 @@ namespace Raziel.Battle
         public Character character;
         public Deck Deck { get; private set; }
 
-        public event Action DrawCardSucces = delegate { };
+        public event Action<CardInstance> UpdateCardHandAction = delegate { };
 
-        public CardInstance SelectedCard;
+        public CardInstance SelectedCard = null;
 
-        public int index = 0;
-
+        public int SoulRowIndex = 0;
+        public int FunctionalRowIndex = 0;
 
         private void OnEnable()
         {
-            DrawCardSucces += UpdateCardHand;
+            Deck = new();
+            Deck.ChangesInHand += UpdateCardHand;
         }
 
         private void OnDisable()
         {
-            DrawCardSucces -= UpdateCardHand;
+            Deck.ChangesInHand -= UpdateCardHand;
         }
 
         public void SetupDeck()
         {
-            Deck = new();
             foreach (var card in _cards)
             {
                 Deck.AddCard(card);
@@ -55,53 +55,50 @@ namespace Raziel.Battle
         public void DrawCardFirstTimes()
         {
             Deck.DrawCard(5);
-            DrawCardSucces?.Invoke();
         }
 
         public void DrawCard()
         {
             Deck.DrawCard(1);
-            DrawCardSucces?.Invoke();
         }
 
         public void UpdateCardHand()
         {
-            foreach (var card in Deck.Hand)
-            {
-                UiBattleManagers.Instance.SpawnCardElementOnHand(character, card);
-            }
-        }
+            UiBattleManagers.Instance.ReleaseAllCardHand(character);
 
-        private void LogCard(IEnumerable objects)
-        {
-            foreach (var item in objects)
+            for(int i = 0; i < Deck.Hand.Count; i++)
             {
-                if (item is CardInstance cardInstance)
-                    Debug.Log(cardInstance.CardReference.CardNameId);
+                var card = Deck.Hand[i];
+                UiBattleManagers.Instance.SpawnCardElementOnHand(character, card, i);
             }
         }
 
         public void ChooseCard(int index)
         {
+            if (index < 0 || index >= Deck.Hand.Count) return;
+
             SelectedCard = Deck.Hand[index];
-            // Debug.Log(SelectedCard.CardReference.CardNameId);
+
+            if (SelectedCard == null) return;
+
+            //Debug.Log(SelectedCard);
         }
 
-        public void Summon()
+        public void Summon(int handIndex, int boardIndex)
         {
-            BattleBoard.Instance.SummonCard(
+            Debug.Log(SelectedCard);
+            if (SelectedCard == null || SelectedCard.CardReference == null) return;
+
+            if (!BattleBoard.Instance.SummonCard(
                   SelectedCard,
                   true,
                   character,
-                  index++
-              );
+                  boardIndex
+            //SelectedCard.CardReference.CardType == CardType.Soul ? SoulRowIndex++ : FunctionalRowIndex++
+            )) return;
 
+            if (!Deck.UseCardOnHand(handIndex)) return;
             SelectedCard = null;
         }
-
-        // private void UpdateCardHand()
-        // {
-
-        // }
     }
 }

@@ -4,13 +4,15 @@ using UnityEngine.UI;
 
 public class CardElement : MonoBehaviour
 {
+    public int CardIndex;
     public Image CardDetailImage;
     public Image CardElementalImage;
     public Image CardTypeImage;
     public TextMeshProUGUI CardStar;
 
-    public void Setup(Sprite detail, Sprite elemental, Sprite type, string start)
+    public void Setup(int cardIndex, Sprite detail, Sprite elemental, Sprite type, string start)
     {
+        CardIndex = cardIndex;
         CardDetailImage.sprite = detail;
         CardElementalImage.sprite = elemental;
         CardTypeImage.sprite = type;

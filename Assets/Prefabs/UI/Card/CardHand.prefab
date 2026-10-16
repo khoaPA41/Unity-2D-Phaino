@@ -87,6 +87,7 @@ GameObject:
   - component: {fileID: 3310166230617103892}
   - component: {fileID: 1674767549417370646}
   - component: {fileID: 3766142705272364425}
+  - component: {fileID: 7666244331122975594}
   m_Layer: 5
   m_Name: CardHand
   m_TagString: Untagged
@@ -146,6 +147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd4bd5da30152174885cd6fe6a4e7972, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardHandDrag
+  _canvasGroup: {fileID: 7666244331122975594}
 --- !u!114 &3766142705272364425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,6 +160,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a9eef09404e8ec44996cf47a0222e05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PooledObject
+--- !u!225 &7666244331122975594
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3233267265701042482}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &3860623846236161954
 GameObject:
   m_ObjectHideFlags: 0

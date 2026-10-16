@@ -2,12 +2,13 @@ using System;
 using Raziel.Battle;
 using Raziel.Pure.TurnController;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 namespace Raziel.StateMachine
 {
     public class DuelStateMachine : StateMachine
     {
+        public static DuelStateMachine Instance;
+
         [field: SerializeField] public int TwoFirstTurnBattle { get; private set; } = 2;
 
         [field: SerializeField] public DuelInformation DuelInformation_I { get; private set; }
@@ -18,6 +19,7 @@ namespace Raziel.StateMachine
         [field: SerializeField] public GameObject DrawButton { get; private set; }
         [field: SerializeField] public GameObject BattleButton { get; private set; }
         [field: SerializeField] public GameObject MainIIButton { get; private set; }
+        [field: SerializeField] public GameObject ChooseCardButton { get; private set; }
         [field: SerializeField] public GameObject SummonButton { get; private set; }
         [field: SerializeField] public GameObject EndButton { get; private set; }
 
@@ -37,7 +39,8 @@ namespace Raziel.StateMachine
         public event Action DrawCardAction = delegate { };
         public event Action BattleAction = delegate { };
         public event Action MainIIAction = delegate { };
-        public event Action SummonAction = delegate { };
+        public event Action<int> ChooseCardAction = delegate { };
+        public event Action<int, int> SummonAction = delegate { };
         public event Action EndAction = delegate { };
 
         // Situation
@@ -45,6 +48,14 @@ namespace Raziel.StateMachine
 
         private void Awake()
         {
+
+            if(Instance != null && Instance != this)
+            {
+                Destroy(this.gameObject);
+                return;
+            }
+             Instance = this;
+            
             DrawPhase = new DrawPhase(this);
             StandbyPhase = new StandbyPhase(this);
             FirstMainPhase = new FirstMainPhase(this);
@@ -75,9 +86,14 @@ namespace Raziel.StateMachine
             MainIIAction?.Invoke();
         }
 
-        public void Summon()
+        public void ChooseCard(int index)
         {
-            SummonAction?.Invoke();
+            ChooseCardAction?.Invoke(index);
+        }
+
+        public void Summon(int handIndex, int boardIndex)
+        {
+            SummonAction?.Invoke(handIndex, boardIndex);
         }
 
         public void End()

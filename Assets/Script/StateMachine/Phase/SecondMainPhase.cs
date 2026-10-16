@@ -19,12 +19,14 @@ namespace Raziel.StateMachine
             _battleBoard = BattleBoard.Instance;
 
             _stateMachine.EndButton.SetActive(true);
+            _stateMachine.ChooseCardButton.SetActive(true);
             _stateMachine.SummonButton.SetActive(true);
 
             Debug.Log("SecondMainPhase: " + _stateMachine.CurrentTurn.character);
             ChangePhaseAfterMain_II();
 
-            ChooseCard();
+            _stateMachine.ChooseCardAction += ChooseCard;
+
             _stateMachine.SummonAction += Summon;
         }
 
@@ -38,10 +40,11 @@ namespace Raziel.StateMachine
             if (_stateMachine != null)
             {
                 _stateMachine.EndButton.SetActive(false);
+                _stateMachine.ChooseCardButton.SetActive(false);
                 _stateMachine.SummonButton.SetActive(false);
                 _stateMachine.EndAction -= ChangeEnd;
                 _stateMachine.SummonAction -= Summon;
-
+                _stateMachine.ChooseCardAction -= ChooseCard;
             }
 
             _stateMachine = null;
@@ -59,14 +62,14 @@ namespace Raziel.StateMachine
             _stateMachine.SwitchState(_stateMachine.EndPhase);
         }
 
-        private void ChooseCard()
+        private void ChooseCard(int index)
         {
-            _duelInformation.ChooseCard(_duelInformation.index);
+            _duelInformation.ChooseCard(index);
         }
 
-        private void Summon()
+        private void Summon(int handIndex, int boardIndex)
         {
-            _duelInformation.Summon();
+            _duelInformation.Summon(handIndex, boardIndex);
         }
     }
 }

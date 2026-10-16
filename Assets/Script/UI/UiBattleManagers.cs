@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Raziel.Battle;
 using UnityEngine;
 
@@ -18,6 +19,10 @@ public class UiBattleManagers : MonoBehaviour
     [SerializeField] private RectTransform _playerHand;
     [SerializeField] private RectTransform _enemyHand;
 
+
+    private List<CardElement> _playerCardHands = new();
+    private List<CardElement> _enemyCardHands = new();
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -27,6 +32,10 @@ public class UiBattleManagers : MonoBehaviour
         }
 
         Instance = this;
+        SetupPlaceholderIndex(_playerSouls);
+        SetupPlaceholderIndex(_playerFunctionals);
+        //SetupPlaceholderIndex(_enemySouls);
+        //SetupPlaceholderIndex(_enemyFunctionals);
     }
 
     private void Start()
@@ -37,6 +46,15 @@ public class UiBattleManagers : MonoBehaviour
     private void OnDisable()
     {
         BattleBoard.Instance.SummonAction -= SpawnCardElementOnBoard;
+    }
+
+    //Placeholder
+    private void SetupPlaceholderIndex(CardPlaceholder[] cardPlaceholders)
+    {
+        for (int i = 0; i < cardPlaceholders.Length; i++)
+        {
+            cardPlaceholders[i].slotIndex = i;
+        }
     }
 
     // Board
@@ -56,6 +74,7 @@ public class UiBattleManagers : MonoBehaviour
 
         var cardElement = card.GetComponent<CardElement>();
         cardElement.Setup(
+            index,
             cardInstance.CardReference.CardDetailImage,
             cardInstance.CardReference.CardElementalImage,
             cardInstance.CardReference.CardTypeImage,
@@ -82,12 +101,18 @@ public class UiBattleManagers : MonoBehaviour
     }
 
     // Hand
-
-
-    public void SpawnCardElementOnHand(Character character, CardInstance cardInstance)
+    public void SpawnCardElementOnHand(Character character, CardInstance cardInstance, int index)
     {
         var card = _cardHandPool.GetObject();
 
+        if (character == Character.Player)
+        {
+            _playerCardHands.Add(card);
+        }
+        else
+        {
+            _enemyCardHands.Add(card);
+        }
 
         var parentRect = character == Character.Player ? _playerHand : _enemyHand;
 
@@ -99,10 +124,30 @@ public class UiBattleManagers : MonoBehaviour
 
         var cardElement = card.GetComponent<CardElement>();
         cardElement.Setup(
+            index,
             cardInstance.CardReference.CardDetailImage,
             cardInstance.CardReference.CardElementalImage,
             cardInstance.CardReference.CardTypeImage,
             cardInstance.CardReference.CardStar.ToString()
         );
+    }
+
+    public void ReleaseAllCardHand(Character character)
+    {
+        List<CardElement> hands;
+        if (character == Character.Player)
+        {
+            hands = _playerCardHands;
+        }
+        else
+        {
+            hands = _enemyCardHands;
+        }
+
+        foreach (var card in hands)
+        {
+            _cardHandPool.ReleaseObject(card);
+        }
+        hands.Clear();
     }
 }

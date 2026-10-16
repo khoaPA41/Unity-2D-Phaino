@@ -1,4 +1,3 @@
-using Mono.Cecil.Cil;
 using Raziel.Battle;
 using UnityEngine;
 
@@ -8,7 +7,6 @@ namespace Raziel.StateMachine
     {
         DuelStateMachine _stateMachine;
         DuelInformation _current;
-        UiBattleManagers _uiBattleManagers;
 
         public DrawPhase(DuelStateMachine duelStateMachine) : base(duelStateMachine)
         {
@@ -17,7 +15,6 @@ namespace Raziel.StateMachine
         public override void Enter()
         {
             _stateMachine = _duelStateMachine;
-            _uiBattleManagers = UiBattleManagers.Instance;
             _stateMachine.DrawButton.SetActive(true);
 
 
@@ -40,8 +37,8 @@ namespace Raziel.StateMachine
         {
             if (_current != null)
             {
-                _current.DrawCardSucces -= ChangeMain_I;
-                _current.DrawCardSucces -= ChangeMain_II;
+                _current.Deck.ChangesInHand -= ChangeMain_I;
+                _current.Deck.ChangesInHand -= ChangeMain_II;
             }
 
             if (_stateMachine != null)
@@ -63,12 +60,12 @@ namespace Raziel.StateMachine
         {
             if (_stateMachine.Turn < _stateMachine.TwoFirstTurnBattle)
             {
-                _current.DrawCardSucces += ChangeMain_II;
+                _current.Deck.ChangesInHand += ChangeMain_II;
                 _stateMachine.Turn += 1;
             }
             else
             {
-                _current.DrawCardSucces += ChangeMain_I;
+                _current.Deck.ChangesInHand += ChangeMain_I;
             }
         }
 
@@ -80,11 +77,6 @@ namespace Raziel.StateMachine
         private void ChangeMain_II()
         {
             _stateMachine.SwitchState(_stateMachine.SecondMainPhase);
-        }
-
-        private void UpdateCardHand()
-        {
-            // _current.UpdateCardHand += () => _uiBattleManagers.SpawnCardElementOnHand();
         }
     }
 }

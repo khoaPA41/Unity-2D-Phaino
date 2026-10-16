@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Raziel.Battle;
 
@@ -17,6 +18,9 @@ namespace Raziel.Pure.Deck
 
         private readonly List<CardInstance> _hand = new(); // Card on hand
         public List<CardInstance> Hand => _hand;
+
+        // Event
+        public event Action ChangesInHand = delegate { };
 
 
         // Setup for battle deck
@@ -53,11 +57,20 @@ namespace Raziel.Pure.Deck
                 _battleDeck.RemoveAt(index);
                 _hand.Add(card);
             }
+            ChangesInHand?.Invoke();
         }
 
-        public void UseCardOnHand(int index)
+        public bool UseCardOnHand(int index)
         {
+            if (_hand.Count == 0) return false;
             _hand.RemoveAt(index);
+            ChangesInHand?.Invoke();
+            return true;
+        }
+
+        public CardInstance ChooseCard(CardNameId id)
+        {
+            return _hand.Find(card => card.CardReference.CardNameId == id);
         }
     }
 }

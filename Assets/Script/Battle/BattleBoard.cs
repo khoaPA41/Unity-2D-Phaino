@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 
-
 namespace Raziel.Battle
 {
     [Serializable]
@@ -67,19 +66,26 @@ namespace Raziel.Battle
             }
         }
 
-        public void SummonCard(CardInstance cardInstance, bool isAttackStance, Character character, int index)
+        public bool SummonCard(CardInstance cardInstance, bool isAttackStance, Character character, int index)
         {
-            if (cardInstance == null) return;
+            Debug.Log("Summon");
+            if (cardInstance == null) return false;
 
             var board = GetSlotByType(character, cardInstance.CardReference.CardType);
 
-            if (board == null || index < 0 || index >= board.Length) return;
-            if (board[index].CardInstance.CardReference != null) return;
+            if (board == null || index < 0 || index >= board.Length) return false;
+            Debug.Log("Have board");
+            if (index < 0 || index >= board.Length) return false;
+            Debug.Log("nice index");
+
+            if (board[index].CardInstance.CardReference != null) return false;
+            Debug.Log("Have slot");
 
             board[index].CardInstance = cardInstance;
             // board[index].IsAttackStance = isAttackStance;
 
             SummonAction?.Invoke(character, cardInstance, index);
+            return true;
         }
 
         private BoardSlot[] GetSlotByType(Character character, CardType cardType)
