@@ -15,16 +15,14 @@ namespace Raziel.StateMachine
         public override void Enter()
         {
             _stateMachine = _duelStateMachine;
-            _stateMachine.DrawButton.SetActive(true);
-
 
             Debug.Log("DrawPhase: " + _stateMachine.CurrentTurn.character);
 
             _current = _stateMachine.CurrentTurn;
-            ActionByCharacter();
+            ListenAction();
             ChangePhaseAfterDraw();
-
-
+            SetupForPlayer();
+            SetupForEnemy();
         }
 
         public override void Tick(float deltaTime)
@@ -51,7 +49,7 @@ namespace Raziel.StateMachine
             _current = null;
         }
 
-        private void ActionByCharacter()
+        private void ListenAction()
         {
             _stateMachine.DrawCardAction += _current.DrawCard;
         }
@@ -77,6 +75,18 @@ namespace Raziel.StateMachine
         private void ChangeMain_II()
         {
             _stateMachine.SwitchState(_stateMachine.SecondMainPhase);
+        }
+
+        private void SetupForPlayer()
+        {
+            if (_current.character == Character.Player)
+                _stateMachine.DrawButton.SetActive(true);
+        }
+
+        private void SetupForEnemy()
+        {
+            if (_current.character == Character.Enemy)
+                _stateMachine.Draw();
         }
     }
 }

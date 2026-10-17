@@ -13,6 +13,8 @@ namespace Raziel.StateMachine
         public override void Enter()
         {
             _stateMachine = _duelStateMachine;
+
+            _stateMachine.IsCanUseCard = true;
             _stateMachine.BattleButton.SetActive(true);
             Debug.Log("FirstMainPhase: " + _stateMachine.CurrentTurn.character);
 
@@ -27,9 +29,14 @@ namespace Raziel.StateMachine
 
         public override void Exit()
         {
-            _stateMachine.BattleButton.SetActive(false);
             if (_stateMachine != null)
+            {
+                _stateMachine.BattleButton.SetActive(false);
+                _stateMachine.IsCanUseCard = false;
                 _stateMachine.BattleAction -= ChangeBattle;
+            }
+
+            _stateMachine = null;
         }
 
         private void ChangePhaseAfterMain_I()

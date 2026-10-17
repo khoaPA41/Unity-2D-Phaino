@@ -1,3 +1,4 @@
+using Raziel.Battle;
 using Raziel.StateMachine;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -30,18 +31,20 @@ public class CardHandDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+
+        _duelStateMachine = DuelStateMachine.Instance;
+        if (_duelStateMachine == null || _duelStateMachine.CurrentTurn.character != Character.Player || !_duelStateMachine.IsCanUseCard) return;
+
         _isDragging = false;
         _pendingSlot = null;
-        _duelStateMachine = DuelStateMachine.Instance;
 
-        if (_duelStateMachine == null) return;
 
         _thisRect = gameObject.GetComponent<RectTransform>();
         _rootParent = FindInParents<CardHandParent>(gameObject);
         if (_rootParent == null) return;
 
         _canvas = FindInParents<Canvas>(gameObject);
-        if (_canvas == null) return; 
+        if (_canvas == null) return;
 
         SetOrigin();
 
@@ -66,7 +69,7 @@ public class CardHandDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
     public void OnDrag(PointerEventData eventData)
     {
         UpdateDragPos(eventData);
-        
+
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -83,7 +86,7 @@ public class CardHandDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         _isDragging = false;
         _pendingSlot = null;
 
-        if(targetSlot == null || stateMachine == null) return;
+        if (targetSlot == null || stateMachine == null) return;
 
         DuelStateMachine.Instance.Summon(handIndex, targetSlot.slotIndex);
     }
@@ -114,13 +117,14 @@ public class CardHandDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
         _thisRect.SetParent(_rootParent.transform, false);
         _thisRect.SetSiblingIndex(_originSiblingIndex);
-         _thisRect.GetSiblingIndex();
-         _thisRect.localPosition = _originLocalPosition;
+        _thisRect.GetSiblingIndex();
+        _thisRect.localPosition = _originLocalPosition;
         _thisRect.localRotation = _originLocalRotation;
         _thisRect.localScale = _originLocalScale;
     }
 
-    public void SetDropTarget(CardPlaceholder slot) {
+    public void SetDropTarget(CardPlaceholder slot)
+    {
         if (!_isDragging) return;
         _pendingSlot = slot;
     }

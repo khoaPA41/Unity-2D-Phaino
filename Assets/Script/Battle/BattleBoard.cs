@@ -24,7 +24,6 @@ namespace Raziel.Battle
         public BoardSlot[] EnemySouldField = new BoardSlot[5];
         public BoardSlot[] EnemyFunctionalField = new BoardSlot[5];
 
-        // public event Action<BoardSlot, int> SummonAction = delegate { };
         public event Action<Character, CardInstance, int> SummonAction = delegate { };
 
         private void Awake()
@@ -68,24 +67,30 @@ namespace Raziel.Battle
 
         public bool SummonCard(CardInstance cardInstance, bool isAttackStance, Character character, int index)
         {
-            Debug.Log("Summon");
-            if (cardInstance == null) return false;
+            if (!CanSummonCard(cardInstance, character, index)) return false;
+
+            var board = GetSlotByType(character, cardInstance.CardReference.CardType);
+
+            board[index].CardInstance = cardInstance;
+
+            board[index].CardInstance.IsAttackStance = isAttackStance;
+
+            SummonAction?.Invoke(character, cardInstance, index);
+            return true;
+        }
+
+        public bool CanSummonCard(CardInstance cardInstance, Character character, int index)
+        {
+            if (cardInstance == null || cardInstance.CardReference == null) return false;
 
             var board = GetSlotByType(character, cardInstance.CardReference.CardType);
 
             if (board == null || index < 0 || index >= board.Length) return false;
-            Debug.Log("Have board");
-            if (index < 0 || index >= board.Length) return false;
-            Debug.Log("nice index");
 
-            if (board[index].CardInstance.CardReference != null) return false;
-            Debug.Log("Have slot");
+            var slot = board[index];
+            if (slot == null) return false;
 
-            board[index].CardInstance = cardInstance;
-            // board[index].IsAttackStance = isAttackStance;
-
-            SummonAction?.Invoke(character, cardInstance, index);
-            return true;
+            return slot.CardInstance == null || slot.CardInstance.CardReference == null;
         }
 
         private BoardSlot[] GetSlotByType(Character character, CardType cardType)

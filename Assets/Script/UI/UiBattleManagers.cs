@@ -34,8 +34,8 @@ public class UiBattleManagers : MonoBehaviour
         Instance = this;
         SetupPlaceholderIndex(_playerSouls);
         SetupPlaceholderIndex(_playerFunctionals);
-        //SetupPlaceholderIndex(_enemySouls);
-        //SetupPlaceholderIndex(_enemyFunctionals);
+        SetupPlaceholderIndex(_enemySouls);
+        SetupPlaceholderIndex(_enemyFunctionals);
     }
 
     private void Start()
@@ -69,7 +69,7 @@ public class UiBattleManagers : MonoBehaviour
         var rect = card.GetComponent<RectTransform>();
 
         rect.SetParent(parentRect, false);
-
+        rect.rotation = cardInstance.IsAttackStance ? Quaternion.identity : Quaternion.Euler(0f, 0f, 90f);
         card.transform.localScale = Vector3.one;
 
         var cardElement = card.GetComponent<CardElement>();
@@ -78,7 +78,8 @@ public class UiBattleManagers : MonoBehaviour
             cardInstance.CardReference.CardDetailImage,
             cardInstance.CardReference.CardElementalImage,
             cardInstance.CardReference.CardTypeImage,
-            cardInstance.CardReference.CardStar.ToString()
+            cardInstance.CardReference.CardStar.ToString(),
+            cardInstance.IsAttackStance
         );
     }
 
@@ -128,7 +129,8 @@ public class UiBattleManagers : MonoBehaviour
             cardInstance.CardReference.CardDetailImage,
             cardInstance.CardReference.CardElementalImage,
             cardInstance.CardReference.CardTypeImage,
-            cardInstance.CardReference.CardStar.ToString()
+            cardInstance.CardReference.CardStar.ToString(),
+            true
         );
     }
 

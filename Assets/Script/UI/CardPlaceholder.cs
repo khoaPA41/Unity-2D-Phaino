@@ -16,14 +16,14 @@ public class CardPlaceholder : MonoBehaviour, IDropHandler
         if (_duelStateMachine == null) return;
 
         if (_duelStateMachine.CurrentTurn.character != Character.Player) return;
-
+        if (character != Character.Player) return;
 
         if (eventData.pointerDrag == null) return;
 
         if (eventData.pointerDrag.TryGetComponent<CardHandDrag>(out var cardDrag))
         {
             cardDrag.SetDropTarget(this);
-        }        
+        }
     }
 
 }

@@ -12,12 +12,17 @@ namespace Raziel.Pure.Deck
         private readonly List<CardInstance> _battleDeck = new(); // Deck use to draw
         public List<CardInstance> BattleDeck => _battleDeck;
 
+
         private readonly List<CardInstance> _graveDeck = new(); // Deck for card death
         public List<CardInstance> GraveDeck => _graveDeck;
 
 
         private readonly List<CardInstance> _hand = new(); // Card on hand
         public List<CardInstance> Hand => _hand;
+
+
+        private readonly List<CardInstance> _board = new(); // Card on hand
+        public List<CardInstance> Board => _board;
 
         // Event
         public event Action ChangesInHand = delegate { };
@@ -62,15 +67,20 @@ namespace Raziel.Pure.Deck
 
         public bool UseCardOnHand(int index)
         {
-            if (_hand.Count == 0) return false;
+            if (_hand.Count == 0 || index < 0 || index >= _hand.Count) return false;
             _hand.RemoveAt(index);
-            ChangesInHand?.Invoke();
+            // ChangesInHand?.Invoke();
             return true;
         }
 
         public CardInstance ChooseCard(CardNameId id)
         {
             return _hand.Find(card => card.CardReference.CardNameId == id);
+        }
+
+        public void OnChangeInHand()
+        {
+            ChangesInHand?.Invoke();
         }
     }
 }

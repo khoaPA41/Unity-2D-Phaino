@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using Raziel.Pure.Deck;
 using UnityEngine;
@@ -28,9 +27,6 @@ namespace Raziel.Battle
         public event Action<CardInstance> UpdateCardHandAction = delegate { };
 
         public CardInstance SelectedCard = null;
-
-        public int SoulRowIndex = 0;
-        public int FunctionalRowIndex = 0;
 
         private void OnEnable()
         {
@@ -66,7 +62,7 @@ namespace Raziel.Battle
         {
             UiBattleManagers.Instance.ReleaseAllCardHand(character);
 
-            for(int i = 0; i < Deck.Hand.Count; i++)
+            for (int i = 0; i < Deck.Hand.Count; i++)
             {
                 var card = Deck.Hand[i];
                 UiBattleManagers.Instance.SpawnCardElementOnHand(character, card, i);
@@ -78,27 +74,29 @@ namespace Raziel.Battle
             if (index < 0 || index >= Deck.Hand.Count) return;
 
             SelectedCard = Deck.Hand[index];
-
+            Debug.Log(SelectedCard.CardReference.CardNameId);
             if (SelectedCard == null) return;
-
-            //Debug.Log(SelectedCard);
         }
 
-        public void Summon(int handIndex, int boardIndex)
+        public void Summon(int handIndex, int boardIndex, bool isAttackStance)
         {
-            Debug.Log(SelectedCard);
             if (SelectedCard == null || SelectedCard.CardReference == null) return;
 
+            var board = BattleBoard.Instance;
+            if (board == null) return;
+
+            if (!board.CanSummonCard(SelectedCard, character, boardIndex)) return;
+            if (!Deck.UseCardOnHand(handIndex)) return;
+
             if (!BattleBoard.Instance.SummonCard(
-                  SelectedCard,
-                  true,
-                  character,
-                  boardIndex
-            //SelectedCard.CardReference.CardType == CardType.Soul ? SoulRowIndex++ : FunctionalRowIndex++
+                SelectedCard,
+                isAttackStance,
+                character,
+                boardIndex
             )) return;
 
-            if (!Deck.UseCardOnHand(handIndex)) return;
             SelectedCard = null;
+            Deck.OnChangeInHand();
         }
     }
 }

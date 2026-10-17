@@ -22,6 +22,8 @@ namespace Raziel.StateMachine
         [field: SerializeField] public GameObject ChooseCardButton { get; private set; }
         [field: SerializeField] public GameObject SummonButton { get; private set; }
         [field: SerializeField] public GameObject EndButton { get; private set; }
+        [field: SerializeField] public GameObject AtkButton { get; private set; }
+        [field: SerializeField] public GameObject DefButton { get; private set; }
 
         public TurnController TurnController { get; private set; }
         public DuelInformation CurrentTurn { get; set; }
@@ -45,17 +47,18 @@ namespace Raziel.StateMachine
 
         // Situation
         public int Turn { get; set; }
+        public bool IsCanUseCard { get; set; } = false;
 
         private void Awake()
         {
 
-            if(Instance != null && Instance != this)
+            if (Instance != null && Instance != this)
             {
                 Destroy(this.gameObject);
                 return;
             }
-             Instance = this;
-            
+            Instance = this;
+
             DrawPhase = new DrawPhase(this);
             StandbyPhase = new StandbyPhase(this);
             FirstMainPhase = new FirstMainPhase(this);
@@ -95,6 +98,12 @@ namespace Raziel.StateMachine
         {
             SummonAction?.Invoke(handIndex, boardIndex);
         }
+
+        public void Summon()
+        {
+            SummonAction?.Invoke(0, 0);
+        }
+
 
         public void End()
         {

@@ -9,13 +9,14 @@ public class CardElement : MonoBehaviour
     public Image CardElementalImage;
     public Image CardTypeImage;
     public TextMeshProUGUI CardStar;
-
-    public void Setup(int cardIndex, Sprite detail, Sprite elemental, Sprite type, string start)
+    public bool IsAttackStance;
+    public void Setup(int cardIndex, Sprite detail, Sprite elemental, Sprite type, string start, bool isAttackStance)
     {
         CardIndex = cardIndex;
         CardDetailImage.sprite = detail;
         CardElementalImage.sprite = elemental;
         CardTypeImage.sprite = type;
         CardStar.SetText(start);
+        IsAttackStance = isAttackStance;
     }
 }

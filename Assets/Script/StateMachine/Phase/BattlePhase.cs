@@ -1,9 +1,12 @@
+using Raziel.Battle;
 using UnityEngine;
 namespace Raziel.StateMachine
 {
     public class BattlePhase : DuelBaseState
     {
         DuelStateMachine _stateMachine;
+        DuelInformation _currentTurn;
+        BattleBoard _battleBoard;
 
         public BattlePhase(DuelStateMachine duelStateMachine) : base(duelStateMachine)
         {
@@ -12,8 +15,8 @@ namespace Raziel.StateMachine
         public override void Enter()
         {
             _stateMachine = _duelStateMachine;
-
-
+            _currentTurn = _stateMachine.CurrentTurn;
+            _battleBoard = BattleBoard.Instance;
 
 
             Debug.Log("BattlePhase: " + _stateMachine.CurrentTurn.character);
