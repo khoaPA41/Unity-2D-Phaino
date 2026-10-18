@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Raziel.Pure.Deck;
 using UnityEngine;
@@ -27,16 +28,19 @@ namespace Raziel.Battle
         public event Action<CardInstance> UpdateCardHandAction = delegate { };
 
         public CardInstance SelectedCard = null;
+        public CardInstance SelectEnemyCard = null;
 
         private void OnEnable()
         {
             Deck = new();
             Deck.ChangesInHand += UpdateCardHand;
+            Deck.CardDeath += Deck.AddToGrave;
         }
 
         private void OnDisable()
         {
             Deck.ChangesInHand -= UpdateCardHand;
+            Deck.CardDeath -= Deck.AddToGrave;
         }
 
         public void SetupDeck()
@@ -97,6 +101,16 @@ namespace Raziel.Battle
 
             SelectedCard = null;
             Deck.OnChangeInHand();
+        }
+
+        private void Check(IEnumerable objects)
+        {
+            foreach (var item in objects)
+            {
+                var cardInstance = (CardInstance)item;
+
+                Debug.Log(cardInstance.CardReference);
+            }
         }
     }
 }

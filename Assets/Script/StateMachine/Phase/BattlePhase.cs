@@ -8,6 +8,7 @@ namespace Raziel.StateMachine
         DuelInformation _currentTurn;
         BattleBoard _battleBoard;
 
+
         public BattlePhase(DuelStateMachine duelStateMachine) : base(duelStateMachine)
         {
         }
@@ -18,7 +19,6 @@ namespace Raziel.StateMachine
             _currentTurn = _stateMachine.CurrentTurn;
             _battleBoard = BattleBoard.Instance;
 
-
             Debug.Log("BattlePhase: " + _stateMachine.CurrentTurn.character);
 
             // Lam nut chuyen
@@ -26,6 +26,11 @@ namespace Raziel.StateMachine
             ChangePhaseAfterBattle();
 
             _stateMachine.MainIIButton.SetActive(true);
+            _stateMachine.AttackButton.SetActive(true);
+
+            // _battleBoard.ChooseCardOnBoard += GetSelectedCardOnBoard;
+            // _battleBoard.ChooseEnemyCardOnBoard += GetEnemyCard;
+
         }
 
         public override void Tick(float deltaTime)
@@ -35,12 +40,22 @@ namespace Raziel.StateMachine
 
         public override void Exit()
         {
-            _stateMachine.MainIIButton.SetActive(false);
 
             if (_stateMachine != null)
+            {
+                _stateMachine.MainIIButton.SetActive(false);
+                _stateMachine.AttackButton.SetActive(false);
                 _stateMachine.MainIIAction -= ChangeMainII;
+            }
+
+            if (_battleBoard != null)
+            {
+                // _battleBoard.ChooseCardOnBoard -= GetSelectedCardOnBoard;
+                // _battleBoard.ChooseEnemyCardOnBoard -= GetEnemyCard;
+            }
 
             _stateMachine = null;
+            _battleBoard = null;
         }
 
         private void ChangePhaseAfterBattle()
@@ -52,5 +67,17 @@ namespace Raziel.StateMachine
         {
             _stateMachine.SwitchState(_stateMachine.SecondMainPhase);
         }
+
+        // private void GetSelectedCardOnBoard(BoardSlot slot, int index)
+        // {
+        //     // _currentTurn.SelectedCard = slot.CardInstance;
+        //     Debug.Log("Choose Card On Board: " + slot.CardInstance.CardReference);
+        // }
+
+        // private void GetEnemyCard(BoardSlot slot, int index)
+        // {
+        //     Debug.Log("Choose Enemy Card On Board: " + slot.CardInstance.CardReference);
+
+        // }
     }
 }

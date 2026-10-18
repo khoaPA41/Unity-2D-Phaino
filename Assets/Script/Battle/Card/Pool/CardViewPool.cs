@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Pool;
+using UnityEngine.UI;
 public class CardViewPool : MonoBehaviour
 {
     [SerializeField] private GameObject _cardVỉewPrefab;
@@ -50,6 +51,11 @@ public class CardViewPool : MonoBehaviour
 
     public void ReleaseObject(CardElement cardElement)
     {
+        var button = cardElement.GetComponent<Button>();
+
+        if (button != null)
+            button.onClick.RemoveAllListeners();
+
         _pool.Release(cardElement);
     }
 }

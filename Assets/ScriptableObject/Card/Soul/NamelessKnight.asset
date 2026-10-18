@@ -19,4 +19,4 @@ MonoBehaviour:
   CardDetailImage: {fileID: 21300000, guid: 2cfb421a0cbe1284e9234e596c0a0b29, type: 3}
   CardElementalImage: {fileID: 21300000, guid: c863e84ff54de6644acef86779120d5f, type: 3}
   CardTypeImage: {fileID: 21300000, guid: dbe612e3293efd847b04936d12d73a06, type: 3}
-  CardStar: 1
+  CardStar: 2

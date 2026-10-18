@@ -24,7 +24,20 @@ namespace Raziel.Battle
         public BoardSlot[] EnemySouldField = new BoardSlot[5];
         public BoardSlot[] EnemyFunctionalField = new BoardSlot[5];
 
-        public event Action<Character, CardInstance, int> SummonAction = delegate { };
+        public event Action<Character, CardInstance, int, BoardSlot> SummonAction = delegate { };
+
+        public event Action<BoardSlot, int> ChooseCardOnBoard = delegate { };
+        public event Action<BoardSlot, int> ChooseEnemyCardOnBoard = delegate { };
+
+        public BoardSlot SelectedSlot;
+        public BoardSlot SelectedEnemySlot;
+
+        public int PlayerCardIndex;
+        public int EnemtCardIndex;
+
+        [SerializeField] private DuelInformation _player;
+        [SerializeField] private DuelInformation _enemy;
+
 
         private void Awake()
         {
@@ -45,6 +58,19 @@ namespace Raziel.Battle
 
             SetupFunctionalField(PlayerFunctionalField, Character.Player);
             SetupFunctionalField(EnemyFunctionalField, Character.Enemy);
+        }
+
+        private void OnEnable()
+        {
+            ChooseCardOnBoard += SetBoardSlot;
+            ChooseEnemyCardOnBoard += SetEnemyBoardSlot;
+            // _player.Deck.CardDeath += 
+        }
+
+        private void OnDisable()
+        {
+            ChooseCardOnBoard -= SetBoardSlot;
+            ChooseEnemyCardOnBoard -= SetEnemyBoardSlot;
         }
 
         private void SetupSoulField(BoardSlot[] slots, Character character)
@@ -75,7 +101,8 @@ namespace Raziel.Battle
 
             board[index].CardInstance.IsAttackStance = isAttackStance;
 
-            SummonAction?.Invoke(character, cardInstance, index);
+            SummonAction?.Invoke(character, cardInstance, index, board[index]);
+
             return true;
         }
 
@@ -110,6 +137,86 @@ namespace Raziel.Battle
             }
 
             return EnemyFunctionalField;
+        }
+
+
+        // Board
+        public void OnGetBoardSlot(BoardSlot boardSlot, int cardIndex)
+        {
+            ChooseCardOnBoard?.Invoke(boardSlot, cardIndex);
+        }
+
+        public void OnGetEnemyBoardSlot(BoardSlot boardSlot, int cardIndex)
+        {
+            ChooseEnemyCardOnBoard?.Invoke(boardSlot, cardIndex);
+        }
+
+        public void SetBoardSlot(BoardSlot boardSlot, int cardIndex)
+        {
+            SelectedSlot = boardSlot;
+            PlayerCardIndex = cardIndex;
+        }
+
+        public void SetEnemyBoardSlot(BoardSlot boardSlot, int cardIndex)
+        {
+            SelectedEnemySlot = boardSlot;
+            EnemtCardIndex = cardIndex;
+        }
+
+        public void Attack()
+        {
+            if (SelectedSlot == null || SelectedSlot.CardInstance == null || SelectedSlot.CardInstance.CardReference == null ||
+            SelectedEnemySlot == null || SelectedEnemySlot.CardInstance == null || SelectedEnemySlot.CardInstance.CardReference == null) return;
+
+            var uiManager = UiBattleManagers.Instance;
+
+            if (uiManager == null) return;
+
+            var playerCard = SelectedSlot.CardInstance;
+            var enemyCard = SelectedEnemySlot.CardInstance;
+
+            var subtractStar = playerCard.OriginalStar - enemyCard.OriginalStar;
+
+            if (subtractStar == 0)
+            {
+                Debug.Log("Draw");
+                _player.Deck.OnCardDeath(playerCard);
+                _enemy.Deck.OnCardDeath(enemyCard);
+                uiManager.ReleaseCardOnBoardByCharacterAndIndex(Character.Player, SelectedSlot);
+                uiManager.ReleaseCardOnBoardByCharacterAndIndex(Character.Enemy, SelectedEnemySlot);
+                ResetBoardSlot(SelectedSlot);
+                ResetBoardSlot(SelectedEnemySlot);
+            }
+
+            if (subtractStar > 0)
+            {
+                Debug.Log("Win");
+                _enemy.Deck.OnCardDeath(enemyCard);
+                uiManager.ReleaseCardOnBoardByCharacterAndIndex(Character.Enemy, SelectedEnemySlot);
+                ResetBoardSlot(SelectedEnemySlot);
+            }
+
+            if (subtractStar < 0)
+            {
+                Debug.Log("Defeat");
+                _player.Deck.OnCardDeath(playerCard);
+                uiManager.ReleaseCardOnBoardByCharacterAndIndex(Character.Player, SelectedSlot);
+                ResetBoardSlot(SelectedSlot);
+            }
+
+            SelectedSlot = null;
+            SelectedEnemySlot = null;
+
+
+            PlayerCardIndex = -1;
+            EnemtCardIndex = -1;
+
+
+        }
+
+        private void ResetBoardSlot(BoardSlot boardSlot)
+        {
+            boardSlot.CardInstance = null;
         }
     }
 }

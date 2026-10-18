@@ -1,6 +1,8 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Raziel.Battle;
+using UnityEngine;
 
 namespace Raziel.Pure.Deck
 {
@@ -26,7 +28,7 @@ namespace Raziel.Pure.Deck
 
         // Event
         public event Action ChangesInHand = delegate { };
-
+        public event Action<CardInstance> CardDeath = delegate { };
 
         // Setup for battle deck
         public void InitialDeck()
@@ -68,8 +70,9 @@ namespace Raziel.Pure.Deck
         public bool UseCardOnHand(int index)
         {
             if (_hand.Count == 0 || index < 0 || index >= _hand.Count) return false;
+            var card = _hand[index];
             _hand.RemoveAt(index);
-            // ChangesInHand?.Invoke();
+            _board.Add(card);
             return true;
         }
 
@@ -81,6 +84,32 @@ namespace Raziel.Pure.Deck
         public void OnChangeInHand()
         {
             ChangesInHand?.Invoke();
+        }
+
+        public void AddToGrave(CardInstance cardInstance)
+        {
+            _graveDeck.Add(cardInstance);
+            _board.Remove(cardInstance);
+
+            Debug.Log("Gave: ");
+            Check(GraveDeck);
+            Debug.Log("Board: ");
+            Check(_board);
+        }
+
+        public void OnCardDeath(CardInstance cardInstance)
+        {
+            CardDeath?.Invoke(cardInstance);
+        }
+
+        private void Check(IEnumerable objects)
+        {
+            foreach (var item in objects)
+            {
+                var cardInstance = (CardInstance)item;
+
+                Debug.Log(cardInstance.CardReference);
+            }
         }
     }
 }

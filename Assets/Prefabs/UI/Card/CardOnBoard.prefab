@@ -300,6 +300,7 @@ GameObject:
   - component: {fileID: 7740357787520397571}
   - component: {fileID: 361079139428965443}
   - component: {fileID: 9054254891832527554}
+  - component: {fileID: 1384544795277899887}
   m_Layer: 5
   m_Name: CardOnBoard
   m_TagString: Untagged
@@ -343,10 +344,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa312f375daad2d49b0e7f29ef2bf014, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardElement
+  CardIndex: 0
   CardDetailImage: {fileID: 3595743319330357266}
   CardElementalImage: {fileID: 3152760901842263821}
   CardTypeImage: {fileID: 2742295559070749859}
   CardStar: {fileID: 181910220853719750}
+  IsAttackStance: 0
 --- !u!114 &361079139428965443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -359,6 +362,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd4bd5da30152174885cd6fe6a4e7972, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardHandDrag
+  _canvasGroup: {fileID: 0}
 --- !u!114 &9054254891832527554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -371,6 +375,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a9eef09404e8ec44996cf47a0222e05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PooledObject
+--- !u!114 &1384544795277899887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3432398271888812402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 3595743319330357266}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &4656339825440475551
 GameObject:
   m_ObjectHideFlags: 0
@@ -405,7 +453,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.5893, y: -0.65818}
+  m_AnchoredPosition: {x: 0.58935547, y: -0.6582031}
   m_SizeDelta: {x: -10.9077, y: -15.634}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5467173970312907671

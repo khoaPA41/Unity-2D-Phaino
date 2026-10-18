@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using Raziel.Battle;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UiBattleManagers : MonoBehaviour
 {
@@ -22,6 +24,13 @@ public class UiBattleManagers : MonoBehaviour
 
     private List<CardElement> _playerCardHands = new();
     private List<CardElement> _enemyCardHands = new();
+
+    // public List<CardElement> _playerBoard = new();
+    // public List<CardElement> _enemyBoard = new();
+
+    public Dictionary<BoardSlot, CardElement> _playerBoard = new();
+    public Dictionary<BoardSlot, CardElement> _enemyBoard = new();
+
 
     private void Awake()
     {
@@ -58,7 +67,7 @@ public class UiBattleManagers : MonoBehaviour
     }
 
     // Board
-    public void SpawnCardElementOnBoard(Character character, CardInstance cardInstance, int index)
+    public void SpawnCardElementOnBoard(Character character, CardInstance cardInstance, int index, BoardSlot boardSlot)
     {
         var card = _cardVỉewPool.GetObject();
 
@@ -81,6 +90,20 @@ public class UiBattleManagers : MonoBehaviour
             cardInstance.CardReference.CardStar.ToString(),
             cardInstance.IsAttackStance
         );
+
+        var cardButton = card.GetComponent<Button>();
+
+
+        if (character == Character.Player)
+        {
+            cardButton.onClick.AddListener(() => BattleBoard.Instance.OnGetBoardSlot(boardSlot, index));
+            _playerBoard.Add(boardSlot, cardElement);
+        }
+        else
+        {
+            cardButton.onClick.AddListener(() => BattleBoard.Instance.OnGetEnemyBoardSlot(boardSlot, index));
+            _enemyBoard.Add(boardSlot, cardElement);
+        }
     }
 
     private CardPlaceholder GetSlotByType(Character character, CardType cardType, int index)
@@ -99,6 +122,20 @@ public class UiBattleManagers : MonoBehaviour
             return _enemySouls[index];
         }
         return _enemyFunctionals[index];
+    }
+
+    public void ReleaseCardOnBoardByCharacterAndIndex(Character character, BoardSlot boardSlot)
+    {
+        if (boardSlot == null) return;
+
+        var cardView = character == Character.Player ? _playerBoard : _enemyBoard;
+
+        if (!cardView.TryGetValue(boardSlot, out CardElement cardElement)) return;
+
+        cardView.Remove(boardSlot);
+
+        if (cardElement != null)
+            _cardVỉewPool.ReleaseObject(cardElement);
     }
 
     // Hand
@@ -152,4 +189,5 @@ public class UiBattleManagers : MonoBehaviour
         }
         hands.Clear();
     }
+
 }
