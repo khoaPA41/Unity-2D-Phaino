@@ -25,5 +25,4 @@ public class CardPlaceholder : MonoBehaviour, IDropHandler
             cardDrag.SetDropTarget(this);
         }
     }
-
 }

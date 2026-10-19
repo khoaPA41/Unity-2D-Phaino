@@ -27,8 +27,8 @@ namespace Raziel.StateMachine
             _battleBoard.CardOnBoardClicked += GetCard;
             ChangePhaseAfterBattle();
 
-            _stateMachine.MainIIButton.SetActive(true);
-            _stateMachine.AttackButton.SetActive(true);
+            SetupForPlayer();
+            SetupForEnemy();
 
         }
 
@@ -81,5 +81,21 @@ namespace Raziel.StateMachine
             }
         }
 
+        private void SetupForPlayer()
+        {
+            if (_stateMachine.CurrentTurn.character != Character.Player) return;
+            _stateMachine.MainIIButton.SetActive(true);
+            _stateMachine.AttackButton.SetActive(true);
+
+        }
+
+        private void SetupForEnemy()
+        {
+            if (_stateMachine.CurrentTurn.character != Character.Enemy) return;
+
+            _stateMachine.EnemyInput.SetInput(EnemyInput.Attack);
+
+            _stateMachine.EnemyInput.SetInput(EnemyInput.Main_II);
+        }
     }
 }

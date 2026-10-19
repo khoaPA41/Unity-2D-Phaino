@@ -1,3 +1,4 @@
+using Raziel.Battle;
 using UnityEngine;
 
 namespace Raziel.StateMachine
@@ -5,7 +6,7 @@ namespace Raziel.StateMachine
     public class FirstMainPhase : DuelBaseState
     {
         DuelStateMachine _stateMachine;
-
+        DuelInformation _currentTurn;
         public FirstMainPhase(DuelStateMachine duelStateMachine) : base(duelStateMachine)
         {
         }
@@ -13,12 +14,15 @@ namespace Raziel.StateMachine
         public override void Enter()
         {
             _stateMachine = _duelStateMachine;
+            _currentTurn = _stateMachine.CurrentTurn;
 
             _stateMachine.IsCanUseCard = true;
-            _stateMachine.BattleButton.SetActive(true);
+
             Debug.Log("FirstMainPhase: " + _stateMachine.CurrentTurn.character);
 
-            ChangePhaseAfterMain_I();
+            _stateMachine.BattleAction += ChangeBattle;
+            SetupForPlayer();
+            SetupForEnemy();
         }
 
         public override void Tick(float deltaTime)
@@ -39,15 +43,21 @@ namespace Raziel.StateMachine
             _stateMachine = null;
         }
 
-        private void ChangePhaseAfterMain_I()
-        {
-            _stateMachine.BattleAction += ChangeBattle;
-        }
-
         private void ChangeBattle()
         {
             _stateMachine.SwitchState(_stateMachine.BattlePhase);
         }
 
+        private void SetupForPlayer()
+        {
+            if (_currentTurn.character != Character.Player) return;
+            _stateMachine.BattleButton.SetActive(true);
+        }
+
+        private void SetupForEnemy()
+        {
+            if (_currentTurn.character != Character.Enemy) return;
+            _stateMachine.EnemyInput.SetInput(EnemyInput.Battle);
+        }
     }
 }

@@ -86,7 +86,7 @@ namespace Raziel.StateMachine
         private void SetupForEnemy()
         {
             if (_current.character == Character.Enemy)
-                _stateMachine.Draw();
+                _stateMachine.EnemyInput.SetInput(EnemyInput.Draw);
         }
     }
 }

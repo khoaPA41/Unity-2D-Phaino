@@ -143,9 +143,12 @@ namespace Raziel.StateMachine
         private void SetupForEnemy()
         {
             if (_duelInformation.character != Character.Enemy) return;
-            _duelStateMachine.ChooseCard(0);
-            _duelInformation.Summon(0, 0, true);
-            _stateMachine.End();
+
+            _duelStateMachine.EnemyInput.SetInput(EnemyInput.ChooseCard);
+
+            _duelStateMachine.EnemyInput.SetInput(EnemyInput.Summon);
+
+            _duelStateMachine.EnemyInput.SetInput(EnemyInput.End);
         }
 
         private IEnumerator ChooseStance(int handIndex, int boardIndex)
@@ -166,6 +169,7 @@ namespace Raziel.StateMachine
 
             _chooseAttackStance.gameObject.SetActive(false);
             _chooseDefenseStance.gameObject.SetActive(false);
+
             _stateMachine.IsCanUseCard = true;
             _chooseStanceCoroutine = null;
         }

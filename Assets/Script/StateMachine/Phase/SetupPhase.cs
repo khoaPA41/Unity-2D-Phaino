@@ -15,7 +15,7 @@ namespace Raziel.StateMachine
 
             _stateMachine = _duelStateMachine;
 
-            _stateMachine.TurnController.BuildInitial(_stateMachine.DuelInformation_I, _stateMachine.DuelInformation_II);
+            _stateMachine.TurnController.BuildInitial(_stateMachine.PlayerDuelInformation, _stateMachine.EnemyDuelInformation);
             _stateMachine.CurrentTurn = _stateMachine.TurnController.GetCurrentTurn();
 
             SetupPlayerDeck();
@@ -37,18 +37,18 @@ namespace Raziel.StateMachine
 
         private void SetupPlayerDeck()
         {
-            _stateMachine.DuelInformation_I.SetupDeck();
+            _stateMachine.PlayerDuelInformation.SetupDeck();
         }
 
         private void SetupEnemyDeck()
         {
-            _stateMachine.DuelInformation_II.SetupDeck();
+            _stateMachine.EnemyDuelInformation.SetupDeck();
         }
 
         private void DrawFirstTime()
         {
-            _stateMachine.DuelInformation_I.DrawCardFirstTimes();
-            _stateMachine.DuelInformation_II.DrawCardFirstTimes();
+            _stateMachine.PlayerDuelInformation.DrawCardFirstTimes();
+            _stateMachine.EnemyDuelInformation.DrawCardFirstTimes();
         }
     }
 }

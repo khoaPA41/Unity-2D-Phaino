@@ -1628,6 +1628,39 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 431356448}
   m_CullTransparentMesh: 1
+--- !u!1 &451076245
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 451076246}
+  m_Layer: 0
+  m_Name: Character
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &451076246
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 451076245}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -124.18082, y: -66.02359, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 477191915}
+  - {fileID: 610487082}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &469227203
 GameObject:
   m_ObjectHideFlags: 0
@@ -1856,6 +1889,77 @@ MonoBehaviour:
   slotIndex: 0
   character: 0
   IsAcceptSoul: 0
+--- !u!1 &477191914
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 477191915}
+  - component: {fileID: 477191916}
+  m_Layer: 0
+  m_Name: Player
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &477191915
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 477191914}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 451076246}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &477191916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 477191914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8635700634773c44ba5bc326d908147, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Raziel.Battle.DuelInformation
+  _cards:
+  - {fileID: 11400000, guid: d8bbf6acc4f2ba24b9d826fcdc03c08a, type: 2}
+  - {fileID: 11400000, guid: f707d14c062f79c45b24d33be2ad3b78, type: 2}
+  - {fileID: 11400000, guid: 012df0340f427324b82da29be69568f1, type: 2}
+  - {fileID: 11400000, guid: 220915da135b7834bb42b3b864a1b152, type: 2}
+  - {fileID: 11400000, guid: ee7844a74e738fa4c900e22c564a3632, type: 2}
+  - {fileID: 11400000, guid: 7e895ad5cbf579d418b0d82dcbd67c09, type: 2}
+  - {fileID: 11400000, guid: abada933954a2b4488d1179210aa043c, type: 2}
+  - {fileID: 11400000, guid: 632935b68817f284cbf73eaf3d2e80ec, type: 2}
+  - {fileID: 11400000, guid: 5c50b36cdb899b7479d6c98802abbe6b, type: 2}
+  - {fileID: 11400000, guid: a9bb4cc48fd65f7498d38061851d2135, type: 2}
+  - {fileID: 11400000, guid: a270372f45bf9924cad862a562a7b572, type: 2}
+  - {fileID: 11400000, guid: 15f941051f2e6bf4085e28dca5e7e87f, type: 2}
+  - {fileID: 11400000, guid: 878dd1f5f4aff074ab3d02d453c58e2a, type: 2}
+  - {fileID: 11400000, guid: 50aec16c954f6d6479735a4261848e17, type: 2}
+  - {fileID: 11400000, guid: 62620258c3b41b0478dc8f0258607fe8, type: 2}
+  - {fileID: 11400000, guid: 05790d506cb22cb4eabde624b04ab2bf, type: 2}
+  - {fileID: 11400000, guid: b6c381ea7cdba394abbea23abc122f39, type: 2}
+  - {fileID: 11400000, guid: 3e2a0c78baa13684f9b126bbee5c4b69, type: 2}
+  - {fileID: 11400000, guid: e058377d1663ae94492ec5ad0befff13, type: 2}
+  - {fileID: 11400000, guid: a9a7d8fe2c05e544d85a6a0b05337462, type: 2}
+  character: 0
+  SelectedCard:
+    CardReference: {fileID: 0}
+    OriginalStar: 0
+    BattleStar: 0
+    IsAttackStance: 0
 --- !u!1 &480514068
 GameObject:
   m_ObjectHideFlags: 0
@@ -2706,6 +2810,91 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 593261387}
   m_CullTransparentMesh: 1
+--- !u!1 &610487081
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 610487082}
+  - component: {fileID: 610487084}
+  - component: {fileID: 610487083}
+  m_Layer: 0
+  m_Name: Enemy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &610487082
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 610487081}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 451076246}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &610487083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 610487081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83c6d61e16daa38498fef9b697c87795, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAIControllerInput
+  currentInput: 0
+--- !u!114 &610487084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 610487081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8635700634773c44ba5bc326d908147, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Raziel.Battle.DuelInformation
+  _cards:
+  - {fileID: 11400000, guid: f71fda4604acab74a9f7cd093a2fb5ba, type: 2}
+  - {fileID: 11400000, guid: 6674aa808d6a19c45a6a26b668c1a6a7, type: 2}
+  - {fileID: 11400000, guid: 45a2664842a39f54c925e65711527cce, type: 2}
+  - {fileID: 11400000, guid: a66444c85560a74418f9dda472444b64, type: 2}
+  - {fileID: 11400000, guid: 97a2b020c4712e0428509c1315002d97, type: 2}
+  - {fileID: 11400000, guid: a727d15dee4dda14195fce99fffd3815, type: 2}
+  - {fileID: 11400000, guid: 47ab3f3e694d82a42a50537be73a7a96, type: 2}
+  - {fileID: 11400000, guid: 6586a2a08c5f39045897ab8d134602ce, type: 2}
+  - {fileID: 11400000, guid: 62abb6082fa68dc4b8a73afb53c446bc, type: 2}
+  - {fileID: 11400000, guid: dce41fb96859548488eaea40628121ef, type: 2}
+  - {fileID: 11400000, guid: bb3daa990ba9ef34a87c98dad4dcfa88, type: 2}
+  - {fileID: 11400000, guid: 279edb73b6b986f4b8d48be8630345e1, type: 2}
+  - {fileID: 11400000, guid: 5b02b3a2725fbc04eafb8905097a942f, type: 2}
+  - {fileID: 11400000, guid: 6d8ab0106728ce745b7cd54b47e5e9a6, type: 2}
+  - {fileID: 11400000, guid: 3659efc8be521cb459957ca49577595d, type: 2}
+  - {fileID: 11400000, guid: 739191f911fb5694eb22a06cbf37d93e, type: 2}
+  - {fileID: 11400000, guid: 8e63d2cdceb11074e830fae7b21d89f8, type: 2}
+  - {fileID: 11400000, guid: 89582cecf5ca546458db38f22c82ac01, type: 2}
+  - {fileID: 11400000, guid: be79b33f7e6b5b347a80a0565960f108, type: 2}
+  - {fileID: 11400000, guid: be8d547ec8c5f184eadd7c9b3867fb10, type: 2}
+  character: 1
+  SelectedCard:
+    CardReference: {fileID: 0}
+    OriginalStar: 0
+    BattleStar: 0
+    IsAttackStance: 0
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -4827,8 +5016,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1361341192}
   - component: {fileID: 1361341191}
-  - component: {fileID: 1361341194}
-  - component: {fileID: 1361341193}
   - component: {fileID: 1361341195}
   m_Layer: 0
   m_Name: Duel Controller
@@ -4850,8 +5037,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Raziel.StateMachine.DuelStateMachine
   <TwoFirstTurnBattle>k__BackingField: 2
-  <DuelInformation_I>k__BackingField: {fileID: 1361341194}
-  <DuelInformation_II>k__BackingField: {fileID: 1361341193}
+  <PlayerDuelInformation>k__BackingField: {fileID: 477191916}
+  <EnemyDuelInformation>k__BackingField: {fileID: 610487084}
+  <EnemyInput>k__BackingField: {fileID: 610487083}
   <DrawButton>k__BackingField: {fileID: 534852767}
   <BattleButton>k__BackingField: {fileID: 1743671185}
   <MainIIButton>k__BackingField: {fileID: 1534140621}
@@ -4876,90 +5064,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1361341193
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1361341190}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8635700634773c44ba5bc326d908147, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Raziel.Battle.DuelInformation
-  _cards:
-  - {fileID: 11400000, guid: f71fda4604acab74a9f7cd093a2fb5ba, type: 2}
-  - {fileID: 11400000, guid: 6674aa808d6a19c45a6a26b668c1a6a7, type: 2}
-  - {fileID: 11400000, guid: 45a2664842a39f54c925e65711527cce, type: 2}
-  - {fileID: 11400000, guid: a66444c85560a74418f9dda472444b64, type: 2}
-  - {fileID: 11400000, guid: 97a2b020c4712e0428509c1315002d97, type: 2}
-  - {fileID: 11400000, guid: a727d15dee4dda14195fce99fffd3815, type: 2}
-  - {fileID: 11400000, guid: 47ab3f3e694d82a42a50537be73a7a96, type: 2}
-  - {fileID: 11400000, guid: 6586a2a08c5f39045897ab8d134602ce, type: 2}
-  - {fileID: 11400000, guid: 62abb6082fa68dc4b8a73afb53c446bc, type: 2}
-  - {fileID: 11400000, guid: dce41fb96859548488eaea40628121ef, type: 2}
-  - {fileID: 11400000, guid: bb3daa990ba9ef34a87c98dad4dcfa88, type: 2}
-  - {fileID: 11400000, guid: 279edb73b6b986f4b8d48be8630345e1, type: 2}
-  - {fileID: 11400000, guid: 5b02b3a2725fbc04eafb8905097a942f, type: 2}
-  - {fileID: 11400000, guid: 6d8ab0106728ce745b7cd54b47e5e9a6, type: 2}
-  - {fileID: 11400000, guid: 3659efc8be521cb459957ca49577595d, type: 2}
-  - {fileID: 11400000, guid: 739191f911fb5694eb22a06cbf37d93e, type: 2}
-  - {fileID: 11400000, guid: 8e63d2cdceb11074e830fae7b21d89f8, type: 2}
-  - {fileID: 11400000, guid: 89582cecf5ca546458db38f22c82ac01, type: 2}
-  - {fileID: 11400000, guid: be79b33f7e6b5b347a80a0565960f108, type: 2}
-  - {fileID: 11400000, guid: be8d547ec8c5f184eadd7c9b3867fb10, type: 2}
-  character: 1
-  SelectedCard:
-    CardReference: {fileID: 0}
-    OriginalStar: 0
-    IsAttackStance: 0
-  SelectEnemyCard:
-    CardReference: {fileID: 0}
-    OriginalStar: 0
-    IsAttackStance: 0
---- !u!114 &1361341194
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1361341190}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8635700634773c44ba5bc326d908147, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Raziel.Battle.DuelInformation
-  _cards:
-  - {fileID: 11400000, guid: d8bbf6acc4f2ba24b9d826fcdc03c08a, type: 2}
-  - {fileID: 11400000, guid: f707d14c062f79c45b24d33be2ad3b78, type: 2}
-  - {fileID: 11400000, guid: 012df0340f427324b82da29be69568f1, type: 2}
-  - {fileID: 11400000, guid: 220915da135b7834bb42b3b864a1b152, type: 2}
-  - {fileID: 11400000, guid: ee7844a74e738fa4c900e22c564a3632, type: 2}
-  - {fileID: 11400000, guid: 7e895ad5cbf579d418b0d82dcbd67c09, type: 2}
-  - {fileID: 11400000, guid: abada933954a2b4488d1179210aa043c, type: 2}
-  - {fileID: 11400000, guid: 632935b68817f284cbf73eaf3d2e80ec, type: 2}
-  - {fileID: 11400000, guid: 5c50b36cdb899b7479d6c98802abbe6b, type: 2}
-  - {fileID: 11400000, guid: a9bb4cc48fd65f7498d38061851d2135, type: 2}
-  - {fileID: 11400000, guid: a270372f45bf9924cad862a562a7b572, type: 2}
-  - {fileID: 11400000, guid: 15f941051f2e6bf4085e28dca5e7e87f, type: 2}
-  - {fileID: 11400000, guid: 878dd1f5f4aff074ab3d02d453c58e2a, type: 2}
-  - {fileID: 11400000, guid: 50aec16c954f6d6479735a4261848e17, type: 2}
-  - {fileID: 11400000, guid: 62620258c3b41b0478dc8f0258607fe8, type: 2}
-  - {fileID: 11400000, guid: 05790d506cb22cb4eabde624b04ab2bf, type: 2}
-  - {fileID: 11400000, guid: b6c381ea7cdba394abbea23abc122f39, type: 2}
-  - {fileID: 11400000, guid: 3e2a0c78baa13684f9b126bbee5c4b69, type: 2}
-  - {fileID: 11400000, guid: e058377d1663ae94492ec5ad0befff13, type: 2}
-  - {fileID: 11400000, guid: a9a7d8fe2c05e544d85a6a0b05337462, type: 2}
-  character: 0
-  SelectedCard:
-    CardReference: {fileID: 0}
-    OriginalStar: 0
-    IsAttackStance: 0
-  SelectEnemyCard:
-    CardReference: {fileID: 0}
-    OriginalStar: 0
-    IsAttackStance: 0
 --- !u!114 &1361341195
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4977,30 +5081,35 @@ MonoBehaviour:
     CardInstance:
       CardReference: {fileID: 0}
       OriginalStar: 0
+      BattleStar: 0
       IsAttackStance: 0
     AcceptSoul: 0
   - Character: 0
     CardInstance:
       CardReference: {fileID: 0}
       OriginalStar: 0
+      BattleStar: 0
       IsAttackStance: 0
     AcceptSoul: 0
   - Character: 0
     CardInstance:
       CardReference: {fileID: 0}
       OriginalStar: 0
+      BattleStar: 0
       IsAttackStance: 0
     AcceptSoul: 0
   - Character: 0
     CardInstance:
       CardReference: {fileID: 0}
       OriginalStar: 0
+      BattleStar: 0
       IsAttackStance: 0
     AcceptSoul: 0
   - Character: 0
     CardInstance:
       CardReference: {fileID: 0}
       OriginalStar: 0
+      BattleStar: 0
       IsAttackStance: 0
     AcceptSoul: 0
   PlayerFunctionalField:
@@ -5008,30 +5117,35 @@ MonoBehaviour:
     CardInstance:
       CardReference: {fileID: 0}
       OriginalStar: 0
+      BattleStar: 0
       IsAttackStance: 0
     AcceptSoul: 0
   - Character: 0
     CardInstance:
       CardReference: {fileID: 0}
       OriginalStar: 0
+      BattleStar: 0
       IsAttackStance: 0
     AcceptSoul: 0
   - Character: 0
     CardInstance:
       CardReference: {fileID: 0}
       OriginalStar: 0
+      BattleStar: 0
       IsAttackStance: 0
     AcceptSoul: 0
   - Character: 0
     CardInstance:
       CardReference: {fileID: 0}
       OriginalStar: 0
+      BattleStar: 0
       IsAttackStance: 0
     AcceptSoul: 0
   - Character: 0
     CardInstance:
       CardReference: {fileID: 0}
       OriginalStar: 0
+      BattleStar: 0
       IsAttackStance: 0
     AcceptSoul: 0
   EnemySouldField:
@@ -5039,30 +5153,35 @@ MonoBehaviour:
     CardInstance:
       CardReference: {fileID: 0}
       OriginalStar: 0
+      BattleStar: 0
       IsAttackStance: 0
     AcceptSoul: 0
   - Character: 0
     CardInstance:
       CardReference: {fileID: 0}
       OriginalStar: 0
+      BattleStar: 0
       IsAttackStance: 0
     AcceptSoul: 0
   - Character: 0
     CardInstance:
       CardReference: {fileID: 0}
       OriginalStar: 0
+      BattleStar: 0
       IsAttackStance: 0
     AcceptSoul: 0
   - Character: 0
     CardInstance:
       CardReference: {fileID: 0}
       OriginalStar: 0
+      BattleStar: 0
       IsAttackStance: 0
     AcceptSoul: 0
   - Character: 0
     CardInstance:
       CardReference: {fileID: 0}
       OriginalStar: 0
+      BattleStar: 0
       IsAttackStance: 0
     AcceptSoul: 0
   EnemyFunctionalField:
@@ -5070,50 +5189,39 @@ MonoBehaviour:
     CardInstance:
       CardReference: {fileID: 0}
       OriginalStar: 0
+      BattleStar: 0
       IsAttackStance: 0
     AcceptSoul: 0
   - Character: 0
     CardInstance:
       CardReference: {fileID: 0}
       OriginalStar: 0
+      BattleStar: 0
       IsAttackStance: 0
     AcceptSoul: 0
   - Character: 0
     CardInstance:
       CardReference: {fileID: 0}
       OriginalStar: 0
+      BattleStar: 0
       IsAttackStance: 0
     AcceptSoul: 0
   - Character: 0
     CardInstance:
       CardReference: {fileID: 0}
       OriginalStar: 0
+      BattleStar: 0
       IsAttackStance: 0
     AcceptSoul: 0
   - Character: 0
     CardInstance:
       CardReference: {fileID: 0}
       OriginalStar: 0
+      BattleStar: 0
       IsAttackStance: 0
     AcceptSoul: 0
-  SelectedSlot:
-    Character: 0
-    CardInstance:
-      CardReference: {fileID: 0}
-      OriginalStar: 0
-      IsAttackStance: 0
-    AcceptSoul: 0
-  SelectedEnemySlot:
-    Character: 0
-    CardInstance:
-      CardReference: {fileID: 0}
-      OriginalStar: 0
-      IsAttackStance: 0
-    AcceptSoul: 0
-  PlayerCardIndex: 0
-  EnemtCardIndex: 0
-  _player: {fileID: 1361341194}
-  _enemy: {fileID: 1361341193}
+  _player: {fileID: 477191916}
+  _enemy: {fileID: 610487084}
 --- !u!1 &1366740822
 GameObject:
   m_ObjectHideFlags: 0
@@ -7335,3 +7443,4 @@ SceneRoots:
   - {fileID: 1920324419}
   - {fileID: 1361341192}
   - {fileID: 404482129}
+  - {fileID: 451076246}

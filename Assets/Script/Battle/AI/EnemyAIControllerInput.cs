@@ -1,6 +1,8 @@
+using System;
+using System.Collections.Generic;
 using Raziel.Battle;
+using Raziel.StateMachine;
 using UnityEngine;
-
 
 public enum EnemyInput
 {
@@ -9,18 +11,127 @@ public enum EnemyInput
     Main_II,
     ChooseCard,
     Summon,
+    Attack,
     End
 }
+
+[RequireComponent(typeof(DuelInformation))]
 public class EnemyAIControllerInput : MonoBehaviour
 {
-    [SerializeField] private DuelInformation _duelInformation;
+    private DuelInformation _duelInformation;
     public EnemyInput currentInput;
+    private DuelStateMachine _duelStateMachine;
+
+    public event Action<EnemyInput> ActionByInput = delegate { };
+
+    private int _handIndex;
+
+    private void Start()
+    {
+        _duelInformation = GetComponent<DuelInformation>();
+        _duelStateMachine = DuelStateMachine.Instance;
+    }
+
+    private void OnEnable()
+    {
+        ActionByInput += Action;
+    }
+
+    private void OnDisable()
+    {
+        ActionByInput -= Action;
+    }
+
+    public void SetInput(EnemyInput input)
+    {
+        currentInput = input;
+        ActionByInput?.Invoke(currentInput);
+    }
+
+    private void Action(EnemyInput input)
+    {
+        switch (input)
+        {
+            case EnemyInput.Draw:
+                _duelStateMachine.Draw();
+                break;
+            case EnemyInput.Main_II:
+                _duelStateMachine.MainII();
+                break;
+            case EnemyInput.ChooseCard:
+                _duelStateMachine.ChooseCard(RandomChoose());
+                break;
+            case EnemyInput.Battle:
+                _duelStateMachine.ChangeBattle();
+                break;
+            case EnemyInput.Attack:
+                Attack();
+                break;
+            case EnemyInput.Summon:
+                Summon();
+                break;
+            case EnemyInput.End:
+                _duelStateMachine.End();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private int RandomChoose()
+    {
+        _handIndex = UnityEngine.Random.Range(0, _duelInformation.Deck.Hand.Count);
+        return _handIndex;
+    }
+
+    private void Summon()
+    {
+        var randomBoardIndex = UnityEngine.Random.Range(0, 5);
+        _duelInformation.Summon(_handIndex, randomBoardIndex, true);
+    }
+
+    private void Attack()
+    {
+        Debug.Log("Attack");
+        var battleBoard = BattleBoard.Instance;
+        if (battleBoard == null) return;
+
+        List<BoardSlot> attacker = new();
+        List<BoardSlot> targeter = new();
+
+        if (battleBoard.EnemySouldField.Length == 0)
+        {
+            return;
+        }
+
+        foreach (var card in battleBoard.EnemySouldField)
+        {
+            if (card?.CardInstance?.CardReference == null) continue;
+            attacker.Add(card);
+        }
+
+        if (attacker.Count == 0) return;
 
 
+        if (battleBoard.PlayerSoulField.Length == 0)
+        {
+            return;
+        }
+
+        foreach (var card in battleBoard.PlayerSoulField)
+        {
+            if (card?.CardInstance?.CardReference == null) continue;
+            targeter.Add(card);
+        }
+
+        if (targeter.Count == 0) return;
+
+        var randomAttacker = UnityEngine.Random.Range(0, attacker.Count);
+        var randomTargeter = UnityEngine.Random.Range(0, targeter.Count);
 
 
-
-
-
-
+        battleBoard.SetAttacker(attacker[randomAttacker]);
+        battleBoard.SetTarget(targeter[randomTargeter]);
+        battleBoard.Attack();
+    }
 }

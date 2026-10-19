@@ -11,9 +11,9 @@ namespace Raziel.StateMachine
 
         [field: SerializeField] public int TwoFirstTurnBattle { get; private set; } = 2;
 
-        [field: SerializeField] public DuelInformation DuelInformation_I { get; private set; }
-        [field: SerializeField] public DuelInformation DuelInformation_II { get; private set; }
-
+        [field: SerializeField] public DuelInformation PlayerDuelInformation { get; private set; }
+        [field: SerializeField] public DuelInformation EnemyDuelInformation { get; private set; }
+        [field: SerializeField] public EnemyAIControllerInput EnemyInput { get; private set; }
 
         [field: Header("Button")]
         [field: SerializeField] public GameObject DrawButton { get; private set; }
@@ -84,7 +84,10 @@ namespace Raziel.StateMachine
         {
             BattleAction?.Invoke();
         }
-
+        public void ChangeBattle()
+        {
+            SwitchState(BattlePhase);
+        }
         public void MainII()
         {
             MainIIAction?.Invoke();
@@ -104,7 +107,6 @@ namespace Raziel.StateMachine
         {
             SummonAction?.Invoke(0, 0);
         }
-
 
         public void End()
         {
