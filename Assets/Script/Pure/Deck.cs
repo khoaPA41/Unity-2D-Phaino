@@ -1,8 +1,5 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using Raziel.Battle;
-using UnityEngine;
 
 namespace Raziel.Pure.Deck
 {
@@ -26,10 +23,6 @@ namespace Raziel.Pure.Deck
         private readonly List<CardInstance> _board = new(); // Card on hand
         public List<CardInstance> Board => _board;
 
-        // Event
-        public event Action ChangesInHand = delegate { };
-        public event Action<CardInstance> CardDeath = delegate { };
-
         // Setup for battle deck
         public void InitialDeck()
         {
@@ -40,7 +33,8 @@ namespace Raziel.Pure.Deck
                 _battleDeck.Add(new CardInstance
                 {
                     CardReference = card,
-                    OriginalStar = card.CardStar
+                    OriginalStar = card.CardStar,
+                    BattleStar = card.CardStar
                 });
             }
         }
@@ -51,9 +45,9 @@ namespace Raziel.Pure.Deck
         }
 
         // Hand
-        public void DrawCard(int cardQuantity)
+        public bool DrawCard(int cardQuantity)
         {
-            if (cardQuantity <= 0 || _battleDeck.Count == 0) return;
+            if (cardQuantity <= 0 || _battleDeck.Count == 0) return false;
 
             for (int i = 0; i < cardQuantity; i++)
             {
@@ -61,10 +55,12 @@ namespace Raziel.Pure.Deck
 
                 var card = _battleDeck[index];
 
+                if (card == null || card.CardReference == null) return false;
+
                 _battleDeck.RemoveAt(index);
                 _hand.Add(card);
             }
-            ChangesInHand?.Invoke();
+            return true;
         }
 
         public bool UseCardOnHand(int index)
@@ -81,35 +77,10 @@ namespace Raziel.Pure.Deck
             return _hand.Find(card => card.CardReference.CardNameId == id);
         }
 
-        public void OnChangeInHand()
-        {
-            ChangesInHand?.Invoke();
-        }
-
         public void AddToGrave(CardInstance cardInstance)
         {
             _graveDeck.Add(cardInstance);
             _board.Remove(cardInstance);
-
-            Debug.Log("Gave: ");
-            Check(GraveDeck);
-            Debug.Log("Board: ");
-            Check(_board);
-        }
-
-        public void OnCardDeath(CardInstance cardInstance)
-        {
-            CardDeath?.Invoke(cardInstance);
-        }
-
-        private void Check(IEnumerable objects)
-        {
-            foreach (var item in objects)
-            {
-                var cardInstance = (CardInstance)item;
-
-                Debug.Log(cardInstance.CardReference);
-            }
         }
     }
 }

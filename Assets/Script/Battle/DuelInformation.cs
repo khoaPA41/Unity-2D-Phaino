@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using Raziel.Pure.Deck;
 using UnityEngine;
@@ -16,6 +15,7 @@ namespace Raziel.Battle
     {
         public Card CardReference;
         public int OriginalStar;
+        public int BattleStar;
         public bool IsAttackStance; // Card State
     }
 
@@ -26,21 +26,22 @@ namespace Raziel.Battle
         public Deck Deck { get; private set; }
 
         public event Action<CardInstance> UpdateCardHandAction = delegate { };
+        public event Action ChangesInHand = delegate { };
+        public event Action<CardInstance> CardDeath = delegate { };
 
         public CardInstance SelectedCard = null;
-        public CardInstance SelectEnemyCard = null;
 
         private void OnEnable()
         {
             Deck = new();
-            Deck.ChangesInHand += UpdateCardHand;
-            Deck.CardDeath += Deck.AddToGrave;
+            ChangesInHand += UpdateCardHand;
+            CardDeath += Deck.AddToGrave;
         }
 
         private void OnDisable()
         {
-            Deck.ChangesInHand -= UpdateCardHand;
-            Deck.CardDeath -= Deck.AddToGrave;
+            ChangesInHand -= UpdateCardHand;
+            CardDeath -= Deck.AddToGrave;
         }
 
         public void SetupDeck()
@@ -54,12 +55,14 @@ namespace Raziel.Battle
 
         public void DrawCardFirstTimes()
         {
-            Deck.DrawCard(5);
+            if (!Deck.DrawCard(5)) return;
+            ChangesInHand?.Invoke();
         }
 
         public void DrawCard()
         {
-            Deck.DrawCard(1);
+            if (!Deck.DrawCard(1)) return;
+            ChangesInHand?.Invoke();
         }
 
         public void UpdateCardHand()
@@ -100,17 +103,22 @@ namespace Raziel.Battle
             )) return;
 
             SelectedCard = null;
-            Deck.OnChangeInHand();
+            ChangesInHand?.Invoke();
         }
 
-        private void Check(IEnumerable objects)
+        public void OnCardDeath(CardInstance cardInstance)
         {
-            foreach (var item in objects)
-            {
-                var cardInstance = (CardInstance)item;
-
-                Debug.Log(cardInstance.CardReference);
-            }
+            CardDeath?.Invoke(cardInstance);
         }
+
+        // private void Check(IEnumerable objects)
+        // {
+        //     foreach (var item in objects)
+        //     {
+        //         var cardInstance = (CardInstance)item;
+
+        //         Debug.Log(cardInstance.CardReference);
+        //     }
+        // }
     }
 }

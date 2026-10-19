@@ -25,11 +25,10 @@ public class UiBattleManagers : MonoBehaviour
     private List<CardElement> _playerCardHands = new();
     private List<CardElement> _enemyCardHands = new();
 
-    // public List<CardElement> _playerBoard = new();
-    // public List<CardElement> _enemyBoard = new();
-
     public Dictionary<BoardSlot, CardElement> _playerBoard = new();
     public Dictionary<BoardSlot, CardElement> _enemyBoard = new();
+
+    public event Action<BoardSlot, int> UpdateStarOnBoard = delegate { };
 
 
     private void Awake()
@@ -50,11 +49,13 @@ public class UiBattleManagers : MonoBehaviour
     private void Start()
     {
         BattleBoard.Instance.SummonAction += SpawnCardElementOnBoard;
+        UpdateStarOnBoard += UpdateCardStarOnBoard;
     }
 
     private void OnDisable()
     {
         BattleBoard.Instance.SummonAction -= SpawnCardElementOnBoard;
+        UpdateStarOnBoard -= UpdateCardStarOnBoard;
     }
 
     //Placeholder
@@ -87,21 +88,21 @@ public class UiBattleManagers : MonoBehaviour
             cardInstance.CardReference.CardDetailImage,
             cardInstance.CardReference.CardElementalImage,
             cardInstance.CardReference.CardTypeImage,
-            cardInstance.CardReference.CardStar.ToString(),
+            cardInstance.BattleStar.ToString(),
             cardInstance.IsAttackStance
         );
 
         var cardButton = card.GetComponent<Button>();
 
 
+        cardButton.onClick.AddListener(() => BattleBoard.Instance.OnCardCliked(boardSlot));
+
         if (character == Character.Player)
         {
-            cardButton.onClick.AddListener(() => BattleBoard.Instance.OnGetBoardSlot(boardSlot, index));
             _playerBoard.Add(boardSlot, cardElement);
         }
         else
         {
-            cardButton.onClick.AddListener(() => BattleBoard.Instance.OnGetEnemyBoardSlot(boardSlot, index));
             _enemyBoard.Add(boardSlot, cardElement);
         }
     }
@@ -136,6 +137,21 @@ public class UiBattleManagers : MonoBehaviour
 
         if (cardElement != null)
             _cardVỉewPool.ReleaseObject(cardElement);
+    }
+
+    private void UpdateCardStarOnBoard(BoardSlot boardSlot, int starAfter)
+    {
+        var cardView = boardSlot.Character == Character.Player ? _playerBoard : _enemyBoard;
+
+        if (cardView.TryGetValue(boardSlot, out CardElement card))
+        {
+            card.CardStar.SetText(starAfter.ToString());
+        }
+    }
+
+    public void OnUpdateStarOnBoard(BoardSlot boardSlot, int starAfter)
+    {
+        UpdateStarOnBoard?.Invoke(boardSlot, starAfter);
     }
 
     // Hand

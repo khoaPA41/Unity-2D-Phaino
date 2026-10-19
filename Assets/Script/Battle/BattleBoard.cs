@@ -6,7 +6,6 @@ namespace Raziel.Battle
     [Serializable]
     public class BoardSlot
     {
-        // public int SlotIndex;
         public Character Character;
         public CardInstance CardInstance;
         public bool AcceptSoul; // CardType
@@ -25,19 +24,15 @@ namespace Raziel.Battle
         public BoardSlot[] EnemyFunctionalField = new BoardSlot[5];
 
         public event Action<Character, CardInstance, int, BoardSlot> SummonAction = delegate { };
+        public event Action<BoardSlot> CardOnBoardClicked;
 
-        public event Action<BoardSlot, int> ChooseCardOnBoard = delegate { };
-        public event Action<BoardSlot, int> ChooseEnemyCardOnBoard = delegate { };
-
-        public BoardSlot SelectedSlot;
-        public BoardSlot SelectedEnemySlot;
-
-        public int PlayerCardIndex;
-        public int EnemtCardIndex;
+        private BoardSlot _attackerSlot;
+        private BoardSlot _targetSlot;
 
         [SerializeField] private DuelInformation _player;
         [SerializeField] private DuelInformation _enemy;
 
+        private BattleResolver _battleResolver;
 
         private void Awake()
         {
@@ -48,6 +43,7 @@ namespace Raziel.Battle
             }
 
             Instance = this;
+            _battleResolver = new();
         }
 
         private void Start()
@@ -58,19 +54,6 @@ namespace Raziel.Battle
 
             SetupFunctionalField(PlayerFunctionalField, Character.Player);
             SetupFunctionalField(EnemyFunctionalField, Character.Enemy);
-        }
-
-        private void OnEnable()
-        {
-            ChooseCardOnBoard += SetBoardSlot;
-            ChooseEnemyCardOnBoard += SetEnemyBoardSlot;
-            // _player.Deck.CardDeath += 
-        }
-
-        private void OnDisable()
-        {
-            ChooseCardOnBoard -= SetBoardSlot;
-            ChooseEnemyCardOnBoard -= SetEnemyBoardSlot;
         }
 
         private void SetupSoulField(BoardSlot[] slots, Character character)
@@ -139,83 +122,88 @@ namespace Raziel.Battle
             return EnemyFunctionalField;
         }
 
-
         // Board
-        public void OnGetBoardSlot(BoardSlot boardSlot, int cardIndex)
+        public void OnCardCliked(BoardSlot boardSlot)
         {
-            ChooseCardOnBoard?.Invoke(boardSlot, cardIndex);
+            CardOnBoardClicked?.Invoke(boardSlot);
         }
 
-        public void OnGetEnemyBoardSlot(BoardSlot boardSlot, int cardIndex)
+        public void SetAttacker(BoardSlot attacker)
         {
-            ChooseEnemyCardOnBoard?.Invoke(boardSlot, cardIndex);
+            _attackerSlot = attacker;
+
+            if (_attackerSlot?.CardInstance?.CardReference == null)
+                return;
+
+            Debug.Log($"Attacker: {attacker.CardInstance.CardReference.CardNameId}");
         }
 
-        public void SetBoardSlot(BoardSlot boardSlot, int cardIndex)
+        public void SetTarget(BoardSlot target)
         {
-            SelectedSlot = boardSlot;
-            PlayerCardIndex = cardIndex;
-        }
+            _targetSlot = target;
 
-        public void SetEnemyBoardSlot(BoardSlot boardSlot, int cardIndex)
-        {
-            SelectedEnemySlot = boardSlot;
-            EnemtCardIndex = cardIndex;
+            if (target?.CardInstance?.CardReference == null)
+                return;
+
+            Debug.Log($"Targeter: {target.CardInstance.CardReference.CardNameId}");
         }
 
         public void Attack()
         {
-            if (SelectedSlot == null || SelectedSlot.CardInstance == null || SelectedSlot.CardInstance.CardReference == null ||
-            SelectedEnemySlot == null || SelectedEnemySlot.CardInstance == null || SelectedEnemySlot.CardInstance.CardReference == null) return;
+            if (_attackerSlot == null || _attackerSlot.CardInstance == null || _attackerSlot.CardInstance.CardReference == null ||
+            _targetSlot == null || _targetSlot.CardInstance == null || _targetSlot.CardInstance.CardReference == null) return;
 
             var uiManager = UiBattleManagers.Instance;
-
             if (uiManager == null) return;
 
-            var playerCard = SelectedSlot.CardInstance;
-            var enemyCard = SelectedEnemySlot.CardInstance;
+            var attacker = _attackerSlot.CardInstance;
+            var targeter = _targetSlot.CardInstance;
 
-            var subtractStar = playerCard.OriginalStar - enemyCard.OriginalStar;
+            var result = _battleResolver.Attack(attacker, targeter);
 
-            if (subtractStar == 0)
+            if (result.AttackerDies)
             {
-                Debug.Log("Draw");
-                _player.Deck.OnCardDeath(playerCard);
-                _enemy.Deck.OnCardDeath(enemyCard);
-                uiManager.ReleaseCardOnBoardByCharacterAndIndex(Character.Player, SelectedSlot);
-                uiManager.ReleaseCardOnBoardByCharacterAndIndex(Character.Enemy, SelectedEnemySlot);
-                ResetBoardSlot(SelectedSlot);
-                ResetBoardSlot(SelectedEnemySlot);
+                Debug.Log("Attacker death: " + attacker.CardReference.CardNameId + " - " + _attackerSlot.Character);
+                CardDeath(_attackerSlot);
             }
 
-            if (subtractStar > 0)
+            if (result.TargeterDies)
             {
-                Debug.Log("Win");
-                _enemy.Deck.OnCardDeath(enemyCard);
-                uiManager.ReleaseCardOnBoardByCharacterAndIndex(Character.Enemy, SelectedEnemySlot);
-                ResetBoardSlot(SelectedEnemySlot);
+                Debug.Log("Targeter death: " + targeter.CardReference.CardNameId + " - " + _targetSlot.Character);
+                CardDeath(_targetSlot);
             }
 
-            if (subtractStar < 0)
+            if (!result.AttackerDies)
             {
-                Debug.Log("Defeat");
-                _player.Deck.OnCardDeath(playerCard);
-                uiManager.ReleaseCardOnBoardByCharacterAndIndex(Character.Player, SelectedSlot);
-                ResetBoardSlot(SelectedSlot);
+                Debug.Log("Attacker: " + attacker.CardReference.CardNameId + ": " + _attackerSlot.CardInstance.BattleStar);
+                uiManager.OnUpdateStarOnBoard(_attackerSlot, result.AttackerStarAfter);
             }
 
-            SelectedSlot = null;
-            SelectedEnemySlot = null;
+            if (!result.TargeterDies)
+            {
+                Debug.Log("Targeter: " + targeter.CardReference.CardNameId + ": " + _targetSlot.CardInstance.BattleStar);
+                uiManager.OnUpdateStarOnBoard(_targetSlot, result.TargeterStarAfter);
+            }
 
-
-            PlayerCardIndex = -1;
-            EnemtCardIndex = -1;
-
-
+            _attackerSlot = null;
+            _targetSlot = null;
         }
 
-        private void ResetBoardSlot(BoardSlot boardSlot)
+        private void CardDeath(BoardSlot boardSlot)
         {
+            var uiManager = UiBattleManagers.Instance;
+            if (uiManager == null) return;
+
+            if (boardSlot.Character == Character.Player)
+            {
+                _player.OnCardDeath(boardSlot.CardInstance);
+            }
+            else
+            {
+                _enemy.OnCardDeath(boardSlot.CardInstance);
+            }
+
+            uiManager.ReleaseCardOnBoardByCharacterAndIndex(boardSlot.Character, boardSlot);
             boardSlot.CardInstance = null;
         }
     }

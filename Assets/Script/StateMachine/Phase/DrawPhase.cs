@@ -35,8 +35,8 @@ namespace Raziel.StateMachine
         {
             if (_current != null)
             {
-                _current.Deck.ChangesInHand -= ChangeMain_I;
-                _current.Deck.ChangesInHand -= ChangeMain_II;
+                _current.ChangesInHand -= ChangeMain_I;
+                _current.ChangesInHand -= ChangeMain_II;
             }
 
             if (_stateMachine != null)
@@ -58,12 +58,12 @@ namespace Raziel.StateMachine
         {
             if (_stateMachine.Turn < _stateMachine.TwoFirstTurnBattle)
             {
-                _current.Deck.ChangesInHand += ChangeMain_II;
+                _current.ChangesInHand += ChangeMain_II;
                 _stateMachine.Turn += 1;
             }
             else
             {
-                _current.Deck.ChangesInHand += ChangeMain_I;
+                _current.ChangesInHand += ChangeMain_I;
             }
         }
 
