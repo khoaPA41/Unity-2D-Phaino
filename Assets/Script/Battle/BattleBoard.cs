@@ -103,7 +103,7 @@ namespace Raziel.Battle
             return slot.CardInstance == null || slot.CardInstance.CardReference == null;
         }
 
-        private BoardSlot[] GetSlotByType(Character character, CardType cardType)
+        public BoardSlot[] GetSlotByType(Character character, CardType cardType)
         {
             if (character == Character.Player)
             {
@@ -158,6 +158,8 @@ namespace Raziel.Battle
 
             var attacker = _attackerSlot.CardInstance;
             var targeter = _targetSlot.CardInstance;
+
+            if (attacker.CardReference.CardType != CardType.Soul || targeter.CardReference.CardType != CardType.Soul) return;
 
             var result = _battleResolver.Attack(attacker, targeter);
 

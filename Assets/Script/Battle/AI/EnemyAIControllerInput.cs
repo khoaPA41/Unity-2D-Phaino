@@ -86,8 +86,32 @@ public class EnemyAIControllerInput : MonoBehaviour
 
     private void Summon()
     {
-        var randomBoardIndex = UnityEngine.Random.Range(0, 5);
-        _duelInformation.Summon(_handIndex, randomBoardIndex, true);
+        var battleBoard = BattleBoard.Instance;
+        if (battleBoard == null || _duelInformation == null) return;
+
+        var selectedCard = _duelInformation.SelectedCard;
+        if (selectedCard == null || selectedCard.CardReference == null) return;
+
+        var character = _duelInformation.character;
+        var cardType = selectedCard.CardReference.CardType;
+        var row = battleBoard.GetSlotByType(character, cardType);
+
+        if (row == null) return;
+
+        List<int> emptyIndices = new();
+
+        for (int i = 0; i < row.Length; i++)
+        {
+            if (!battleBoard.CanSummonCard(selectedCard, character, i)) continue;
+            emptyIndices.Add(i);
+        }
+
+        if (emptyIndices.Count == 0) return;
+
+        var randomBoardIndex = UnityEngine.Random.Range(0, emptyIndices.Count);
+
+        var boardIndex = emptyIndices[randomBoardIndex];
+        _duelInformation.Summon(_handIndex, boardIndex, true);
     }
 
     private void Attack()

@@ -71,6 +71,7 @@ namespace Raziel.StateMachine
 
         private void GetCard(BoardSlot boardSlot)
         {
+            if (!boardSlot.AcceptSoul) return;
             if (_currentTurn.character == boardSlot.Character)
             {
                 _battleBoard.SetAttacker(boardSlot);
