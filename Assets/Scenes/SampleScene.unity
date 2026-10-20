@@ -1948,6 +1948,9 @@ MonoBehaviour:
     OriginalStar: 0
     BattleStar: 0
     IsAttackStance: 0
+    DefTurnsElapsed: 0
+    DefTurnLimit: 0
+    HasUsedDefense: 0
 --- !u!1 &480514068
 GameObject:
   m_ObjectHideFlags: 0
@@ -2883,6 +2886,9 @@ MonoBehaviour:
     OriginalStar: 0
     BattleStar: 0
     IsAttackStance: 0
+    DefTurnsElapsed: 0
+    DefTurnLimit: 0
+    HasUsedDefense: 0
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -5071,6 +5077,9 @@ MonoBehaviour:
       OriginalStar: 0
       BattleStar: 0
       IsAttackStance: 0
+      DefTurnsElapsed: 0
+      DefTurnLimit: 0
+      HasUsedDefense: 0
     AcceptSoul: 0
   - Character: 0
     CardInstance:
@@ -5078,6 +5087,9 @@ MonoBehaviour:
       OriginalStar: 0
       BattleStar: 0
       IsAttackStance: 0
+      DefTurnsElapsed: 0
+      DefTurnLimit: 0
+      HasUsedDefense: 0
     AcceptSoul: 0
   - Character: 0
     CardInstance:
@@ -5085,6 +5097,9 @@ MonoBehaviour:
       OriginalStar: 0
       BattleStar: 0
       IsAttackStance: 0
+      DefTurnsElapsed: 0
+      DefTurnLimit: 0
+      HasUsedDefense: 0
     AcceptSoul: 0
   - Character: 0
     CardInstance:
@@ -5092,6 +5107,9 @@ MonoBehaviour:
       OriginalStar: 0
       BattleStar: 0
       IsAttackStance: 0
+      DefTurnsElapsed: 0
+      DefTurnLimit: 0
+      HasUsedDefense: 0
     AcceptSoul: 0
   - Character: 0
     CardInstance:
@@ -5099,6 +5117,9 @@ MonoBehaviour:
       OriginalStar: 0
       BattleStar: 0
       IsAttackStance: 0
+      DefTurnsElapsed: 0
+      DefTurnLimit: 0
+      HasUsedDefense: 0
     AcceptSoul: 0
   PlayerFunctionalField:
   - Character: 0
@@ -5107,6 +5128,9 @@ MonoBehaviour:
       OriginalStar: 0
       BattleStar: 0
       IsAttackStance: 0
+      DefTurnsElapsed: 0
+      DefTurnLimit: 0
+      HasUsedDefense: 0
     AcceptSoul: 0
   - Character: 0
     CardInstance:
@@ -5114,6 +5138,9 @@ MonoBehaviour:
       OriginalStar: 0
       BattleStar: 0
       IsAttackStance: 0
+      DefTurnsElapsed: 0
+      DefTurnLimit: 0
+      HasUsedDefense: 0
     AcceptSoul: 0
   - Character: 0
     CardInstance:
@@ -5121,6 +5148,9 @@ MonoBehaviour:
       OriginalStar: 0
       BattleStar: 0
       IsAttackStance: 0
+      DefTurnsElapsed: 0
+      DefTurnLimit: 0
+      HasUsedDefense: 0
     AcceptSoul: 0
   - Character: 0
     CardInstance:
@@ -5128,6 +5158,9 @@ MonoBehaviour:
       OriginalStar: 0
       BattleStar: 0
       IsAttackStance: 0
+      DefTurnsElapsed: 0
+      DefTurnLimit: 0
+      HasUsedDefense: 0
     AcceptSoul: 0
   - Character: 0
     CardInstance:
@@ -5135,6 +5168,9 @@ MonoBehaviour:
       OriginalStar: 0
       BattleStar: 0
       IsAttackStance: 0
+      DefTurnsElapsed: 0
+      DefTurnLimit: 0
+      HasUsedDefense: 0
     AcceptSoul: 0
   EnemySouldField:
   - Character: 0
@@ -5143,6 +5179,9 @@ MonoBehaviour:
       OriginalStar: 0
       BattleStar: 0
       IsAttackStance: 0
+      DefTurnsElapsed: 0
+      DefTurnLimit: 0
+      HasUsedDefense: 0
     AcceptSoul: 0
   - Character: 0
     CardInstance:
@@ -5150,6 +5189,9 @@ MonoBehaviour:
       OriginalStar: 0
       BattleStar: 0
       IsAttackStance: 0
+      DefTurnsElapsed: 0
+      DefTurnLimit: 0
+      HasUsedDefense: 0
     AcceptSoul: 0
   - Character: 0
     CardInstance:
@@ -5157,6 +5199,9 @@ MonoBehaviour:
       OriginalStar: 0
       BattleStar: 0
       IsAttackStance: 0
+      DefTurnsElapsed: 0
+      DefTurnLimit: 0
+      HasUsedDefense: 0
     AcceptSoul: 0
   - Character: 0
     CardInstance:
@@ -5164,6 +5209,9 @@ MonoBehaviour:
       OriginalStar: 0
       BattleStar: 0
       IsAttackStance: 0
+      DefTurnsElapsed: 0
+      DefTurnLimit: 0
+      HasUsedDefense: 0
     AcceptSoul: 0
   - Character: 0
     CardInstance:
@@ -5171,6 +5219,9 @@ MonoBehaviour:
       OriginalStar: 0
       BattleStar: 0
       IsAttackStance: 0
+      DefTurnsElapsed: 0
+      DefTurnLimit: 0
+      HasUsedDefense: 0
     AcceptSoul: 0
   EnemyFunctionalField:
   - Character: 0
@@ -5179,6 +5230,9 @@ MonoBehaviour:
       OriginalStar: 0
       BattleStar: 0
       IsAttackStance: 0
+      DefTurnsElapsed: 0
+      DefTurnLimit: 0
+      HasUsedDefense: 0
     AcceptSoul: 0
   - Character: 0
     CardInstance:
@@ -5186,6 +5240,9 @@ MonoBehaviour:
       OriginalStar: 0
       BattleStar: 0
       IsAttackStance: 0
+      DefTurnsElapsed: 0
+      DefTurnLimit: 0
+      HasUsedDefense: 0
     AcceptSoul: 0
   - Character: 0
     CardInstance:
@@ -5193,6 +5250,9 @@ MonoBehaviour:
       OriginalStar: 0
       BattleStar: 0
       IsAttackStance: 0
+      DefTurnsElapsed: 0
+      DefTurnLimit: 0
+      HasUsedDefense: 0
     AcceptSoul: 0
   - Character: 0
     CardInstance:
@@ -5200,6 +5260,9 @@ MonoBehaviour:
       OriginalStar: 0
       BattleStar: 0
       IsAttackStance: 0
+      DefTurnsElapsed: 0
+      DefTurnLimit: 0
+      HasUsedDefense: 0
     AcceptSoul: 0
   - Character: 0
     CardInstance:
@@ -5207,6 +5270,9 @@ MonoBehaviour:
       OriginalStar: 0
       BattleStar: 0
       IsAttackStance: 0
+      DefTurnsElapsed: 0
+      DefTurnLimit: 0
+      HasUsedDefense: 0
     AcceptSoul: 0
   _player: {fileID: 477191916}
   _enemy: {fileID: 610487084}

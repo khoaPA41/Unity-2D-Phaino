@@ -34,7 +34,8 @@ namespace Raziel.Pure.Deck
                 {
                     CardReference = card,
                     OriginalStar = card.CardStar,
-                    BattleStar = card.CardStar
+                    BattleStar = card.CardStar,
+                    DefTurnLimit = card.CardStar / 2
                 });
             }
         }

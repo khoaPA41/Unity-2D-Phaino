@@ -74,13 +74,18 @@ public class UiBattleManagers : MonoBehaviour
         _battleBoard = battleBoard;
 
         _battleBoard.SummonAction += SpawnCardElementOnBoard;
+        battleBoard.ReturnAttackStance += UpdateStance;
         UpdateStarOnBoard += UpdateCardStarOnBoard;
     }
 
     private void UnSubscribe()
     {
         if (_battleBoard != null)
+        {
             _battleBoard.SummonAction -= SpawnCardElementOnBoard;
+            _battleBoard.ReturnAttackStance -= UpdateStance;
+        }
+
 
         UpdateStarOnBoard -= UpdateCardStarOnBoard;
         _battleBoard = null;
@@ -180,6 +185,18 @@ public class UiBattleManagers : MonoBehaviour
     public void OnUpdateStarOnBoard(BoardSlot boardSlot, int starAfter)
     {
         UpdateStarOnBoard?.Invoke(boardSlot, starAfter);
+    }
+
+    private void UpdateStance(Character character, BoardSlot boardSlot)
+    {
+        if (boardSlot == null) return;
+
+        var cardView = character == Character.Player ? _playerBoard : _enemyBoard;
+        if (!cardView.TryGetValue(boardSlot, out CardElement cardElement)) return;
+
+        var rect = cardElement.GetComponent<RectTransform>();
+
+        rect.rotation = Quaternion.Euler(0f, 0f, 0f);
     }
 
     // Hand

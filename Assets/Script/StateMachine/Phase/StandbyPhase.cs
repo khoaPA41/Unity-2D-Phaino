@@ -1,3 +1,4 @@
+using Raziel.Battle;
 using UnityEngine;
 
 namespace Raziel.StateMachine
@@ -5,6 +6,7 @@ namespace Raziel.StateMachine
     public class StandbyPhase : DuelBaseState
     {
         DuelStateMachine _stateMachine;
+        BattleBoard _battleBoard;
         public StandbyPhase(DuelStateMachine duelStateMachine) : base(duelStateMachine)
         {
         }
@@ -12,8 +14,11 @@ namespace Raziel.StateMachine
         public override void Enter()
         {
             _stateMachine = _duelStateMachine;
-            Debug.Log("StandbyPhase: " + _duelStateMachine.CurrentTurn.character);
+            _battleBoard = BattleBoard.Instance;
 
+            Debug.Log("StandbyPhase: " + _stateMachine.CurrentTurn.character);
+
+            CheckDefCardByCharacter();
             _stateMachine.SwitchState(_duelStateMachine.DrawPhase);
         }
 
@@ -25,6 +30,12 @@ namespace Raziel.StateMachine
         public override void Exit()
         {
             _stateMachine = null;
+            _battleBoard = null;
+        }
+
+        private void CheckDefCardByCharacter()
+        {
+            _battleBoard.ProcessDefenseElapsed(_stateMachine.CurrentTurn.character);
         }
     }
 }

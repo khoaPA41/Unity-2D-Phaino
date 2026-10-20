@@ -17,6 +17,9 @@ namespace Raziel.Battle
         public int OriginalStar;
         public int BattleStar;
         public bool IsAttackStance; // Card State
+        public int DefTurnsElapsed;
+        public int DefTurnLimit;
+        public bool HasUsedDefense;
     }
 
     public class DuelInformation : MonoBehaviour

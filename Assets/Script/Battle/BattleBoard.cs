@@ -25,6 +25,7 @@ namespace Raziel.Battle
 
         public event Action<Character, CardInstance, int, BoardSlot> SummonAction = delegate { };
         public event Action<BoardSlot> CardOnBoardClicked;
+        public event Action<Character, BoardSlot> ReturnAttackStance;
 
         private BoardSlot _attackerSlot;
         private BoardSlot _targetSlot;
@@ -83,6 +84,7 @@ namespace Raziel.Battle
             board[index].CardInstance = cardInstance;
 
 
+            board[index].CardInstance.HasUsedDefense = !isAttackStance;
             board[index].CardInstance.IsAttackStance = isAttackStance;
 
             SummonAction?.Invoke(character, cardInstance, index, board[index]);
@@ -211,5 +213,25 @@ namespace Raziel.Battle
             boardSlot.CardInstance = null;
         }
 
+        public void ProcessDefenseElapsed(Character character)
+        {
+            var boardSlots = character == Character.Player ? PlayerSoulField : EnemySouldField;
+
+            foreach (var stanceSlot in boardSlots)
+            {
+                var card = stanceSlot?.CardInstance;
+                if (card == null || card.CardReference == null) continue;
+
+                if (card.IsAttackStance) continue;
+
+                card.DefTurnsElapsed++;
+
+                if (card.DefTurnsElapsed > card.DefTurnLimit)
+                {
+                    card.IsAttackStance = true;
+                    ReturnAttackStance?.Invoke(character, stanceSlot);
+                }
+            }
+        }
     }
 }
