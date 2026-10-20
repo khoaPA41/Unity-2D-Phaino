@@ -31,9 +31,13 @@ namespace Raziel.Battle
 
         public CardInstance SelectedCard = null;
 
-        private void OnEnable()
+        private void Awake()
         {
             Deck = new();
+        }
+
+        private void OnEnable()
+        {
             ChangesInHand += UpdateCardHand;
             CardDeath += Deck.AddToGrave;
         }

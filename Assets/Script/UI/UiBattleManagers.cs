@@ -31,6 +31,8 @@ public class UiBattleManagers : MonoBehaviour
     public event Action<BoardSlot, int> UpdateStarOnBoard = delegate { };
 
 
+    private bool _hasStarted;
+    private BattleBoard _battleBoard;
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -48,14 +50,40 @@ public class UiBattleManagers : MonoBehaviour
 
     private void Start()
     {
-        BattleBoard.Instance.SummonAction += SpawnCardElementOnBoard;
-        UpdateStarOnBoard += UpdateCardStarOnBoard;
+        _hasStarted = true;
+        Subscribe();
+    }
+
+    private void OnEnable()
+    {
+        if (_hasStarted)
+            Subscribe();
     }
 
     private void OnDisable()
     {
-        BattleBoard.Instance.SummonAction -= SpawnCardElementOnBoard;
+        UnSubscribe();
+    }
+
+    private void Subscribe()
+    {
+        var battleBoard = BattleBoard.Instance;
+
+        if (battleBoard == null || _battleBoard != null) return;
+
+        _battleBoard = battleBoard;
+
+        _battleBoard.SummonAction += SpawnCardElementOnBoard;
+        UpdateStarOnBoard += UpdateCardStarOnBoard;
+    }
+
+    private void UnSubscribe()
+    {
+        if (_battleBoard != null)
+            _battleBoard.SummonAction -= SpawnCardElementOnBoard;
+
         UpdateStarOnBoard -= UpdateCardStarOnBoard;
+        _battleBoard = null;
     }
 
     //Placeholder
