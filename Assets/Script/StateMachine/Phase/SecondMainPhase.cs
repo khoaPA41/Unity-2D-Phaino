@@ -111,6 +111,17 @@ namespace Raziel.StateMachine
         private void Summon(int handIndex, int boardIndex)
         {
             if (_chooseStanceCoroutine != null) return;
+            if (_duelInformation == null) return;
+
+            var selectedCard = _duelInformation.SelectedCard;
+
+            if (selectedCard == null || selectedCard.CardReference == null) return;
+
+            if (selectedCard.CardReference.CardType != CardType.Soul)
+            {
+                SummonFuncCard(handIndex, boardIndex);
+                return;
+            }
 
             _chooseStanceCoroutine = _stateMachine.StartCoroutine(ChooseStance(handIndex, boardIndex));
         }
@@ -172,6 +183,11 @@ namespace Raziel.StateMachine
 
             _stateMachine.IsCanUseCard = true;
             _chooseStanceCoroutine = null;
+        }
+
+        private void SummonFuncCard(int handIndex, int boardIndex)
+        {
+            _duelInformation.Summon(handIndex, boardIndex, true);
         }
     }
 }

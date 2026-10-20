@@ -10,10 +10,16 @@ public readonly struct BattleResult
     public bool AttackerDies => AttackerStarAfter <= 0;
     public bool TargeterDies => TargeterStarAfter <= 0;
 
-    public BattleResult(int attackerStartAfter, int targeterStarAfter)
+    public BattleResult(int attackerStartAfter, int targeterStarAfter, bool targeterIsDef)
     {
         AttackerStarAfter = attackerStartAfter - targeterStarAfter;
         TargeterStarAfter = targeterStarAfter - attackerStartAfter;
+
+        if (targeterIsDef)
+        {
+            AttackerStarAfter = AttackerStarAfter > 0 ? attackerStartAfter : AttackerStarAfter;
+            TargeterStarAfter = TargeterStarAfter > 0 ? targeterStarAfter : TargeterStarAfter;
+        }
     }
 }
 
@@ -25,7 +31,8 @@ public class BattleResolver
         var attackerCardStar = attacker.BattleStar;
         var targeterCardStar = targeter.BattleStar;
 
-        var result = new BattleResult(attackerCardStar, targeterCardStar);
+        var result = new BattleResult(attackerCardStar, targeterCardStar, !targeter.IsAttackStance);
+
         attacker.BattleStar = result.AttackerStarAfter;
         targeter.BattleStar = result.TargeterStarAfter;
 

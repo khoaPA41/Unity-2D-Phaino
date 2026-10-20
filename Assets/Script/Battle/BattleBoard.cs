@@ -82,6 +82,7 @@ namespace Raziel.Battle
 
             board[index].CardInstance = cardInstance;
 
+
             board[index].CardInstance.IsAttackStance = isAttackStance;
 
             SummonAction?.Invoke(character, cardInstance, index, board[index]);
@@ -132,8 +133,7 @@ namespace Raziel.Battle
         {
             _attackerSlot = attacker;
 
-            if (_attackerSlot?.CardInstance?.CardReference == null)
-                return;
+            if (_attackerSlot?.CardInstance?.CardReference == null || !_attackerSlot.CardInstance.IsAttackStance) return;
 
             Debug.Log($"Attacker: {attacker.CardInstance.CardReference.CardNameId}");
         }
@@ -142,8 +142,7 @@ namespace Raziel.Battle
         {
             _targetSlot = target;
 
-            if (target?.CardInstance?.CardReference == null)
-                return;
+            if (target?.CardInstance?.CardReference == null) return;
 
             Debug.Log($"Targeter: {target.CardInstance.CardReference.CardNameId}");
         }
@@ -157,6 +156,9 @@ namespace Raziel.Battle
             if (uiManager == null) return;
 
             var attacker = _attackerSlot.CardInstance;
+
+            if (!attacker.IsAttackStance) return;
+
             var targeter = _targetSlot.CardInstance;
 
             if (attacker.CardReference.CardType != CardType.Soul || targeter.CardReference.CardType != CardType.Soul) return;
@@ -208,5 +210,6 @@ namespace Raziel.Battle
             uiManager.ReleaseCardOnBoardByCharacterAndIndex(boardSlot.Character, boardSlot);
             boardSlot.CardInstance = null;
         }
+
     }
 }

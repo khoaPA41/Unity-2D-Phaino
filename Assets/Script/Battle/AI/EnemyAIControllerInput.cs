@@ -111,7 +111,12 @@ public class EnemyAIControllerInput : MonoBehaviour
         var randomBoardIndex = UnityEngine.Random.Range(0, emptyIndices.Count);
 
         var boardIndex = emptyIndices[randomBoardIndex];
-        _duelInformation.Summon(_handIndex, boardIndex, true);
+
+        var randomStance = UnityEngine.Random.Range(0, 2);
+
+        bool isAttack = selectedCard.CardReference.CardType != CardType.Soul || randomStance == 1;
+
+        _duelInformation.Summon(_handIndex, boardIndex, isAttack);
     }
 
     private void Attack()
@@ -130,7 +135,7 @@ public class EnemyAIControllerInput : MonoBehaviour
 
         foreach (var card in battleBoard.EnemySouldField)
         {
-            if (card?.CardInstance?.CardReference == null) continue;
+            if (card?.CardInstance?.CardReference == null || card?.CardInstance?.IsAttackStance == false) continue;
             attacker.Add(card);
         }
 
@@ -152,7 +157,6 @@ public class EnemyAIControllerInput : MonoBehaviour
 
         var randomAttacker = UnityEngine.Random.Range(0, attacker.Count);
         var randomTargeter = UnityEngine.Random.Range(0, targeter.Count);
-
 
         battleBoard.SetAttacker(attacker[randomAttacker]);
         battleBoard.SetTarget(targeter[randomTargeter]);
