@@ -58,7 +58,7 @@ public class CardEditor : Editor
         if (information == null)
         {
             EditorGUILayout.HelpBox(
-                      "Let's attach asset CardInformation.",
+                "Let's attach asset CardInformation.",
                 MessageType.Warning);
 
             serializedObject.ApplyModifiedProperties();
@@ -164,18 +164,27 @@ public class CardEditor : Editor
     private void RenameCardAsset(string newName)
     {
         Card card = (Card)target;
-        var path = AssetDatabase.GetAssetPath(card);
+        string path = AssetDatabase.GetAssetPath(card);
+
         if (string.IsNullOrEmpty(path))
         {
             _message = "Card chưa được lưu thành asset.";
             return;
         }
-        string error = AssetDatabase.RenameAsset(path, newName);
-        _message = string.IsNullOrEmpty(error) ? null : error;
 
+        string error = AssetDatabase.RenameAsset(path, newName);
+
+        if (!string.IsNullOrEmpty(error))
+        {
+            _message = error;
+            return;
+        }
+
+        // Chỉ đồng bộ tên bên trong sau khi đổi tên file thành công.
         card.name = newName;
         EditorUtility.SetDirty(card);
         AssetDatabase.SaveAssets();
+
         _message = null;
     }
 
@@ -227,6 +236,7 @@ public class CardEditor : Editor
         if (result == null)
         {
             _imageMessage = $"Cannot find sprite {path}. Check file and import settings.";
+            return;
         }
         //
         foreach (var asset in AssetDatabase.LoadAllAssetsAtPath(typePath))
@@ -235,11 +245,17 @@ public class CardEditor : Editor
 
             if (type != null)
             {
-                _imageMessage = $"Image has many sprite, cannot choose: {path}.";
+                _imageMessage = $"Image has many sprite, cannot choose: {typePath}.";
                 return;
             }
 
             type = sprite;
+        }
+
+        if (type == null)
+        {
+            _imageMessage = $"Cannot find sprite: {typePath}";
+            return;
         }
         //
         foreach (var asset in AssetDatabase.LoadAllAssetsAtPath(elementPath))
@@ -248,11 +264,16 @@ public class CardEditor : Editor
 
             if (element != null)
             {
-                _imageMessage = $"Image has many sprite, cannot choose: {path}.";
+                _imageMessage = $"Image has many sprite, cannot choose: {elementPath}.";
                 return;
             }
 
             element = sprite;
+        }
+        if (element == null)
+        {
+            _imageMessage = $"Cannot find sprite: {elementPath}";
+            return;
         }
 
         _cardDetailImage.objectReferenceValue = result;
@@ -319,6 +340,21 @@ public class CardEditor : Editor
                 $"{card.name}: Just one Sprite at {path}. "
                 + "Keep older.",
                 card);
+
+                failed++;
+                continue;
+            }
+
+
+            if (type == null || element == null)
+            {
+                if (type == null)
+                    Debug.LogWarning(
+                        $"{card.name}: Cannot find sprite: {typePath}", card);
+
+                if (element == null)
+                    Debug.LogWarning(
+                        $"{card.name}: Cannot find sprite: {elementPath}", card);
 
                 failed++;
                 continue;
