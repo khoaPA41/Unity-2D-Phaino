@@ -4,19 +4,17 @@ namespace Raziel.StateMachine
 {
     public class EndPhase : DuelBaseState
     {
-        DuelStateMachine _stateMachine;
         public EndPhase(DuelStateMachine duelStateMachine) : base(duelStateMachine)
         {
         }
 
         public override void Enter()
         {
-            _stateMachine = _duelStateMachine;
-            _stateMachine.EndButton.SetActive(true);
-            Debug.Log("EndPhase: " + _stateMachine.CurrentTurn.character);
+            _duelStateMachine.EndButton.SetActive(true);
+            Debug.Log("EndPhase: " + _duelStateMachine.CurrentTurn.character);
 
-            _stateMachine.CurrentTurn = _stateMachine.TurnController.GetCurrentTurn();
-            _stateMachine.SwitchState(_stateMachine.StandbyPhase);
+            _duelStateMachine.CurrentTurn = _duelStateMachine.TurnController.GetCurrentTurn();
+            _duelStateMachine.SwitchState(_duelStateMachine.StandbyPhase);
         }
 
         public override void Tick(float deltaTime)
@@ -25,9 +23,7 @@ namespace Raziel.StateMachine
 
         public override void Exit()
         {
-            _stateMachine.EndButton.SetActive(false);
-
-            _stateMachine = null;
+            _duelStateMachine.EndButton.SetActive(false);
         }
     }
 }

@@ -5,22 +5,17 @@ namespace Raziel.StateMachine
 {
     public class FirstMainPhase : DuelBaseState
     {
-        DuelStateMachine _stateMachine;
-        DuelInformation _currentTurn;
         public FirstMainPhase(DuelStateMachine duelStateMachine) : base(duelStateMachine)
         {
         }
 
         public override void Enter()
         {
-            _stateMachine = _duelStateMachine;
-            _currentTurn = _stateMachine.CurrentTurn;
+            _duelStateMachine.IsCanUseCard = true;
 
-            _stateMachine.IsCanUseCard = true;
+            Debug.Log("FirstMainPhase: " + _duelStateMachine.CurrentTurn.character);
 
-            Debug.Log("FirstMainPhase: " + _stateMachine.CurrentTurn.character);
-
-            _stateMachine.BattleAction += ChangeBattle;
+            _duelStateMachine.BattleAction += ChangeBattle;
             SetupForPlayer();
             SetupForEnemy();
         }
@@ -33,31 +28,26 @@ namespace Raziel.StateMachine
 
         public override void Exit()
         {
-            if (_stateMachine != null)
-            {
-                _stateMachine.BattleButton.SetActive(false);
-                _stateMachine.IsCanUseCard = false;
-                _stateMachine.BattleAction -= ChangeBattle;
-            }
-
-            _stateMachine = null;
+            _duelStateMachine.BattleButton.SetActive(false);
+            _duelStateMachine.IsCanUseCard = false;
+            _duelStateMachine.BattleAction -= ChangeBattle;
         }
 
         private void ChangeBattle()
         {
-            _stateMachine.SwitchState(_stateMachine.BattlePhase);
+            _duelStateMachine.SwitchState(_duelStateMachine.BattlePhase);
         }
 
         private void SetupForPlayer()
         {
-            if (_currentTurn.character != Character.Player) return;
-            _stateMachine.BattleButton.SetActive(true);
+            if (_duelStateMachine.CurrentTurn.character != Character.Player) return;
+            _duelStateMachine.BattleButton.SetActive(true);
         }
 
         private void SetupForEnemy()
         {
-            if (_currentTurn.character != Character.Enemy) return;
-            _stateMachine.EnemyInput.SetInput(EnemyInput.Battle);
+            if (_duelStateMachine.CurrentTurn.character != Character.Enemy) return;
+            _duelStateMachine.EnemyInput.SetInput(EnemyInput.Battle);
         }
     }
 }

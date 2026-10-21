@@ -11,6 +11,8 @@ namespace Raziel.StateMachine
 
         [field: SerializeField] public int TwoFirstTurnBattle { get; private set; } = 2;
 
+        [field: Header("Information References")]
+        [field: SerializeField] public BattleBoard BattleBoard { get; private set; }
         [field: SerializeField] public DuelInformation PlayerDuelInformation { get; private set; }
         [field: SerializeField] public DuelInformation EnemyDuelInformation { get; private set; }
         [field: SerializeField] public EnemyAIControllerInput EnemyInput { get; private set; }

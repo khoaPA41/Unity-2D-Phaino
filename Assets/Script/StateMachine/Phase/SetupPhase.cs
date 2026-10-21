@@ -4,7 +4,6 @@ namespace Raziel.StateMachine
 {
     public class SetupPhase : DuelBaseState
     {
-        DuelStateMachine _stateMachine;
         public SetupPhase(DuelStateMachine duelStateMachine) : base(duelStateMachine)
         {
         }
@@ -13,17 +12,15 @@ namespace Raziel.StateMachine
         {
             Debug.Log("SetupPhase");
 
-            _stateMachine = _duelStateMachine;
-
-            _stateMachine.TurnController.BuildInitial(_stateMachine.PlayerDuelInformation, _stateMachine.EnemyDuelInformation);
-            _stateMachine.CurrentTurn = _stateMachine.TurnController.GetCurrentTurn();
+            _duelStateMachine.TurnController.BuildInitial(_duelStateMachine.PlayerDuelInformation, _duelStateMachine.EnemyDuelInformation);
+            _duelStateMachine.CurrentTurn = _duelStateMachine.TurnController.GetCurrentTurn();
 
             SetupPlayerDeck();
             SetupEnemyDeck();
 
             DrawFirstTime();
 
-            _stateMachine.SwitchState(_stateMachine.StandbyPhase);
+            _duelStateMachine.SwitchState(_duelStateMachine.StandbyPhase);
         }
 
         public override void Tick(float deltaTime)
@@ -32,23 +29,22 @@ namespace Raziel.StateMachine
 
         public override void Exit()
         {
-            _stateMachine = null;
         }
 
         private void SetupPlayerDeck()
         {
-            _stateMachine.PlayerDuelInformation.SetupDeck();
+            _duelStateMachine.PlayerDuelInformation.SetupDeck();
         }
 
         private void SetupEnemyDeck()
         {
-            _stateMachine.EnemyDuelInformation.SetupDeck();
+            _duelStateMachine.EnemyDuelInformation.SetupDeck();
         }
 
         private void DrawFirstTime()
         {
-            _stateMachine.PlayerDuelInformation.DrawCardFirstTimes();
-            _stateMachine.EnemyDuelInformation.DrawCardFirstTimes();
+            _duelStateMachine.PlayerDuelInformation.DrawCardFirstTimes();
+            _duelStateMachine.EnemyDuelInformation.DrawCardFirstTimes();
         }
     }
 }

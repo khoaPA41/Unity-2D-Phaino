@@ -10,15 +10,12 @@ namespace Raziel.StateMachine
         private Coroutine _chooseStanceCoroutine;
         private DuelStateMachine _stateMachine;
         private DuelInformation _duelInformation;
-        private BattleBoard _battleBoard;
 
         private Button _chooseAttackStance;
         private Button _chooseDefenseStance;
 
         private bool isAtkStance = false;
         private bool isDefStance = false;
-
-        // private bool isChooseStance = false;
 
         public SecondMainPhase(DuelStateMachine duelStateMachine) : base(duelStateMachine)
         {
@@ -28,7 +25,6 @@ namespace Raziel.StateMachine
         {
             _stateMachine = _duelStateMachine;
             _duelInformation = _duelStateMachine.CurrentTurn;
-            _battleBoard = BattleBoard.Instance;
 
             _stateMachine.IsCanUseCard = true;
 
@@ -88,7 +84,6 @@ namespace Raziel.StateMachine
             _chooseDefenseStance = null;
             _stateMachine = null;
             _duelInformation = null;
-            _battleBoard = null;
         }
 
         private void ChangePhaseAfterMain_II()

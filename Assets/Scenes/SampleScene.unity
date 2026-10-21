@@ -4956,6 +4956,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Raziel.StateMachine.DuelStateMachine
   <TwoFirstTurnBattle>k__BackingField: 2
+  <BattleBoard>k__BackingField: {fileID: 1361341195}
   <PlayerDuelInformation>k__BackingField: {fileID: 477191916}
   <EnemyDuelInformation>k__BackingField: {fileID: 610487084}
   <EnemyInput>k__BackingField: {fileID: 610487083}

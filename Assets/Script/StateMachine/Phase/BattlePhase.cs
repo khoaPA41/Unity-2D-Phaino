@@ -4,8 +4,6 @@ namespace Raziel.StateMachine
 {
     public class BattlePhase : DuelBaseState
     {
-        DuelStateMachine _stateMachine;
-        DuelInformation _currentTurn;
         BattleBoard _battleBoard;
 
 
@@ -15,11 +13,9 @@ namespace Raziel.StateMachine
 
         public override void Enter()
         {
-            _stateMachine = _duelStateMachine;
-            _currentTurn = _stateMachine.CurrentTurn;
-            _battleBoard = BattleBoard.Instance;
+            _battleBoard = _duelStateMachine.BattleBoard;
 
-            Debug.Log("BattlePhase: " + _stateMachine.CurrentTurn.character);
+            Debug.Log("BattlePhase: " + _duelStateMachine.CurrentTurn.character);
 
             // Lam nut chuyen
             //Tam thoi cho tu chuyen
@@ -29,22 +25,17 @@ namespace Raziel.StateMachine
 
             SetupForPlayer();
             SetupForEnemy();
-
         }
 
         public override void Tick(float deltaTime)
         {
-            // _stateMachine = null;
         }
 
         public override void Exit()
         {
-            if (_stateMachine != null)
-            {
-                _stateMachine.MainIIButton.SetActive(false);
-                _stateMachine.AttackButton.SetActive(false);
-                _stateMachine.MainIIAction -= ChangeMainII;
-            }
+            _duelStateMachine.MainIIButton.SetActive(false);
+            _duelStateMachine.AttackButton.SetActive(false);
+            _duelStateMachine.MainIIAction -= ChangeMainII;
 
             if (_battleBoard != null)
             {
@@ -53,26 +44,23 @@ namespace Raziel.StateMachine
                 _battleBoard.SetAttacker(null);
             }
 
-            _stateMachine = null;
             _battleBoard = null;
-            _currentTurn = null;
         }
 
         private void ChangePhaseAfterBattle()
         {
-            _stateMachine.MainIIAction += ChangeMainII;
+            _duelStateMachine.MainIIAction += ChangeMainII;
         }
 
         private void ChangeMainII()
         {
-            _stateMachine.SwitchState(_stateMachine.SecondMainPhase);
+            _duelStateMachine.SwitchState(_duelStateMachine.SecondMainPhase);
         }
-
 
         private void GetCard(BoardSlot boardSlot)
         {
             if (!boardSlot.AcceptSoul) return;
-            if (_currentTurn.character == boardSlot.Character)
+            if (_duelStateMachine.CurrentTurn.character == boardSlot.Character)
             {
                 _battleBoard.SetAttacker(boardSlot);
             }
@@ -84,19 +72,18 @@ namespace Raziel.StateMachine
 
         private void SetupForPlayer()
         {
-            if (_stateMachine.CurrentTurn.character != Character.Player) return;
-            _stateMachine.MainIIButton.SetActive(true);
-            _stateMachine.AttackButton.SetActive(true);
-
+            if (_duelStateMachine.CurrentTurn.character != Character.Player) return;
+            _duelStateMachine.MainIIButton.SetActive(true);
+            _duelStateMachine.AttackButton.SetActive(true);
         }
 
         private void SetupForEnemy()
         {
-            if (_stateMachine.CurrentTurn.character != Character.Enemy) return;
+            if (_duelStateMachine.CurrentTurn.character != Character.Enemy) return;
 
-            _stateMachine.EnemyInput.SetInput(EnemyInput.Attack);
+            _duelStateMachine.EnemyInput.SetInput(EnemyInput.Attack);
 
-            _stateMachine.EnemyInput.SetInput(EnemyInput.Main_II);
+            _duelStateMachine.EnemyInput.SetInput(EnemyInput.Main_II);
         }
     }
 }
