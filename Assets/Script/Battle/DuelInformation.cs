@@ -10,18 +10,6 @@ namespace Raziel.Battle
         Player, Enemy
     }
 
-    [Serializable]
-    public class CardInstance
-    {
-        public Card CardReference;
-        public int OriginalStar;
-        public int BattleStar;
-        public bool IsAttackStance; // Card State
-        public int DefTurnsElapsed;
-        public int DefTurnLimit;
-        public bool HasUsedDefense;
-    }
-
     public class DuelInformation : MonoBehaviour
     {
         [SerializeField] private List<Card> _cards;

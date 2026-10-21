@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "CardInformation", menuName = "Scriptable Objects/CardInformation")]
+[CreateAssetMenu(fileName = "CardInformation", menuName = "ScriptableObjects/CardInformation")]
 public class CardInformation : ScriptableObject
 {
     public List<CardElementGroup> Groups;

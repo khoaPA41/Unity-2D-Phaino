@@ -3,14 +3,6 @@ using UnityEngine;
 
 namespace Raziel.Battle
 {
-    [Serializable]
-    public class BoardSlot
-    {
-        public Character Character;
-        public CardInstance CardInstance;
-        public bool AcceptSoul; // CardType
-    }
-
     public class BattleBoard : MonoBehaviour
     {
         public static BattleBoard Instance;
