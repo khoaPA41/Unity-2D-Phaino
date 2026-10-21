@@ -39,6 +39,7 @@ namespace Raziel.StateMachine
         public State BattlePhase;
         public State EndPhase;
         public State Setup;
+        public State Result;
 
         // Event
         public event Action DrawCardAction = delegate { };
@@ -51,6 +52,7 @@ namespace Raziel.StateMachine
         // Situation
         public int Turn { get; set; }
         public bool IsCanUseCard { get; set; } = false;
+        public Character CharacterLose { get; private set; }
 
         private void Awake()
         {
@@ -69,12 +71,24 @@ namespace Raziel.StateMachine
             BattlePhase = new BattlePhase(this);
             EndPhase = new EndPhase(this);
             Setup = new SetupPhase(this);
+            Result = new ResultPhase(this);
+
             TurnController = new();
+        }
+
+        private void OnEnable()
+        {
+            BattleBoard.EndGame += ResultPhase;
         }
 
         private void Start()
         {
             SwitchState(Setup);
+        }
+
+        private void OnDisable()
+        {
+            BattleBoard.EndGame -= ResultPhase;
         }
 
         public void Draw()
@@ -113,6 +127,12 @@ namespace Raziel.StateMachine
         public void End()
         {
             EndAction?.Invoke();
+        }
+
+        private void ResultPhase(Character character)
+        {
+            CharacterLose = character;
+            SwitchState(Result);
         }
     }
 }

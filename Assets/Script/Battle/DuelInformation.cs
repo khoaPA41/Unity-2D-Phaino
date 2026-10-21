@@ -12,6 +12,8 @@ namespace Raziel.Battle
 
     public class DuelInformation : MonoBehaviour
     {
+        [Header("Setup info")]
+        [SerializeField] private int fragmentSoul;
         [SerializeField] private List<Card> _cards;
         public Character character;
         public Deck Deck { get; private set; }
@@ -19,9 +21,11 @@ namespace Raziel.Battle
         public event Action<CardInstance> UpdateCardHandAction = delegate { };
         public event Action ChangesInHand = delegate { };
         public event Action<CardInstance> CardDeath = delegate { };
+        // public event Action<Character> PlayerDeath = delegate { };
 
         public CardInstance SelectedCard = null;
-
+        // public CardInstance MyCardTarget;
+        public int FragmentSoul => fragmentSoul;
         private void Awake()
         {
             Deck = new();
@@ -105,6 +109,20 @@ namespace Raziel.Battle
         {
             CardDeath?.Invoke(cardInstance);
         }
+
+        public void SubtractFragmentSoul()
+        {
+            fragmentSoul = Mathf.Max(0, fragmentSoul - 1);
+
+            // if (fragmentSoul <= 0) PlayerDeath?.Invoke(character);
+
+            Debug.Log($"{character} has {fragmentSoul} left");
+        }
+
+        // public void UseMighty(Card)
+        // {
+
+        // }
 
         // private void Check(IEnumerable objects)
         // {

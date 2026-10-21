@@ -18,6 +18,7 @@ namespace Raziel.Battle
         public event Action<Character, CardInstance, int, BoardSlot> SummonAction = delegate { };
         public event Action<BoardSlot> CardOnBoardClicked;
         public event Action<Character, BoardSlot> ReturnAttackStance;
+        public event Action<Character> EndGame = delegate { };
 
         private BoardSlot _attackerSlot;
         private BoardSlot _targetSlot;
@@ -143,8 +144,18 @@ namespace Raziel.Battle
 
         public void Attack()
         {
-            if (_attackerSlot == null || _attackerSlot.CardInstance == null || _attackerSlot.CardInstance.CardReference == null ||
-            _targetSlot == null || _targetSlot.CardInstance == null || _targetSlot.CardInstance.CardReference == null) return;
+            if (_attackerSlot == null || _attackerSlot.CardInstance == null || _attackerSlot.CardInstance.CardReference == null) return;
+
+            DuelInformation targetDirect;
+            if (CanDirectAttack(_attackerSlot))
+            {
+                targetDirect = _attackerSlot.Character == Character.Player ? _enemy : _player;
+                targetDirect.SubtractFragmentSoul();
+                if (targetDirect.FragmentSoul <= 0) EndGame?.Invoke(targetDirect.character);
+                return;
+            }
+
+            if (_targetSlot == null || _targetSlot.CardInstance == null || _targetSlot.CardInstance.CardReference == null) return;
 
             var uiManager = UiBattleManagers.Instance;
             if (uiManager == null) return;
@@ -185,6 +196,19 @@ namespace Raziel.Battle
 
             _attackerSlot = null;
             _targetSlot = null;
+        }
+
+        private bool CanDirectAttack(BoardSlot attackerSlot)
+        {
+            if (!attackerSlot.CardInstance.IsAttackStance) return false;
+
+            var targetSoulField = attackerSlot.Character == Character.Player ? EnemySouldField : PlayerSoulField;
+
+            foreach (var slot in targetSoulField)
+            {
+                if (slot?.CardInstance?.CardReference != null) return false;
+            }
+            return true;
         }
 
         private void CardDeath(BoardSlot boardSlot)

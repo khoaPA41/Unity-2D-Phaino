@@ -142,24 +142,21 @@ public class EnemyAIControllerInput : MonoBehaviour
         if (attacker.Count == 0) return;
 
 
-        if (battleBoard.PlayerSoulField.Length == 0)
-        {
-            return;
-        }
+        if (battleBoard.PlayerSoulField.Length != 0)
+            foreach (var card in battleBoard.PlayerSoulField)
+            {
+                if (card?.CardInstance?.CardReference == null) continue;
+                targeter.Add(card);
+            }
 
-        foreach (var card in battleBoard.PlayerSoulField)
-        {
-            if (card?.CardInstance?.CardReference == null) continue;
-            targeter.Add(card);
-        }
-
-        if (targeter.Count == 0) return;
 
         var randomAttacker = UnityEngine.Random.Range(0, attacker.Count);
         var randomTargeter = UnityEngine.Random.Range(0, targeter.Count);
 
+        var targeterCard = targeter.Count == 0 ? null : targeter[randomTargeter];
+
         battleBoard.SetAttacker(attacker[randomAttacker]);
-        battleBoard.SetTarget(targeter[randomTargeter]);
+        battleBoard.SetTarget(targeterCard);
         battleBoard.Attack();
     }
 }

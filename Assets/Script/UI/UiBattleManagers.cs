@@ -21,6 +21,9 @@ public class UiBattleManagers : MonoBehaviour
     [SerializeField] private RectTransform _playerHand;
     [SerializeField] private RectTransform _enemyHand;
 
+    [Header("Result")]
+    [SerializeField] public GameObject win;
+    [SerializeField] public GameObject lose;
 
     private List<CardElement> _playerCardHands = new();
     private List<CardElement> _enemyCardHands = new();
@@ -29,7 +32,6 @@ public class UiBattleManagers : MonoBehaviour
     public Dictionary<BoardSlot, CardElement> _enemyBoard = new();
 
     public event Action<BoardSlot, int> UpdateStarOnBoard = delegate { };
-
 
     private bool _hasStarted;
     private BattleBoard _battleBoard;
@@ -74,6 +76,7 @@ public class UiBattleManagers : MonoBehaviour
         _battleBoard = battleBoard;
 
         _battleBoard.SummonAction += SpawnCardElementOnBoard;
+        _battleBoard.EndGame += ActiveResult;
         battleBoard.ReturnAttackStance += UpdateStance;
         UpdateStarOnBoard += UpdateCardStarOnBoard;
     }
@@ -84,8 +87,8 @@ public class UiBattleManagers : MonoBehaviour
         {
             _battleBoard.SummonAction -= SpawnCardElementOnBoard;
             _battleBoard.ReturnAttackStance -= UpdateStance;
+            _battleBoard.EndGame -= ActiveResult;
         }
-
 
         UpdateStarOnBoard -= UpdateCardStarOnBoard;
         _battleBoard = null;
@@ -249,6 +252,13 @@ public class UiBattleManagers : MonoBehaviour
             _cardHandPool.ReleaseObject(card);
         }
         hands.Clear();
+    }
+
+    private void ActiveResult(Character character)
+    {
+        if (character == Character.Enemy) win.SetActive(true); // If enemy die => win
+
+        if (character == Character.Player) lose.SetActive(true);
     }
 
 }
