@@ -22,3 +22,10 @@ public class CardInstance // Class keep instance of card in battle
     public int DefTurnLimit;
     public bool HasUsedDefense;
 }
+
+[Serializable]
+public sealed class CardEffectContext
+{
+    public CardInstance SourceCard;
+    public CardInstance TargetCard;
+}

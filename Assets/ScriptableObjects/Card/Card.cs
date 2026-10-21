@@ -11,4 +11,5 @@ public class Card : ScriptableObject
     public Sprite CardElementalImage;
     public Sprite CardTypeImage;
     [Range(1, 12)] public int CardStar;
+    public CardEffect Effect;
 }

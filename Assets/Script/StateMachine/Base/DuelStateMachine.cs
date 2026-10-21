@@ -27,6 +27,7 @@ namespace Raziel.StateMachine
         [field: SerializeField] public GameObject AtkButton { get; private set; }
         [field: SerializeField] public GameObject DefButton { get; private set; }
         [field: SerializeField] public GameObject AttackButton { get; private set; }
+        [field: SerializeField] public GameObject UseMightyButton { get; private set; }
 
         public TurnController TurnController { get; private set; }
         public DuelInformation CurrentTurn { get; set; }
