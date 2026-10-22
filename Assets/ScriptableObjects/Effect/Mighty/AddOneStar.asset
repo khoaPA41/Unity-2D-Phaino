@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c83fa3ebf24e1694e8caef183fdb9c2a, type: 3}
   m_Name: AddOneStar
   m_EditorClassIdentifier: Assembly-CSharp::AddStars
-  starsToAdd: 2
+  starsToAdd: 1
