@@ -7,15 +7,15 @@ namespace Raziel.StateMachine
 {
     public class SecondMainPhase : DuelBaseState
     {
-        private Coroutine _chooseStanceCoroutine;
         private DuelStateMachine _stateMachine;
         private DuelInformation _duelInformation;
 
         private Button _chooseAttackStance;
         private Button _chooseDefenseStance;
 
-        private bool isAtkStance = false;
-        private bool isDefStance = false;
+
+        private int _currentHandIndex;
+        private int _currentBoardIndex;
 
         public SecondMainPhase(DuelStateMachine duelStateMachine) : base(duelStateMachine)
         {
@@ -45,9 +45,6 @@ namespace Raziel.StateMachine
 
         public override void Exit()
         {
-            isAtkStance = false;
-            isDefStance = false;
-
             if (_stateMachine != null)
             {
                 _stateMachine.IsCanUseCard = false;
@@ -72,18 +69,12 @@ namespace Raziel.StateMachine
                 _chooseDefenseStance.gameObject.SetActive(false);
             }
 
-            if (_chooseStanceCoroutine != null)
-            {
-                if (_stateMachine != null)
-                    _stateMachine.StopCoroutine(_chooseStanceCoroutine);
-
-                _chooseStanceCoroutine = null;
-            }
-
             _chooseAttackStance = null;
             _chooseDefenseStance = null;
             _stateMachine = null;
             _duelInformation = null;
+            _currentHandIndex = -1;
+            _currentBoardIndex = -1;
         }
 
         private void ChangePhaseAfterMain_II()
@@ -98,14 +89,11 @@ namespace Raziel.StateMachine
 
         private void ChooseCard(int index)
         {
-            if (_chooseStanceCoroutine != null) return;
-
             _duelInformation.ChooseCard(index);
         }
 
         private void Summon(int handIndex, int boardIndex)
         {
-            if (_chooseStanceCoroutine != null) return;
             if (_duelInformation == null) return;
 
             var selectedCard = _duelInformation.SelectedCard;
@@ -117,18 +105,38 @@ namespace Raziel.StateMachine
                 SummonFuncCard(handIndex, boardIndex);
                 return;
             }
+            _currentHandIndex = handIndex;
+            _currentBoardIndex = boardIndex;
 
-            _chooseStanceCoroutine = _stateMachine.StartCoroutine(ChooseStance(handIndex, boardIndex));
+            _chooseAttackStance.gameObject.SetActive(true);
+            _chooseDefenseStance.gameObject.SetActive(true);
+            _stateMachine.IsCanUseCard = false;
         }
 
         private void OnAcceptAtk()
         {
-            isAtkStance = true;
+            _duelInformation.Summon(_currentHandIndex, _currentBoardIndex, true);
+
+            _stateMachine.IsCanUseCard = true;
+
+            _currentHandIndex = -1;
+            _currentBoardIndex = -1;
+
+            _chooseAttackStance.gameObject.SetActive(false);
+            _chooseDefenseStance.gameObject.SetActive(false);
         }
 
         private void OnAcceptDef()
         {
-            isDefStance = true;
+            _duelInformation.Summon(_currentHandIndex, _currentBoardIndex, false);
+
+            _stateMachine.IsCanUseCard = true;
+
+            _currentHandIndex = -1;
+            _currentBoardIndex = -1;
+
+            _chooseAttackStance.gameObject.SetActive(false);
+            _chooseDefenseStance.gameObject.SetActive(false);
         }
 
         private void SetupForPlayer()
@@ -155,29 +163,6 @@ namespace Raziel.StateMachine
             _duelStateMachine.EnemyInput.SetInput(EnemyInput.Summon);
 
             _duelStateMachine.EnemyInput.SetInput(EnemyInput.End);
-        }
-
-        private IEnumerator ChooseStance(int handIndex, int boardIndex)
-        {
-            _chooseAttackStance.gameObject.SetActive(true);
-            _chooseDefenseStance.gameObject.SetActive(true);
-            _stateMachine.IsCanUseCard = false;
-
-            yield return new WaitUntil(() => isAtkStance || isDefStance);
-
-            var isAttackStance = isAtkStance != isDefStance && isAtkStance ? isAtkStance : false;
-
-            Debug.Log(isAttackStance);
-            _duelInformation.Summon(handIndex, boardIndex, isAttackStance);
-
-            isAtkStance = false;
-            isDefStance = false;
-
-            _chooseAttackStance.gameObject.SetActive(false);
-            _chooseDefenseStance.gameObject.SetActive(false);
-
-            _stateMachine.IsCanUseCard = true;
-            _chooseStanceCoroutine = null;
         }
 
         private void SummonFuncCard(int handIndex, int boardIndex)
