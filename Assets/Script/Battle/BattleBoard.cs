@@ -118,6 +118,19 @@ namespace Raziel.Battle
             return EnemyFunctionalField;
         }
 
+        public bool HasSoulCard(Character character, CardType cardType)
+        {
+            var slots = GetSlotByType(character, cardType);
+
+            if (slots == null) return false;
+
+            foreach (var soul in slots)
+            {
+                if (soul?.CardInstance?.CardReference != null) return true;
+            }
+            return false;
+        }
+
         // Board
         public void OnCardCliked(BoardSlot boardSlot)
         {

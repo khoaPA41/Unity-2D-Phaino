@@ -1,4 +1,3 @@
-using System.Collections;
 using Raziel.Battle;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,10 +6,8 @@ namespace Raziel.StateMachine
 {
     public class FirstMainPhase : DuelBaseState
     {
-        private Coroutine _chooseStanceCoroutine;
         private Button _useMightyCardButton;
-        private bool _isUsed;
-
+        private BoardSlot _targetSlot;
         private CardInstance _cardActive;
         public FirstMainPhase(DuelStateMachine duelStateMachine) : base(duelStateMachine)
         {
@@ -26,12 +23,14 @@ namespace Raziel.StateMachine
             Debug.Log("FirstMainPhase: " + _duelStateMachine.CurrentTurn.character);
 
             _duelStateMachine.BattleAction += ChangeBattle;
-            _duelStateMachine.BattleBoard.CardOnBoardClicked += ActiveFunc;
-            SetupForPlayer();
-            SetupForEnemy();
+
+            _duelStateMachine.BattleBoard.CardOnBoardClicked += ChooseCardTarget;
 
             _duelStateMachine.ChooseCardAction += ChooseCard;
             _duelStateMachine.SummonAction += Summon;
+
+            SetupForPlayer();
+            SetupForEnemy();
         }
 
         public override void Tick(float deltaTime)
@@ -45,17 +44,20 @@ namespace Raziel.StateMachine
             _duelStateMachine.BattleButton.SetActive(false);
             _duelStateMachine.IsCanUseCard = false;
             _duelStateMachine.BattleAction -= ChangeBattle;
-
-            _duelStateMachine.BattleBoard.CardOnBoardClicked -= ActiveFunc;
-
+            _duelStateMachine.BattleBoard.CardOnBoardClicked -= ChooseCardTarget;
             _duelStateMachine.ChooseCardAction -= ChooseCard;
             _duelStateMachine.SummonAction -= Summon;
+
+            _useMightyCardButton.gameObject.SetActive(false);
             _useMightyCardButton.onClick.RemoveListener(UseCardButton);
-            _isUsed = false;
+
+            _cardActive = null;
+            _targetSlot = null;
         }
 
         private void ChangeBattle()
         {
+            if (_cardActive != null) return;
             _duelStateMachine.SwitchState(_duelStateMachine.BattlePhase);
         }
 
@@ -73,17 +75,53 @@ namespace Raziel.StateMachine
 
         private void UseCardButton()
         {
-            _isUsed = true;
+            if (!ActiveFunc(_targetSlot)) return;
+            _useMightyCardButton.gameObject.SetActive(false);
         }
 
-        private void ChooseCard(int index)
+        private void ChooseCard(int index) // Save to Selected Card when drag
         {
-            if (_chooseStanceCoroutine != null) return;
-
             _duelStateMachine.CurrentTurn.ChooseCard(index);
         }
-        private void ActiveFunc(BoardSlot boardSlot)
+
+        private void Summon(int handIndex, int boardIndex) // summon mighty card, and save card to _cardActive
         {
+            if (_cardActive != null || _duelStateMachine.CurrentTurn == null) return;
+
+            if (!_duelStateMachine.BattleBoard.HasSoulCard(_duelStateMachine.CurrentTurn.character, CardType.Soul)) return;
+
+            var selectedCard = _duelStateMachine.CurrentTurn.SelectedCard;
+
+            if (selectedCard == null || selectedCard.CardReference == null) return;
+
+            if (selectedCard.CardReference.CardType != CardType.Mighty) return;
+
+            if (!_duelStateMachine.CurrentTurn.Summon(handIndex, boardIndex, true)) return;
+
+            _cardActive = selectedCard;
+            _targetSlot = null;
+            _useMightyCardButton.gameObject.SetActive(false);
+        }
+
+        private void ChooseCardTarget(BoardSlot boardSlot)
+        {
+            if (_cardActive?.CardReference?.Effect == null || _cardActive?.HasUsedEffect == true) return;
+            if (boardSlot == null || boardSlot.CardInstance == null || boardSlot.CardInstance.CardReference == null) return;
+            if (boardSlot.Character != _duelStateMachine.CurrentTurn.character) return;
+            if (boardSlot.CardInstance.CardReference.CardType != CardType.Soul) return;
+
+            _targetSlot = boardSlot;
+            _useMightyCardButton.gameObject.SetActive(true);
+        }
+
+        private bool ActiveFunc(BoardSlot boardSlot)
+        {
+            if (boardSlot == null || boardSlot.CardInstance == null || boardSlot.CardInstance.CardReference == null ||
+            boardSlot.Character != _duelStateMachine.CurrentTurn.character || boardSlot.CardInstance.CardReference.CardType != CardType.Soul) return false;
+            if (_cardActive == null || _cardActive.CardReference == null) return false;
+
+            if (_cardActive.CardReference.Effect == null || _cardActive.HasUsedEffect == true) return false;
+
             _cardActive.CardReference.Effect.Resolve(
                 new CardEffectContext
                 {
@@ -91,38 +129,11 @@ namespace Raziel.StateMachine
                     TargetCard = boardSlot.CardInstance
                 }
             );
-
+            _cardActive.HasUsedEffect = true;
             UiBattleManagers.Instance.OnUpdateStarOnBoard(boardSlot, boardSlot.CardInstance.BattleStar);
-        }
-
-        private void Summon(int handIndex, int boardIndex)
-        {
-            if (_chooseStanceCoroutine != null) return;
-            if (_duelStateMachine.CurrentTurn == null) return;
-
-            var selectedCard = _duelStateMachine.CurrentTurn.SelectedCard;
-
-            if (selectedCard == null || selectedCard.CardReference == null) return;
-
-            if (selectedCard.CardReference.CardType == CardType.Soul) return;
-
-            _cardActive = selectedCard;
-            _chooseStanceCoroutine = _duelStateMachine.CurrentTurn.StartCoroutine(ChooseStance(handIndex, boardIndex));
-        }
-
-        private IEnumerator ChooseStance(int handIndex, int boardIndex)
-        {
-            _useMightyCardButton.gameObject.SetActive(true);
-            _duelStateMachine.IsCanUseCard = false;
-
-            yield return new WaitUntil(() => _isUsed);
-
-            _duelStateMachine.CurrentTurn.Summon(handIndex, boardIndex, true);
-
-            _useMightyCardButton.gameObject.SetActive(true);
-
-            _duelStateMachine.IsCanUseCard = true;
-            _chooseStanceCoroutine = null;
+            _cardActive = null;
+            _targetSlot = null;
+            return true;
         }
     }
 }

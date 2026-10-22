@@ -10,7 +10,6 @@ public class BoardSlot // Class use for slot on board
     public bool AcceptSoul; // CardType
 }
 
-
 [Serializable]
 public class CardInstance // Class keep instance of card in battle
 {
@@ -21,6 +20,7 @@ public class CardInstance // Class keep instance of card in battle
     public int DefTurnsElapsed;
     public int DefTurnLimit;
     public bool HasUsedDefense;
+    public bool HasUsedEffect;
 }
 
 [Serializable]

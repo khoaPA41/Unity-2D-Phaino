@@ -84,25 +84,26 @@ namespace Raziel.Battle
             if (SelectedCard == null) return;
         }
 
-        public void Summon(int handIndex, int boardIndex, bool isAttackStance)
+        public bool Summon(int handIndex, int boardIndex, bool isAttackStance)
         {
-            if (SelectedCard == null || SelectedCard.CardReference == null) return;
+            if (SelectedCard == null || SelectedCard.CardReference == null) return false;
 
             var board = BattleBoard.Instance;
-            if (board == null) return;
+            if (board == null) return false;
 
-            if (!board.CanSummonCard(SelectedCard, character, boardIndex)) return;
-            if (!Deck.UseCardOnHand(handIndex)) return;
+            if (!board.CanSummonCard(SelectedCard, character, boardIndex)) return false;
+            if (!Deck.UseCardOnHand(handIndex)) return false;
 
             if (!BattleBoard.Instance.SummonCard(
                 SelectedCard,
                 isAttackStance,
                 character,
                 boardIndex
-            )) return;
+            )) return false;
 
             SelectedCard = null;
             ChangesInHand?.Invoke();
+            return true;
         }
 
         public void OnCardDeath(CardInstance cardInstance)
