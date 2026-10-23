@@ -122,12 +122,16 @@ public class UiBattleManagers : MonoBehaviour
         card.transform.localScale = Vector3.one;
 
         var cardElement = card.GetComponent<CardElement>();
+
+        // If not soul, diplay ∞
+        var cardStar = cardInstance.CardReference.CardType != CardType.Soul ? "∞" : cardInstance.BattleStar.ToString();
+
         cardElement.Setup(
             index,
             cardInstance.CardReference.CardDetailImage,
             cardInstance.CardReference.CardElementalImage,
             cardInstance.CardReference.CardTypeImage,
-            cardInstance.BattleStar.ToString(),
+            cardStar,
             cardInstance.IsAttackStance
         );
 
@@ -234,12 +238,13 @@ public class UiBattleManagers : MonoBehaviour
         card.transform.localScale = Vector3.one;
 
         var cardElement = card.GetComponent<CardElement>();
+        var cardStar = cardInstance.CardReference.CardType != CardType.Soul ? "∞" : cardInstance.CardReference.CardStar.ToString();
         cardElement.Setup(
             index,
             cardInstance.CardReference.CardDetailImage,
             cardInstance.CardReference.CardElementalImage,
             cardInstance.CardReference.CardTypeImage,
-            cardInstance.CardReference.CardStar.ToString(),
+            cardStar,
             true
         );
     }
