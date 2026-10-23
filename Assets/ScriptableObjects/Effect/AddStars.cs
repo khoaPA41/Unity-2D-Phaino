@@ -4,9 +4,6 @@ using UnityEngine;
 public class AddStars : CardEffect
 {
     [SerializeField] private int starsToAdd = 2;
-    public override void Resolve(CardEffectContext context)
-    {
-        var target = context.TargetCard;
-        target.BattleStar = Mathf.Min(target.BattleStar + starsToAdd, 12);
-    }
+    public override bool Resolve(CardEffectContext context) =>
+    context.Targets[0].CardInstance.AddStars(context.SourceCard, starsToAdd, context.Owner.character, ModifierTurn) > 0;
 }

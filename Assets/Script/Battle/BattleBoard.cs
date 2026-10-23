@@ -19,6 +19,7 @@ namespace Raziel.Battle
         public event Action<BoardSlot> CardOnBoardClicked;
         public event Action<Character, BoardSlot> ReturnAttackStance;
         public event Action<Character> EndGame = delegate { };
+        public event Action<BoardSlot> SlotChanged = delegate { };
 
         private BoardSlot _attackerSlot;
         private BoardSlot _targetSlot;
@@ -137,6 +138,8 @@ namespace Raziel.Battle
             CardOnBoardClicked?.Invoke(boardSlot);
         }
 
+        public void NotiySlotChanged(BoardSlot boardSlot) => SlotChanged?.Invoke(boardSlot);
+
         public void SetAttacker(BoardSlot attacker)
         {
             _attackerSlot = attacker;
@@ -224,7 +227,7 @@ namespace Raziel.Battle
             return true;
         }
 
-        private void CardDeath(BoardSlot boardSlot)
+        public void CardDeath(BoardSlot boardSlot)
         {
             var uiManager = UiBattleManagers.Instance;
             if (uiManager == null) return;
@@ -240,6 +243,18 @@ namespace Raziel.Battle
 
             uiManager.ReleaseCardOnBoardByCharacterAndIndex(boardSlot.Character, boardSlot);
             boardSlot.CardInstance = null;
+        }
+
+        public BoardSlot FindSlot(CardInstance cardInstance)
+        {
+            foreach (var field in new[] { PlayerFunctionalField, EnemyFunctionalField })
+            {
+                foreach (var slot in field)
+                {
+                    if (slot.CardInstance == cardInstance) return slot;
+                }
+            }
+            return null;
         }
 
         public void ProcessDefenseElapsed(Character character)
@@ -260,6 +275,23 @@ namespace Raziel.Battle
                     card.IsAttackStance = true;
                     ReturnAttackStance?.Invoke(character, stanceSlot);
                 }
+            }
+        }
+
+        public void ProcessEffectDuration(Character ownerTurn)
+        {
+            TickField(PlayerSoulField, ownerTurn);
+            TickField(EnemySouldField, ownerTurn);
+        }
+
+        private void TickField(BoardSlot[] boardSlots, Character ownerTurn)
+        {
+            foreach (var slot in boardSlots)
+            {
+                var card = slot?.CardInstance;
+                if (card?.CardReference == null) continue;
+                if (card.TickModifiers(ownerTurn)) SlotChanged?.Invoke(slot);
+                card.RemoveStarFrom(card);
             }
         }
     }

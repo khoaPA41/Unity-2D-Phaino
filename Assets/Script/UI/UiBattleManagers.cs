@@ -77,6 +77,8 @@ public class UiBattleManagers : MonoBehaviour
 
         _battleBoard.SummonAction += SpawnCardElementOnBoard;
         _battleBoard.EndGame += ActiveResult;
+        _battleBoard.SlotChanged += RefreshSlot;
+
         battleBoard.ReturnAttackStance += UpdateStance;
         UpdateStarOnBoard += UpdateCardStarOnBoard;
     }
@@ -88,6 +90,7 @@ public class UiBattleManagers : MonoBehaviour
             _battleBoard.SummonAction -= SpawnCardElementOnBoard;
             _battleBoard.ReturnAttackStance -= UpdateStance;
             _battleBoard.EndGame -= ActiveResult;
+            _battleBoard.SlotChanged -= RefreshSlot;
         }
 
         UpdateStarOnBoard -= UpdateCardStarOnBoard;
@@ -183,6 +186,12 @@ public class UiBattleManagers : MonoBehaviour
         {
             card.CardStar.SetText(starAfter.ToString());
         }
+    }
+
+    private void RefreshSlot(BoardSlot boardSlot)
+    {
+        if (boardSlot?.CardInstance == null) return;
+        UpdateCardStarOnBoard(boardSlot, boardSlot.CardInstance.BattleStar);
     }
 
     public void OnUpdateStarOnBoard(BoardSlot boardSlot, int starAfter)

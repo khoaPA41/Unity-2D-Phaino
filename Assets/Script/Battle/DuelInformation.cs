@@ -21,6 +21,7 @@ namespace Raziel.Battle
         public event Action<CardInstance> UpdateCardHandAction = delegate { };
         public event Action ChangesInHand = delegate { };
         public event Action<CardInstance> CardDeath = delegate { };
+        // public event Action<CardEffect> 
         // public event Action<Character> PlayerDeath = delegate { };
 
         public CardInstance SelectedCard = null;

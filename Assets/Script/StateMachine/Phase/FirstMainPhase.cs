@@ -75,7 +75,11 @@ namespace Raziel.StateMachine
 
         private void UseCardButton()
         {
-            if (!ActiveFunc(_targetSlot)) return;
+            if (_cardActive == null || _targetSlot == null) return;
+            if (!_duelStateMachine.CardEffectSystem.TryActiveEffect(_cardActive, _duelStateMachine.CurrentTurn, new[] { _targetSlot })) return;
+
+            _cardActive = null;
+            _targetSlot = null;
             _useMightyCardButton.gameObject.SetActive(false);
         }
 
@@ -88,52 +92,39 @@ namespace Raziel.StateMachine
         {
             if (_cardActive != null || _duelStateMachine.CurrentTurn == null) return;
 
-            if (!_duelStateMachine.BattleBoard.HasSoulCard(_duelStateMachine.CurrentTurn.character, CardType.Soul)) return;
-
-            var selectedCard = _duelStateMachine.CurrentTurn.SelectedCard;
+            var owner = _duelStateMachine.CurrentTurn;
+            var system = _duelStateMachine.CardEffectSystem;
+            var selectedCard = owner.SelectedCard;
 
             if (selectedCard == null || selectedCard.CardReference == null) return;
-
             if (selectedCard.CardReference.CardType != CardType.Mighty) return;
 
-            if (!_duelStateMachine.CurrentTurn.Summon(handIndex, boardIndex, true)) return;
+            if (system.IsNeedTarget(selectedCard) && system.GetAllValidTarget(selectedCard, owner).Count == 0) return;
 
-            _cardActive = selectedCard;
+            if (!owner.Summon(handIndex, boardIndex, true)) return;
+
             _targetSlot = null;
             _useMightyCardButton.gameObject.SetActive(false);
+
+            if (selectedCard.CardReference.Effect == null) return;
+            if (system.IsNeedTarget(selectedCard))
+            {
+                _cardActive = selectedCard;
+                return;
+            }
+            system.TryActiveEffect(selectedCard, owner, null);
         }
 
         private void ChooseCardTarget(BoardSlot boardSlot)
         {
-            if (_cardActive?.CardReference?.Effect == null || _cardActive?.HasUsedEffect == true) return;
-            if (boardSlot == null || boardSlot.CardInstance == null || boardSlot.CardInstance.CardReference == null) return;
-            if (boardSlot.Character != _duelStateMachine.CurrentTurn.character) return;
-            if (boardSlot.CardInstance.CardReference.CardType != CardType.Soul) return;
+            if (_cardActive == null) return;
+            var valid = _duelStateMachine.CardEffectSystem.GetAllValidTarget(_cardActive, _duelStateMachine.CurrentTurn);
+
+
+            if (!valid.Contains(boardSlot)) return;
 
             _targetSlot = boardSlot;
             _useMightyCardButton.gameObject.SetActive(true);
-        }
-
-        private bool ActiveFunc(BoardSlot boardSlot)
-        {
-            if (boardSlot == null || boardSlot.CardInstance == null || boardSlot.CardInstance.CardReference == null ||
-            boardSlot.Character != _duelStateMachine.CurrentTurn.character || boardSlot.CardInstance.CardReference.CardType != CardType.Soul) return false;
-            if (_cardActive == null || _cardActive.CardReference == null) return false;
-
-            if (_cardActive.CardReference.Effect == null || _cardActive.HasUsedEffect == true) return false;
-
-            _cardActive.CardReference.Effect.Resolve(
-                new CardEffectContext
-                {
-                    SourceCard = _cardActive,
-                    TargetCard = boardSlot.CardInstance
-                }
-            );
-            _cardActive.HasUsedEffect = true;
-            UiBattleManagers.Instance.OnUpdateStarOnBoard(boardSlot, boardSlot.CardInstance.BattleStar);
-            _cardActive = null;
-            _targetSlot = null;
-            return true;
         }
     }
 }

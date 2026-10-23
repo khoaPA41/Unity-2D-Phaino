@@ -13,7 +13,7 @@ namespace Raziel.StateMachine
             Debug.Log("StandbyPhase: " + _duelStateMachine.CurrentTurn.character);
 
             CheckDefCardByCharacter();
-
+            CheckEffectDuration();
             _duelStateMachine.SwitchState(_duelStateMachine.DrawPhase);
         }
 
@@ -30,6 +30,11 @@ namespace Raziel.StateMachine
         private void CheckDefCardByCharacter()
         {
             _duelStateMachine.BattleBoard.ProcessDefenseElapsed(_duelStateMachine.CurrentTurn.character);
+        }
+
+        private void CheckEffectDuration()
+        {
+            _duelStateMachine.BattleBoard.ProcessEffectDuration(_duelStateMachine.CurrentTurn.character);
         }
     }
 }

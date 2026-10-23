@@ -1,5 +1,4 @@
 using System;
-using Raziel.Battle;
 
 [Serializable]
 public readonly struct BattleResult

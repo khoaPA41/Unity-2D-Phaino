@@ -32,6 +32,8 @@ namespace Raziel.StateMachine
         public TurnController TurnController { get; private set; }
         public DuelInformation CurrentTurn { get; set; }
 
+
+        public CardEffectSystem CardEffectSystem { get; private set; }
         // State
         public State DrawPhase;
         public State StandbyPhase;
@@ -75,6 +77,7 @@ namespace Raziel.StateMachine
             Result = new ResultPhase(this);
 
             TurnController = new();
+            CardEffectSystem = new(BattleBoard);
         }
 
         private void OnEnable()
