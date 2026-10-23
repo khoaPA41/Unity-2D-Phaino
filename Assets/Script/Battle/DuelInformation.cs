@@ -21,8 +21,6 @@ namespace Raziel.Battle
         public event Action<CardInstance> UpdateCardHandAction = delegate { };
         public event Action ChangesInHand = delegate { };
         public event Action<CardInstance> CardDeath = delegate { };
-        // public event Action<CardEffect> 
-        // public event Action<Character> PlayerDeath = delegate { };
 
         public CardInstance SelectedCard = null;
         // public CardInstance MyCardTarget;
@@ -116,24 +114,7 @@ namespace Raziel.Battle
         {
             fragmentSoul = Mathf.Max(0, fragmentSoul - 1);
 
-            // if (fragmentSoul <= 0) PlayerDeath?.Invoke(character);
-
             Debug.Log($"{character} has {fragmentSoul} left");
         }
-
-        // public void UseMighty(Card)
-        // {
-
-        // }
-
-        // private void Check(IEnumerable objects)
-        // {
-        //     foreach (var item in objects)
-        //     {
-        //         var cardInstance = (CardInstance)item;
-
-        //         Debug.Log(cardInstance.CardReference);
-        //     }
-        // }
     }
 }
