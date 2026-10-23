@@ -99,6 +99,8 @@ namespace Raziel.StateMachine
             if (selectedCard == null || selectedCard.CardReference == null) return;
             if (selectedCard.CardReference.CardType != CardType.Mighty) return;
 
+            if (!system.TrySummon(selectedCard, owner, system.GetAllValidTarget(selectedCard, owner))) return;
+
             if (system.IsNeedTarget(selectedCard) && system.GetAllValidTarget(selectedCard, owner).Count == 0) return;
 
             if (!owner.Summon(handIndex, boardIndex, true)) return;

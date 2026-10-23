@@ -290,8 +290,14 @@ namespace Raziel.Battle
             {
                 var card = slot?.CardInstance;
                 if (card?.CardReference == null) continue;
-                if (card.TickModifiers(ownerTurn)) SlotChanged?.Invoke(slot);
-                card.RemoveStarFrom(card);
+                var changed = card.TickModifiers(ownerTurn);
+
+                if (card.BattleStar <= 0)
+                {
+                    CardDeath(slot);
+                    continue;
+                }
+                if (changed) SlotChanged(slot);
             }
         }
     }

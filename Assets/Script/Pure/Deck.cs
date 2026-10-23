@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Raziel.Battle;
 
 namespace Raziel.Pure.Deck
 {
@@ -30,13 +29,7 @@ namespace Raziel.Pure.Deck
 
             foreach (var card in _decks)
             {
-                _battleDeck.Add(new CardInstance
-                {
-                    CardReference = card,
-                    OriginalStar = card.CardStar,
-                    BattleStar = card.CardStar,
-                    DefTurnLimit = card.CardStar / 2
-                });
+                _battleDeck.Add(new CardInstance(card));
             }
         }
 

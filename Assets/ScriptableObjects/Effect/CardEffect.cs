@@ -26,6 +26,10 @@ public abstract class CardEffect : ScriptableObject
 
     [field: SerializeField] public TargetRule TargetRule { get; private set; }
     public virtual bool CanActivate(CardEffectContext ctx) => true;
+    public virtual void RemoveEffect(Modifier modifier, CardInstance target)
+    {
+
+    }
     public abstract bool Resolve(CardEffectContext context);
 }
 

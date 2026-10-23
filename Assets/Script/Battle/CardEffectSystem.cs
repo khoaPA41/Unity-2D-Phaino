@@ -99,4 +99,21 @@ public class CardEffectSystem
             if (soulSlot?.CardInstance?.CardReference != null) boardSlots.Add(soulSlot);
         }
     }
+
+    public bool TrySummon(CardInstance source, DuelInformation owner, List<BoardSlot> targets)
+    {
+        var effect = source?.CardReference?.Effect;
+        if (effect == null || source.HasUsedEffect) return false;
+
+        var context = new CardEffectContext
+        {
+            SourceCard = source,
+            Owner = owner,
+            Targets = targets
+        };
+
+        if (!effect.CanActivate(context)) return false;
+
+        return true;
+    }
 }

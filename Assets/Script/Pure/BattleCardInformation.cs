@@ -1,10 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Raziel.Battle;
-using Unity.VisualScripting;
-using UnityEditor;
-using UnityEngine;
-
 
 [Serializable]
 public class BoardSlot // Class use for slot on board
@@ -26,59 +22,40 @@ public class CardInstance // Class keep instance of card in battle
     public bool HasUsedDefense;
     public bool HasUsedEffect;
 
+    public CardInstance(Card cardReference)
+    {
+        CardReference = cardReference;
+        if (CardReference.CardType == CardType.Soul)
+        {
+            OriginalStar = cardReference.CardStar;
+            BattleStar = cardReference.CardStar;
+            DefTurnLimit = cardReference.CardStar / 2;
+        }
+    }
 
     // Add Star Effect
-    public const int MaxStar = 12;
-    public List<StarModifier> StarModifiers = new();
-
-    public int AddStars(CardInstance source, int amount, Character sourceOnwer, int remainingTurns)
-    {
-        int before = BattleStar;
-        BattleStar = Mathf.Clamp(BattleStar + amount, 1, MaxStar);
-
-        int applied = BattleStar - before;
-        if (applied > 0) StarModifiers.Add(new StarModifier(amount, source, sourceOnwer, remainingTurns));
-        return applied;
-    }
+    public int MaxStar = 20;
+    public List<Modifier> Modifiers = new();
 
     public bool TickModifiers(Character turnOwner)
     {
         bool changed = false;
 
-        for (int i = StarModifiers.Count - 1; i >= 0; i--)
+        for (int i = Modifiers.Count - 1; i >= 0; i--)
         {
-            var modifier = StarModifiers[i];
+            var modifier = Modifiers[i];
             if (modifier.RemainingTurns < 0 || modifier.SourceOnwer != turnOwner) continue;
 
             modifier.RemainingTurns--;
 
             if (modifier.RemainingTurns > 0) continue;
-            RemoveModifierAt(i);
+
+            modifier.SourceCard.CardReference.Effect.RemoveEffect(modifier, this);
+            Modifiers.RemoveAt(i);
             changed = true;
         }
         return changed;
     }
-
-    public bool RemoveStarFrom(CardInstance source)
-    {
-        bool changed = false;
-
-        for (int i = StarModifiers.Count - 1; i >= 0; i--)
-        {
-            if (StarModifiers[i].SourceCard != source) continue;
-
-            RemoveModifierAt(i);
-            changed = true;
-        }
-        return changed;
-    }
-
-    public void RemoveModifierAt(int index)
-    {
-        BattleStar = Mathf.Max(BattleStar - StarModifiers[index].Amount, 1);
-        StarModifiers.RemoveAt(index);
-    }
-
 }
 
 [Serializable]
@@ -90,20 +67,17 @@ public sealed class CardEffectContext
 }
 
 [Serializable]
-public sealed class StarModifier
+public sealed class Modifier
 {
-    public int Amount;
-    public CardInstance SourceCard;
+    [NonSerialized] public CardInstance SourceCard;
     public Character SourceOnwer;
     public int RemainingTurns;
-
-    public StarModifier(int amount, CardInstance sourceCard, Character sourceOnwer, int remainingTurns)
+    public int Amount; // if have
+    public Modifier(CardInstance sourceCard, Character sourceOnwer, int remainingTurns, int amount)
     {
-        Amount = amount;
         SourceCard = sourceCard;
         SourceOnwer = sourceOnwer;
         RemainingTurns = remainingTurns;
+        Amount = amount;
     }
 }
-
-
