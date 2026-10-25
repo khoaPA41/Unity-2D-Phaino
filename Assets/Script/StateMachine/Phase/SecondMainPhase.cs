@@ -102,9 +102,11 @@ namespace Raziel.StateMachine
 
             if (selectedCard.CardReference.CardType != CardType.Soul)
             {
-                SummonFuncCard(handIndex, boardIndex);
+                if (selectedCard.CardReference.CardType == CardType.Rupture)
+                    SummonFuncCard(handIndex, boardIndex);
                 return;
             }
+
             _currentHandIndex = handIndex;
             _currentBoardIndex = boardIndex;
 

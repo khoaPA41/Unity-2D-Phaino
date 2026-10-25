@@ -66,7 +66,9 @@ public sealed class CardEffectContext
 {
     public CardInstance SourceCard;
     public DuelInformation Owner;
+    public BattleBoard BattleBoard;
     public IReadOnlyList<BoardSlot> Targets;
+    public AttackContext AttackContext;
 }
 
 [Serializable]
@@ -83,4 +85,12 @@ public sealed class Modifier
         RemainingTurns = remainingTurns;
         Amount = amount;
     }
+}
+
+[Serializable]
+public sealed class AttackContext
+{
+    public BoardSlot AttackerSlot;
+    public BoardSlot TargeterSlot;
+    public bool IsCancelled;
 }

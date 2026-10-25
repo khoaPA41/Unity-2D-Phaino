@@ -2062,11 +2062,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Raziel.Battle.DuelInformation
   fragmentSoul: 2
   _cards:
-  - {fileID: 11400000, guid: d8bbf6acc4f2ba24b9d826fcdc03c08a, type: 2}
-  - {fileID: 11400000, guid: f707d14c062f79c45b24d33be2ad3b78, type: 2}
-  - {fileID: 11400000, guid: 012df0340f427324b82da29be69568f1, type: 2}
-  - {fileID: 11400000, guid: ee7844a74e738fa4c900e22c564a3632, type: 2}
-  - {fileID: 11400000, guid: 7e895ad5cbf579d418b0d82dcbd67c09, type: 2}
+  - {fileID: 11400000, guid: 220915da135b7834bb42b3b864a1b152, type: 2}
+  - {fileID: 11400000, guid: 220915da135b7834bb42b3b864a1b152, type: 2}
+  - {fileID: 11400000, guid: 220915da135b7834bb42b3b864a1b152, type: 2}
+  - {fileID: 11400000, guid: 220915da135b7834bb42b3b864a1b152, type: 2}
+  - {fileID: 11400000, guid: 220915da135b7834bb42b3b864a1b152, type: 2}
   - {fileID: 11400000, guid: abada933954a2b4488d1179210aa043c, type: 2}
   - {fileID: 11400000, guid: 5c50b36cdb899b7479d6c98802abbe6b, type: 2}
   - {fileID: 11400000, guid: a9bb4cc48fd65f7498d38061851d2135, type: 2}
@@ -2092,7 +2092,9 @@ MonoBehaviour:
     DefTurnLimit: 0
     HasUsedDefense: 0
     HasUsedEffect: 0
-    StarModifiers: []
+    IsFaceDown: 0
+    MaxStar: 0
+    Modifiers: []
 --- !u!1 &480514068
 GameObject:
   m_ObjectHideFlags: 0
@@ -3010,11 +3012,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 739191f911fb5694eb22a06cbf37d93e, type: 2}
   - {fileID: 11400000, guid: 62abb6082fa68dc4b8a73afb53c446bc, type: 2}
   - {fileID: 11400000, guid: 739191f911fb5694eb22a06cbf37d93e, type: 2}
-  - {fileID: 11400000, guid: f71fda4604acab74a9f7cd093a2fb5ba, type: 2}
-  - {fileID: 11400000, guid: 45a2664842a39f54c925e65711527cce, type: 2}
-  - {fileID: 11400000, guid: a66444c85560a74418f9dda472444b64, type: 2}
-  - {fileID: 11400000, guid: 47ab3f3e694d82a42a50537be73a7a96, type: 2}
-  - {fileID: 11400000, guid: dce41fb96859548488eaea40628121ef, type: 2}
+  - {fileID: 11400000, guid: 220915da135b7834bb42b3b864a1b152, type: 2}
+  - {fileID: 11400000, guid: 220915da135b7834bb42b3b864a1b152, type: 2}
+  - {fileID: 11400000, guid: 220915da135b7834bb42b3b864a1b152, type: 2}
+  - {fileID: 11400000, guid: 220915da135b7834bb42b3b864a1b152, type: 2}
+  - {fileID: 11400000, guid: 220915da135b7834bb42b3b864a1b152, type: 2}
   - {fileID: 11400000, guid: bb3daa990ba9ef34a87c98dad4dcfa88, type: 2}
   - {fileID: 11400000, guid: 279edb73b6b986f4b8d48be8630345e1, type: 2}
   - {fileID: 11400000, guid: 5b02b3a2725fbc04eafb8905097a942f, type: 2}
@@ -3033,7 +3035,9 @@ MonoBehaviour:
     DefTurnLimit: 0
     HasUsedDefense: 0
     HasUsedEffect: 0
-    StarModifiers: []
+    IsFaceDown: 0
+    MaxStar: 0
+    Modifiers: []
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -4595,19 +4599,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1055148690}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1361341195}
-        m_TargetAssemblyTypeName: Raziel.Battle.BattleBoard, Assembly-CSharp
-        m_MethodName: Attack
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1055148690
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5236,7 +5228,7 @@ MonoBehaviour:
   <AtkButton>k__BackingField: {fileID: 1513285993}
   <DefButton>k__BackingField: {fileID: 258133105}
   <AttackButton>k__BackingField: {fileID: 1055148687}
-  <UseMightyButton>k__BackingField: {fileID: 738138115}
+  <UseEffectButton>k__BackingField: {fileID: 738138115}
 --- !u!4 &1361341192
 Transform:
   m_ObjectHideFlags: 0
@@ -5275,7 +5267,9 @@ MonoBehaviour:
       DefTurnLimit: 0
       HasUsedDefense: 0
       HasUsedEffect: 0
-      StarModifiers: []
+      IsFaceDown: 0
+      MaxStar: 0
+      Modifiers: []
     AcceptSoul: 0
   - Character: 0
     CardInstance:
@@ -5287,7 +5281,9 @@ MonoBehaviour:
       DefTurnLimit: 0
       HasUsedDefense: 0
       HasUsedEffect: 0
-      StarModifiers: []
+      IsFaceDown: 0
+      MaxStar: 0
+      Modifiers: []
     AcceptSoul: 0
   - Character: 0
     CardInstance:
@@ -5299,7 +5295,9 @@ MonoBehaviour:
       DefTurnLimit: 0
       HasUsedDefense: 0
       HasUsedEffect: 0
-      StarModifiers: []
+      IsFaceDown: 0
+      MaxStar: 0
+      Modifiers: []
     AcceptSoul: 0
   - Character: 0
     CardInstance:
@@ -5311,7 +5309,9 @@ MonoBehaviour:
       DefTurnLimit: 0
       HasUsedDefense: 0
       HasUsedEffect: 0
-      StarModifiers: []
+      IsFaceDown: 0
+      MaxStar: 0
+      Modifiers: []
     AcceptSoul: 0
   - Character: 0
     CardInstance:
@@ -5323,7 +5323,9 @@ MonoBehaviour:
       DefTurnLimit: 0
       HasUsedDefense: 0
       HasUsedEffect: 0
-      StarModifiers: []
+      IsFaceDown: 0
+      MaxStar: 0
+      Modifiers: []
     AcceptSoul: 0
   PlayerFunctionalField:
   - Character: 0
@@ -5336,7 +5338,9 @@ MonoBehaviour:
       DefTurnLimit: 0
       HasUsedDefense: 0
       HasUsedEffect: 0
-      StarModifiers: []
+      IsFaceDown: 0
+      MaxStar: 0
+      Modifiers: []
     AcceptSoul: 0
   - Character: 0
     CardInstance:
@@ -5348,7 +5352,9 @@ MonoBehaviour:
       DefTurnLimit: 0
       HasUsedDefense: 0
       HasUsedEffect: 0
-      StarModifiers: []
+      IsFaceDown: 0
+      MaxStar: 0
+      Modifiers: []
     AcceptSoul: 0
   - Character: 0
     CardInstance:
@@ -5360,7 +5366,9 @@ MonoBehaviour:
       DefTurnLimit: 0
       HasUsedDefense: 0
       HasUsedEffect: 0
-      StarModifiers: []
+      IsFaceDown: 0
+      MaxStar: 0
+      Modifiers: []
     AcceptSoul: 0
   - Character: 0
     CardInstance:
@@ -5372,7 +5380,9 @@ MonoBehaviour:
       DefTurnLimit: 0
       HasUsedDefense: 0
       HasUsedEffect: 0
-      StarModifiers: []
+      IsFaceDown: 0
+      MaxStar: 0
+      Modifiers: []
     AcceptSoul: 0
   - Character: 0
     CardInstance:
@@ -5384,7 +5394,9 @@ MonoBehaviour:
       DefTurnLimit: 0
       HasUsedDefense: 0
       HasUsedEffect: 0
-      StarModifiers: []
+      IsFaceDown: 0
+      MaxStar: 0
+      Modifiers: []
     AcceptSoul: 0
   EnemySouldField:
   - Character: 0
@@ -5397,7 +5409,9 @@ MonoBehaviour:
       DefTurnLimit: 0
       HasUsedDefense: 0
       HasUsedEffect: 0
-      StarModifiers: []
+      IsFaceDown: 0
+      MaxStar: 0
+      Modifiers: []
     AcceptSoul: 0
   - Character: 0
     CardInstance:
@@ -5409,7 +5423,9 @@ MonoBehaviour:
       DefTurnLimit: 0
       HasUsedDefense: 0
       HasUsedEffect: 0
-      StarModifiers: []
+      IsFaceDown: 0
+      MaxStar: 0
+      Modifiers: []
     AcceptSoul: 0
   - Character: 0
     CardInstance:
@@ -5421,7 +5437,9 @@ MonoBehaviour:
       DefTurnLimit: 0
       HasUsedDefense: 0
       HasUsedEffect: 0
-      StarModifiers: []
+      IsFaceDown: 0
+      MaxStar: 0
+      Modifiers: []
     AcceptSoul: 0
   - Character: 0
     CardInstance:
@@ -5433,7 +5451,9 @@ MonoBehaviour:
       DefTurnLimit: 0
       HasUsedDefense: 0
       HasUsedEffect: 0
-      StarModifiers: []
+      IsFaceDown: 0
+      MaxStar: 0
+      Modifiers: []
     AcceptSoul: 0
   - Character: 0
     CardInstance:
@@ -5445,7 +5465,9 @@ MonoBehaviour:
       DefTurnLimit: 0
       HasUsedDefense: 0
       HasUsedEffect: 0
-      StarModifiers: []
+      IsFaceDown: 0
+      MaxStar: 0
+      Modifiers: []
     AcceptSoul: 0
   EnemyFunctionalField:
   - Character: 0
@@ -5458,7 +5480,9 @@ MonoBehaviour:
       DefTurnLimit: 0
       HasUsedDefense: 0
       HasUsedEffect: 0
-      StarModifiers: []
+      IsFaceDown: 0
+      MaxStar: 0
+      Modifiers: []
     AcceptSoul: 0
   - Character: 0
     CardInstance:
@@ -5470,7 +5494,9 @@ MonoBehaviour:
       DefTurnLimit: 0
       HasUsedDefense: 0
       HasUsedEffect: 0
-      StarModifiers: []
+      IsFaceDown: 0
+      MaxStar: 0
+      Modifiers: []
     AcceptSoul: 0
   - Character: 0
     CardInstance:
@@ -5482,7 +5508,9 @@ MonoBehaviour:
       DefTurnLimit: 0
       HasUsedDefense: 0
       HasUsedEffect: 0
-      StarModifiers: []
+      IsFaceDown: 0
+      MaxStar: 0
+      Modifiers: []
     AcceptSoul: 0
   - Character: 0
     CardInstance:
@@ -5494,7 +5522,9 @@ MonoBehaviour:
       DefTurnLimit: 0
       HasUsedDefense: 0
       HasUsedEffect: 0
-      StarModifiers: []
+      IsFaceDown: 0
+      MaxStar: 0
+      Modifiers: []
     AcceptSoul: 0
   - Character: 0
     CardInstance:
@@ -5506,7 +5536,9 @@ MonoBehaviour:
       DefTurnLimit: 0
       HasUsedDefense: 0
       HasUsedEffect: 0
-      StarModifiers: []
+      IsFaceDown: 0
+      MaxStar: 0
+      Modifiers: []
     AcceptSoul: 0
   _player: {fileID: 477191916}
   _enemy: {fileID: 610487084}

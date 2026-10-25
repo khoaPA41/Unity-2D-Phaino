@@ -130,6 +130,8 @@ public class EnemyAIControllerInput : MonoBehaviour
 
         if (battleBoard.EnemySouldField.Length == 0)
         {
+            Debug.Log("Can Attack");
+            SetInput(EnemyInput.Main_II);
             return;
         }
 
@@ -139,7 +141,11 @@ public class EnemyAIControllerInput : MonoBehaviour
             attacker.Add(card);
         }
 
-        if (attacker.Count == 0) return;
+        if (attacker.Count == 0)
+        {
+            SetInput(EnemyInput.Main_II);
+            return;
+        }
 
 
         if (battleBoard.PlayerSoulField.Length != 0)
@@ -157,6 +163,7 @@ public class EnemyAIControllerInput : MonoBehaviour
 
         battleBoard.SetAttacker(attacker[randomAttacker]);
         battleBoard.SetTarget(targeterCard);
-        battleBoard.Attack();
+
+        _duelStateMachine.BattleFlowController.TryBeginAttack();
     }
 }

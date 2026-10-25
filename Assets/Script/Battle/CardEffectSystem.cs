@@ -16,7 +16,6 @@ public class CardEffectSystem
         return effect != null && effect.TargetRule != TargetRule.None;
     }
 
-
     public List<BoardSlot> GetAllValidTarget(CardInstance source, DuelInformation owner)
     {
         var result = new List<BoardSlot>();
@@ -42,7 +41,7 @@ public class CardEffectSystem
         return result;
     }
 
-    public bool TryActiveEffect(CardInstance source, DuelInformation owner, IReadOnlyList<BoardSlot> targets)
+    public bool TryActiveEffect(CardInstance source, DuelInformation owner, IReadOnlyList<BoardSlot> targets, AttackContext attackContext = null)
     {
         var effect = source?.CardReference?.Effect;
         if (effect == null || source.HasUsedEffect) return false;
@@ -56,7 +55,9 @@ public class CardEffectSystem
         {
             SourceCard = source,
             Owner = owner,
-            Targets = targets
+            BattleBoard = _battleBoard,
+            Targets = targets,
+            AttackContext = attackContext
         };
 
         if (!effect.CanActivate(context)) return false;
@@ -109,6 +110,7 @@ public class CardEffectSystem
         {
             SourceCard = source,
             Owner = owner,
+            BattleBoard = _battleBoard,
             Targets = targets
         };
 

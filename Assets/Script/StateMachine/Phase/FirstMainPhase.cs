@@ -17,7 +17,7 @@ namespace Raziel.StateMachine
         {
             _duelStateMachine.IsCanUseCard = true;
 
-            _useMightyCardButton = _duelStateMachine.UseMightyButton.GetComponent<Button>();
+            _useMightyCardButton = _duelStateMachine.UseEffectButton.GetComponent<Button>();
             _useMightyCardButton.onClick.AddListener(UseCardButton);
 
             Debug.Log("FirstMainPhase: " + _duelStateMachine.CurrentTurn.character);
@@ -109,7 +109,7 @@ namespace Raziel.StateMachine
             _useMightyCardButton.gameObject.SetActive(false);
 
             if (selectedCard.CardReference.Effect == null) return;
-            if (system.IsNeedTarget(selectedCard))
+            if (system.IsNeedTarget(selectedCard)) // if need target not try Active Immediately
             {
                 _cardActive = selectedCard;
                 return;

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Raziel.Battle
@@ -20,14 +21,20 @@ namespace Raziel.Battle
         public event Action<Character, BoardSlot> ReturnAttackStance;
         public event Action<Character> EndGame = delegate { };
         public event Action<BoardSlot> SlotChanged = delegate { };
+        public event Action OnAttack = delegate { };
 
-        private BoardSlot _attackerSlot;
-        private BoardSlot _targetSlot;
+        // Rupture
+        public event Action UseRupture = delegate { };
+        public event Action ChooseRupture = delegate { };
+
+        public BoardSlot _attackerSlot { get; private set; }
+        public BoardSlot _targetSlot { get; private set; }
 
         [SerializeField] private DuelInformation _player;
         [SerializeField] private DuelInformation _enemy;
 
         private BattleResolver _battleResolver;
+
 
         private void Awake()
         {
@@ -49,6 +56,16 @@ namespace Raziel.Battle
 
             SetupFunctionalField(PlayerFunctionalField, Character.Player);
             SetupFunctionalField(EnemyFunctionalField, Character.Enemy);
+        }
+
+        private void OnEnable()
+        {
+            OnAttack += Attack;
+        }
+
+        private void OnDisable()
+        {
+            OnAttack -= Attack;
         }
 
         private void SetupSoulField(BoardSlot[] slots, Character character)
@@ -167,7 +184,11 @@ namespace Raziel.Battle
             {
                 targetDirect = _attackerSlot.Character == Character.Player ? _enemy : _player;
                 targetDirect.SubtractFragmentSoul();
-                if (targetDirect.FragmentSoul <= 0) EndGame?.Invoke(targetDirect.character);
+                if (targetDirect.FragmentSoul <= 0)
+                {
+                    EndGame?.Invoke(targetDirect.character);
+                    return;
+                }
                 return;
             }
 
@@ -214,6 +235,35 @@ namespace Raziel.Battle
             _targetSlot = null;
         }
 
+        public bool HasRuptureCard()
+        {
+            Debug.Log("Check Rupture Card if has");
+
+            if (_targetSlot == null) // Neu khong co muc tieu / tam thoi tan cong truc tiep
+            {
+                return false;
+            }
+
+            var ruptureOfEnemy = GetSlotByType(_targetSlot.Character, CardType.Rupture);
+            var hasAtleastOneRupture = false;
+
+            foreach (var ruptureCard in ruptureOfEnemy) // Check rupture card
+            {
+                if (ruptureCard?.CardInstance?.CardReference == null) continue;
+                if (ruptureCard.CardInstance.CardReference.CardType != CardType.Rupture) continue;
+                hasAtleastOneRupture = true;
+            }
+
+            bool canAttackImmediately = !hasAtleastOneRupture;
+
+            if (!canAttackImmediately) // if has rupture on enemy side
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         private bool CanDirectAttack(BoardSlot attackerSlot)
         {
             if (!attackerSlot.CardInstance.IsAttackStance) return false;
@@ -229,9 +279,6 @@ namespace Raziel.Battle
 
         public void CardDeath(BoardSlot boardSlot)
         {
-            var uiManager = UiBattleManagers.Instance;
-            if (uiManager == null) return;
-
             if (boardSlot.Character == Character.Player)
             {
                 _player.OnCardDeath(boardSlot.CardInstance);
@@ -241,8 +288,11 @@ namespace Raziel.Battle
                 _enemy.OnCardDeath(boardSlot.CardInstance);
             }
 
+            var uiManager = UiBattleManagers.Instance;
+            if (uiManager == null) return;
             uiManager.ReleaseCardOnBoardByCharacterAndIndex(boardSlot.Character, boardSlot);
             boardSlot.CardInstance = null;
+            // Nên dùng Event để giảm phụ thuộc
         }
 
         public BoardSlot FindSlot(CardInstance cardInstance)
@@ -300,5 +350,6 @@ namespace Raziel.Battle
                 if (changed) SlotChanged(slot);
             }
         }
+
     }
 }

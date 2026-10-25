@@ -13,6 +13,7 @@ namespace Raziel.StateMachine
 
         [field: Header("Information References")]
         [field: SerializeField] public BattleBoard BattleBoard { get; private set; }
+        [field: SerializeField] public BattleFlowController BattleFlowController { get; private set; }
         [field: SerializeField] public DuelInformation PlayerDuelInformation { get; private set; }
         [field: SerializeField] public DuelInformation EnemyDuelInformation { get; private set; }
         [field: SerializeField] public EnemyAIControllerInput EnemyInput { get; private set; }
@@ -27,7 +28,7 @@ namespace Raziel.StateMachine
         [field: SerializeField] public GameObject AtkButton { get; private set; }
         [field: SerializeField] public GameObject DefButton { get; private set; }
         [field: SerializeField] public GameObject AttackButton { get; private set; }
-        [field: SerializeField] public GameObject UseMightyButton { get; private set; }
+        [field: SerializeField] public GameObject UseEffectButton { get; private set; }
 
         public TurnController TurnController { get; private set; }
         public DuelInformation CurrentTurn { get; set; }
@@ -78,6 +79,7 @@ namespace Raziel.StateMachine
 
             TurnController = new();
             CardEffectSystem = new(BattleBoard);
+            BattleFlowController = new(BattleBoard, CardEffectSystem, PlayerDuelInformation, EnemyDuelInformation);
         }
 
         private void OnEnable()
