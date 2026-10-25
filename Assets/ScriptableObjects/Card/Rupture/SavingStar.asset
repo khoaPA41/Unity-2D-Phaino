@@ -20,3 +20,5 @@ MonoBehaviour:
   CardElementalImage: {fileID: 21300000, guid: c1e6a5bbe93d5324ab467b27a659f0d1, type: 3}
   CardTypeImage: {fileID: 21300000, guid: 686d15f6f84f33b4fa8f984eb6ed5037, type: 3}
   CardStar: 0
+  Effect: {fileID: 0}
+  IsFaceDownDefault: 1

@@ -21,10 +21,13 @@ public class CardInstance // Class keep instance of card in battle
     public int DefTurnLimit;
     public bool HasUsedDefense;
     public bool HasUsedEffect;
+    public bool IsFaceDown;
 
-    public CardInstance(Card cardReference)
+    public CardInstance(Card cardReference, bool faceDownDefault)
     {
         CardReference = cardReference;
+        IsFaceDown = faceDownDefault;
+
         if (CardReference.CardType == CardType.Soul)
         {
             OriginalStar = cardReference.CardStar;

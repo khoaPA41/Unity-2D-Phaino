@@ -134,6 +134,7 @@ public class UiBattleManagers : MonoBehaviour
             cardStar,
             cardInstance.IsAttackStance
         );
+        cardElement.SetFaceDown(cardInstance.IsFaceDown);
 
         var cardButton = card.GetComponent<Button>();
 
@@ -245,8 +246,8 @@ public class UiBattleManagers : MonoBehaviour
             cardInstance.CardReference.CardElementalImage,
             cardInstance.CardReference.CardTypeImage,
             cardStar,
-            true
-        );
+            true);
+        cardElement.SetFaceDown(false); // don't down on hand
     }
 
     public void ReleaseAllCardHand(Character character)

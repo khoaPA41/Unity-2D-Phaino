@@ -29,7 +29,7 @@ namespace Raziel.Pure.Deck
 
             foreach (var card in _decks)
             {
-                _battleDeck.Add(new CardInstance(card));
+                _battleDeck.Add(new CardInstance(card, card.IsFaceDownDefault));
             }
         }
 
