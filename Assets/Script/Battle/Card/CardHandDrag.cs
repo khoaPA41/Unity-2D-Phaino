@@ -76,11 +76,8 @@ public class CardHandDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
     {
         if (!_isDragging) return;
 
-        int handIndex = _cardElement.CardIndex;
         var targetSlot = _pendingSlot;
         var stateMachine = DuelStateMachine.Instance;
-
-
 
         CancelDrag();
         _isDragging = false;
@@ -88,7 +85,7 @@ public class CardHandDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
         if (targetSlot == null || stateMachine == null) return;
 
-        DuelStateMachine.Instance.Summon(handIndex, targetSlot.slotIndex);
+        DuelStateMachine.Instance.Summon(targetSlot.slotIndex);
     }
 
     private void UpdateDragPos(PointerEventData eventData)
@@ -106,7 +103,6 @@ public class CardHandDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         {
             _thisRect.localPosition = (Vector3)localPos;
         }
-
     }
 
     private void CancelDrag()

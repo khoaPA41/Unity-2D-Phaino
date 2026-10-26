@@ -1,4 +1,3 @@
-using System.Collections;
 using Raziel.Battle;
 using UnityEngine;
 using UnityEngine.UI;
@@ -166,6 +165,9 @@ namespace Raziel.StateMachine
             }
             else
             {
+                _selectedRupture = null;
+                _selectedRupture = _duelStateMachine.EnemyInput.ChooseRupture(); // Enemy choose random rupture
+                HandleUseRuptureClicked();
                 Debug.Log("Doing");
             }
         }

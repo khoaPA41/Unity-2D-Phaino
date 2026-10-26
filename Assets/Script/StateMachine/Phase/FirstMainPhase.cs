@@ -115,7 +115,7 @@ namespace Raziel.StateMachine
                 }
             }
 
-            Summon(handIndex, _duelStateMachine.EnemyInput.RandomBoardSlotIndex());
+            Summon(_duelStateMachine.EnemyInput.RandomBoardSlotIndex());
             if (needTarget)
             {
                 if (_cardActive != source)
@@ -144,7 +144,7 @@ namespace Raziel.StateMachine
             _duelStateMachine.CurrentTurn.ChooseCard(index);
         }
 
-        private void Summon(int handIndex, int boardIndex) // summon mighty card, and save card to _cardActive
+        private void Summon(int boardIndex) // summon mighty card, and save card to _cardActive
         {
             if (_cardActive != null || _duelStateMachine.CurrentTurn == null) return;
 
@@ -159,7 +159,7 @@ namespace Raziel.StateMachine
 
             if (system.IsNeedTarget(selectedCard) && system.GetAllValidTarget(selectedCard, owner).Count == 0) return;
 
-            if (!owner.Summon(handIndex, boardIndex, true)) return;
+            if (!owner.Summon(boardIndex, true)) return;
 
             _targetSlot = null;
             _useMightyCardButton.gameObject.SetActive(false);

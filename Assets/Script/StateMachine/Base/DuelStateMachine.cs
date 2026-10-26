@@ -50,7 +50,9 @@ namespace Raziel.StateMachine
         public event Action BattleAction = delegate { };
         public event Action MainIIAction = delegate { };
         public event Action<int> ChooseCardAction = delegate { };
-        public event Action<int, int> SummonAction = delegate { };
+        public event Action<int> SummonAction = delegate { };
+        // public event Action<int, int> SummonAction = delegate { };
+
         public event Action EndAction = delegate { };
 
         // Situation
@@ -125,14 +127,9 @@ namespace Raziel.StateMachine
             ChooseCardAction?.Invoke(index);
         }
 
-        public void Summon(int handIndex, int boardIndex)
+        public void Summon(int boardIndex)
         {
-            SummonAction?.Invoke(handIndex, boardIndex);
-        }
-
-        public void Summon()
-        {
-            SummonAction?.Invoke(0, 0);
+            SummonAction?.Invoke(boardIndex);
         }
 
         public void End()

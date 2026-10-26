@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Raziel.Pure.Deck
 {
@@ -57,12 +58,13 @@ namespace Raziel.Pure.Deck
             return true;
         }
 
-        public bool UseCardOnHand(int index)
+        public bool UseCardOnHand(CardInstance cardInstance)
         {
-            if (_hand.Count == 0 || index < 0 || index >= _hand.Count) return false;
-            var card = _hand[index];
-            _hand.RemoveAt(index);
-            _board.Add(card);
+            if (_hand.Count == 0 || !_hand.Contains(cardInstance)) return false;
+            UnityEngine.Debug.Log("pass");
+
+            _hand.Remove(cardInstance);
+            _board.Add(cardInstance);
             return true;
         }
 

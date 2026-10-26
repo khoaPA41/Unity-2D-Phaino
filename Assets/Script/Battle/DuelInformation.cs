@@ -79,19 +79,19 @@ namespace Raziel.Battle
             if (index < 0 || index >= Deck.Hand.Count) return;
 
             SelectedCard = Deck.Hand[index];
-            Debug.Log(SelectedCard.CardReference.CardNameId);
             if (SelectedCard == null) return;
         }
 
-        public bool Summon(int handIndex, int boardIndex, bool isAttackStance)
+        public bool Summon(int boardIndex, bool isAttackStance)
         {
             if (SelectedCard == null || SelectedCard.CardReference == null) return false;
+
 
             var board = BattleBoard.Instance;
             if (board == null) return false;
 
             if (!board.CanSummonCard(SelectedCard, character, boardIndex)) return false;
-            if (!Deck.UseCardOnHand(handIndex)) return false;
+            if (!Deck.UseCardOnHand(SelectedCard)) return false;
 
             if (!BattleBoard.Instance.SummonCard(
                 SelectedCard,
