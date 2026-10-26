@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 namespace Raziel.Battle
@@ -237,6 +238,36 @@ namespace Raziel.Battle
             _targetSlot = null;
         }
 
+        public bool CanAttack(Character turnOwner, BoardSlot attacker, BoardSlot targeter)
+        {
+            if (attacker?.CardInstance?.CardReference == null) return false;
+            if (attacker.Character != turnOwner) return false;
+            if (attacker?.CardInstance?.IsAttacked == true) return false;
+
+            var soulSlots = GetSlotByType(turnOwner, CardType.Soul);
+            if (soulSlots == null || !soulSlots.Contains(attacker)) return false;
+
+            if (attacker.CardInstance.CardReference.CardType != CardType.Soul) return false;
+            if (!attacker.CardInstance.IsAttackStance || attacker.CardInstance.BattleStar <= 0) return false;
+
+
+            var defendingSide = attacker.Character == Character.Player ? Character.Enemy : Character.Player;
+
+            if (targeter == null)
+                return !HasSoulCard(defendingSide, CardType.Soul);
+
+            if (targeter?.CardInstance?.CardReference == null) return false;
+            if (targeter.Character != defendingSide) return false;
+
+
+            var defendingSidesoulSlots = GetSlotByType(defendingSide, CardType.Soul);
+
+            if (defendingSidesoulSlots == null || !defendingSidesoulSlots.Contains(targeter)) return false;
+
+            if (targeter?.CardInstance?.CardReference.CardType != CardType.Soul) return false;
+            return targeter.CardInstance.BattleStar > 0;
+        }
+
         public bool HasRuptureCard()
         {
             Debug.Log("Check Rupture Card if has");
@@ -251,7 +282,8 @@ namespace Raziel.Battle
 
             foreach (var ruptureCard in ruptureOfEnemy) // Check rupture card
             {
-                if (ruptureCard?.CardInstance?.CardReference == null) continue;
+                if (ruptureCard?.CardInstance?.CardReference?.Effect == null) continue;
+                if (ruptureCard?.CardInstance.HasUsedEffect == true) continue;
                 if (ruptureCard.CardInstance.CardReference.CardType != CardType.Rupture) continue;
                 hasAtleastOneRupture = true;
             }
@@ -336,5 +368,16 @@ namespace Raziel.Battle
             }
         }
 
+        public void ResetAttack()
+        {
+            foreach (var field in new[] { PlayerSoulField, EnemySouldField })
+            {
+                foreach (var slot in field)
+                {
+                    if (slot?.CardInstance?.CardReference == null) continue;
+                    slot.CardInstance.IsAttacked = false;
+                }
+            }
+        }
     }
 }

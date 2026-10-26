@@ -1,6 +1,6 @@
 using System;
 using Raziel.Battle;
-
+using Unity.VisualScripting;
 
 public enum State
 {
@@ -26,6 +26,9 @@ public class BattleFlowController
     public event Action<Character, AttackContext> ReactionRequested;
     public event Action<AttackContext> AttackFinished;
 
+    public bool IsIdle => _state == State.Idle;
+    public bool IsWaitingReaction => _state == State.AwaitingReaction;
+
     public BattleFlowController(BattleBoard battleBoard, CardEffectSystem cardEffectSystem, DuelInformation player, DuelInformation enemy)
     {
         _battleBoard = battleBoard;
@@ -43,12 +46,14 @@ public class BattleFlowController
     public void TryBeginAttack()
     {
         if (_state != State.Idle) return;
+        if (!_battleBoard.CanAttack(_turnOwner, _battleBoard._attackerSlot, _battleBoard._targetSlot)) return;
 
         _attackContext = new AttackContext
         {
             AttackerSlot = _battleBoard._attackerSlot,
             TargeterSlot = _battleBoard._targetSlot
         };
+        _battleBoard._attackerSlot.CardInstance.IsAttacked = true;
 
         if (!_battleBoard.HasRuptureCard())
         {
@@ -64,6 +69,11 @@ public class BattleFlowController
     public void TryUseRuptureCard(Character responder, BoardSlot ruptureSlot)
     {
         if (_state != State.AwaitingReaction) return;
+
+        if (_attackContext?.TargeterSlot?.CardInstance?.CardReference == null) return;
+
+        if (responder != _attackContext.TargeterSlot.Character) return;
+        if (ruptureSlot?.CardInstance?.CardReference == null) return;
 
         var ownerSource = responder == Character.Player ? _player : _enemy;
 

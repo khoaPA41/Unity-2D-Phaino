@@ -2093,6 +2093,8 @@ MonoBehaviour:
     HasUsedDefense: 0
     HasUsedEffect: 0
     IsFaceDown: 0
+    EffectRemaining: 0
+    IsAttacked: 0
     MaxStar: 0
     Modifiers: []
 --- !u!1 &480514068
@@ -3036,6 +3038,8 @@ MonoBehaviour:
     HasUsedDefense: 0
     HasUsedEffect: 0
     IsFaceDown: 0
+    EffectRemaining: 0
+    IsAttacked: 0
     MaxStar: 0
     Modifiers: []
 --- !u!1 &619394800
@@ -5268,6 +5272,8 @@ MonoBehaviour:
       HasUsedDefense: 0
       HasUsedEffect: 0
       IsFaceDown: 0
+      EffectRemaining: 0
+      IsAttacked: 0
       MaxStar: 0
       Modifiers: []
     AcceptSoul: 0
@@ -5282,6 +5288,8 @@ MonoBehaviour:
       HasUsedDefense: 0
       HasUsedEffect: 0
       IsFaceDown: 0
+      EffectRemaining: 0
+      IsAttacked: 0
       MaxStar: 0
       Modifiers: []
     AcceptSoul: 0
@@ -5296,6 +5304,8 @@ MonoBehaviour:
       HasUsedDefense: 0
       HasUsedEffect: 0
       IsFaceDown: 0
+      EffectRemaining: 0
+      IsAttacked: 0
       MaxStar: 0
       Modifiers: []
     AcceptSoul: 0
@@ -5310,6 +5320,8 @@ MonoBehaviour:
       HasUsedDefense: 0
       HasUsedEffect: 0
       IsFaceDown: 0
+      EffectRemaining: 0
+      IsAttacked: 0
       MaxStar: 0
       Modifiers: []
     AcceptSoul: 0
@@ -5324,6 +5336,8 @@ MonoBehaviour:
       HasUsedDefense: 0
       HasUsedEffect: 0
       IsFaceDown: 0
+      EffectRemaining: 0
+      IsAttacked: 0
       MaxStar: 0
       Modifiers: []
     AcceptSoul: 0
@@ -5339,6 +5353,8 @@ MonoBehaviour:
       HasUsedDefense: 0
       HasUsedEffect: 0
       IsFaceDown: 0
+      EffectRemaining: 0
+      IsAttacked: 0
       MaxStar: 0
       Modifiers: []
     AcceptSoul: 0
@@ -5353,6 +5369,8 @@ MonoBehaviour:
       HasUsedDefense: 0
       HasUsedEffect: 0
       IsFaceDown: 0
+      EffectRemaining: 0
+      IsAttacked: 0
       MaxStar: 0
       Modifiers: []
     AcceptSoul: 0
@@ -5367,6 +5385,8 @@ MonoBehaviour:
       HasUsedDefense: 0
       HasUsedEffect: 0
       IsFaceDown: 0
+      EffectRemaining: 0
+      IsAttacked: 0
       MaxStar: 0
       Modifiers: []
     AcceptSoul: 0
@@ -5381,6 +5401,8 @@ MonoBehaviour:
       HasUsedDefense: 0
       HasUsedEffect: 0
       IsFaceDown: 0
+      EffectRemaining: 0
+      IsAttacked: 0
       MaxStar: 0
       Modifiers: []
     AcceptSoul: 0
@@ -5395,6 +5417,8 @@ MonoBehaviour:
       HasUsedDefense: 0
       HasUsedEffect: 0
       IsFaceDown: 0
+      EffectRemaining: 0
+      IsAttacked: 0
       MaxStar: 0
       Modifiers: []
     AcceptSoul: 0
@@ -5410,6 +5434,8 @@ MonoBehaviour:
       HasUsedDefense: 0
       HasUsedEffect: 0
       IsFaceDown: 0
+      EffectRemaining: 0
+      IsAttacked: 0
       MaxStar: 0
       Modifiers: []
     AcceptSoul: 0
@@ -5424,6 +5450,8 @@ MonoBehaviour:
       HasUsedDefense: 0
       HasUsedEffect: 0
       IsFaceDown: 0
+      EffectRemaining: 0
+      IsAttacked: 0
       MaxStar: 0
       Modifiers: []
     AcceptSoul: 0
@@ -5438,6 +5466,8 @@ MonoBehaviour:
       HasUsedDefense: 0
       HasUsedEffect: 0
       IsFaceDown: 0
+      EffectRemaining: 0
+      IsAttacked: 0
       MaxStar: 0
       Modifiers: []
     AcceptSoul: 0
@@ -5452,6 +5482,8 @@ MonoBehaviour:
       HasUsedDefense: 0
       HasUsedEffect: 0
       IsFaceDown: 0
+      EffectRemaining: 0
+      IsAttacked: 0
       MaxStar: 0
       Modifiers: []
     AcceptSoul: 0
@@ -5466,6 +5498,8 @@ MonoBehaviour:
       HasUsedDefense: 0
       HasUsedEffect: 0
       IsFaceDown: 0
+      EffectRemaining: 0
+      IsAttacked: 0
       MaxStar: 0
       Modifiers: []
     AcceptSoul: 0
@@ -5481,6 +5515,8 @@ MonoBehaviour:
       HasUsedDefense: 0
       HasUsedEffect: 0
       IsFaceDown: 0
+      EffectRemaining: 0
+      IsAttacked: 0
       MaxStar: 0
       Modifiers: []
     AcceptSoul: 0
@@ -5495,6 +5531,8 @@ MonoBehaviour:
       HasUsedDefense: 0
       HasUsedEffect: 0
       IsFaceDown: 0
+      EffectRemaining: 0
+      IsAttacked: 0
       MaxStar: 0
       Modifiers: []
     AcceptSoul: 0
@@ -5509,6 +5547,8 @@ MonoBehaviour:
       HasUsedDefense: 0
       HasUsedEffect: 0
       IsFaceDown: 0
+      EffectRemaining: 0
+      IsAttacked: 0
       MaxStar: 0
       Modifiers: []
     AcceptSoul: 0
@@ -5523,6 +5563,8 @@ MonoBehaviour:
       HasUsedDefense: 0
       HasUsedEffect: 0
       IsFaceDown: 0
+      EffectRemaining: 0
+      IsAttacked: 0
       MaxStar: 0
       Modifiers: []
     AcceptSoul: 0
@@ -5537,6 +5579,8 @@ MonoBehaviour:
       HasUsedDefense: 0
       HasUsedEffect: 0
       IsFaceDown: 0
+      EffectRemaining: 0
+      IsAttacked: 0
       MaxStar: 0
       Modifiers: []
     AcceptSoul: 0

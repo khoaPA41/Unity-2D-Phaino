@@ -14,6 +14,7 @@ namespace Raziel.StateMachine
 
             CheckDefCardByCharacter();
             CheckEffectDuration();
+            _duelStateMachine.BattleBoard.ResetAttack();
             _duelStateMachine.SwitchState(_duelStateMachine.DrawPhase);
         }
 

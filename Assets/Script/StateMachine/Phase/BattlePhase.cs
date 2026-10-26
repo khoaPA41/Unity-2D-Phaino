@@ -84,11 +84,14 @@ namespace Raziel.StateMachine
 
         private void ChangeMainII()
         {
-            _duelStateMachine.SwitchState(_duelStateMachine.SecondMainPhase);
+            if (_flow == null || _flow.IsIdle)
+                _duelStateMachine.SwitchState(_duelStateMachine.SecondMainPhase);
         }
 
         private void GetCard(BoardSlot boardSlot)
         {
+            if (_flow == null || !_flow.IsIdle) return;
+
             if (!boardSlot.AcceptSoul) return;
             if (_duelStateMachine.CurrentTurn.character == boardSlot.Character)
             {
@@ -135,6 +138,8 @@ namespace Raziel.StateMachine
 
         private void SetSelectedRupture(BoardSlot boardSlot)
         {
+            if (_flow == null || !_flow.IsWaitingReaction) return;
+
             if (boardSlot.Character == _duelStateMachine.CurrentTurn.character) return;
 
             if (boardSlot.CardInstance.CardReference.CardType != CardType.Rupture) return;
@@ -144,6 +149,8 @@ namespace Raziel.StateMachine
 
         private void HandleUseRuptureClicked()
         {
+            if (_flow == null || !_flow.IsWaitingReaction) return;
+
             var responer = _duelStateMachine.CurrentTurn.character == Character.Player ? Character.Enemy : Character.Player;
             _flow.TryUseRuptureCard(responer, _selectedRupture);
 
@@ -153,6 +160,7 @@ namespace Raziel.StateMachine
         {
             if (responder == Character.Player)
             {
+                _selectedRupture = null;
                 _battleBoard.CardOnBoardClicked += SetSelectedRupture;
                 _useRuptureCardButton.gameObject.SetActive(true);
             }

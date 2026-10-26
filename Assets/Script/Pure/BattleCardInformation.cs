@@ -23,6 +23,7 @@ public class CardInstance // Class keep instance of card in battle
     public bool HasUsedEffect;
     public bool IsFaceDown;
     public int EffectRemaining;
+    public bool IsAttacked;
 
     public CardInstance(Card cardReference, bool faceDownDefault)
     {
