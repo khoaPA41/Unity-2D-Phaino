@@ -160,6 +160,7 @@ namespace Raziel.StateMachine
         {
             if (_duelInformation.character != Character.Enemy) return;
 
+            _duelStateMachine.EnemyInput.SetPhase(false);
             _duelStateMachine.EnemyInput.SetInput(EnemyInput.ChooseCard);
 
             _duelStateMachine.EnemyInput.SetInput(EnemyInput.Summon);

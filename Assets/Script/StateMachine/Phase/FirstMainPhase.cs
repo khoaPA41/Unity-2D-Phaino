@@ -70,7 +70,63 @@ namespace Raziel.StateMachine
         private void SetupForEnemy()
         {
             if (_duelStateMachine.CurrentTurn.character != Character.Enemy) return;
-            _duelStateMachine.EnemyInput.SetInput(EnemyInput.Battle);
+
+            var ai = _duelStateMachine.EnemyInput;
+
+            var system = _duelStateMachine.CardEffectSystem;
+
+            var handIndex = ai.RandomMainIPhase();
+
+            if (handIndex < 0)
+            {
+                ChangeBattle();
+                return;
+            }
+
+            ChooseCard(handIndex);
+
+            var source = _duelStateMachine.CurrentTurn.SelectedCard;
+
+            if (source?.CardReference?.Effect == null)
+            {
+                ChangeBattle();
+                return;
+            }
+
+            int boarIndex = ai.RandomBoardSlotIndex();
+
+            if (boarIndex < 0)
+            {
+                ChangeBattle();
+                return;
+            }
+
+            bool needTarget = system.IsNeedTarget(source);
+
+            BoardSlot target = null;
+            if (needTarget)
+            {
+                target = ai.TryChooseTarget(source);
+
+                if (target == null)
+                {
+                    ChangeBattle();
+                    return;
+                }
+            }
+
+            Summon(handIndex, _duelStateMachine.EnemyInput.RandomBoardSlotIndex());
+            if (needTarget)
+            {
+                if (_cardActive != source)
+                {
+                    ChangeBattle();
+                    return;
+                }
+                ChooseCardTarget(_duelStateMachine.EnemyInput.TryChooseTarget(_cardActive));
+                UseCardButton();
+            }
+            ChangeBattle();
         }
 
         private void UseCardButton()
