@@ -13,6 +13,7 @@ public enum EnemyInput
     ChooseCard,
     Summon,
     Attack,
+    UseRupture,
     End
 }
 
@@ -179,7 +180,7 @@ public class EnemyAIControllerInput : MonoBehaviour
 
         bool isAttack = selectedCard.CardReference.CardType != CardType.Soul || randomStance == 1;
 
-        _duelInformation.Summon(_handIndex, boardIndex, isAttack);
+        _duelInformation.Summon(boardIndex, isAttack);
     }
 
     public int RandomBoardSlotIndex()
@@ -278,4 +279,22 @@ public class EnemyAIControllerInput : MonoBehaviour
         _duelStateMachine.BattleFlowController.TryBeginAttack();
     }
 
+    public BoardSlot ChooseRupture()
+    {
+        var battleBoard = BattleBoard.Instance;
+        if (battleBoard == null || _duelInformation == null) return null;
+
+        List<BoardSlot> ruptureSlots = new();
+        var slots = battleBoard.GetSlotByType(_duelInformation.character, CardType.Rupture);
+
+        foreach (var slot in slots)
+        {
+            if ((slot?.CardInstance?.CardReference?.CardType) != CardType.Rupture)
+                continue;
+            ruptureSlots.Add(slot);
+        }
+
+        var randomIndex = UnityEngine.Random.Range(0, ruptureSlots.Count);
+        return ruptureSlots[randomIndex];
+    }
 }
