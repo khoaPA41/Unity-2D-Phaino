@@ -16,8 +16,8 @@ public readonly struct BattleResult
 
         if (targeterIsDef)
         {
-            AttackerStarAfter = AttackerStarAfter > 0 ? attackerStartAfter : AttackerStarAfter;
-            TargeterStarAfter = TargeterStarAfter > 0 ? targeterStarAfter : TargeterStarAfter;
+            AttackerStarAfter = AttackerStarAfter >= 0 ? attackerStartAfter : AttackerStarAfter;
+            TargeterStarAfter = TargeterStarAfter >= 0 ? targeterStarAfter : TargeterStarAfter;
         }
     }
 }
@@ -34,7 +34,6 @@ public class BattleResolver
 
         attacker.BattleStar = result.AttackerStarAfter;
         targeter.BattleStar = result.TargeterStarAfter;
-
         return result;
     }
 }
