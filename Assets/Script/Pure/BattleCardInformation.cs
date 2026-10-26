@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Raziel.Battle;
 
 [Serializable]
-public class BoardSlot // Class use for slot on board
+public sealed class BoardSlot // Class use for slot on board
 {
     public Character Character;
     public CardInstance CardInstance;
@@ -22,6 +22,7 @@ public class CardInstance // Class keep instance of card in battle
     public bool HasUsedDefense;
     public bool HasUsedEffect;
     public bool IsFaceDown;
+    public int EffectRemaining;
 
     public CardInstance(Card cardReference, bool faceDownDefault)
     {
@@ -40,18 +41,16 @@ public class CardInstance // Class keep instance of card in battle
     public int MaxStar = 20;
     public List<Modifier> Modifiers = new();
 
-    public bool TickModifiers(Character turnOwner)
+    public bool RemoveModifierFromSource(CardInstance source)
     {
+        if (source?.CardReference?.Effect == null) return false;
         bool changed = false;
 
         for (int i = Modifiers.Count - 1; i >= 0; i--)
         {
             var modifier = Modifiers[i];
-            if (modifier.RemainingTurns < 0 || modifier.SourceOnwer != turnOwner) continue;
 
-            modifier.RemainingTurns--;
-
-            if (modifier.RemainingTurns > 0) continue;
+            if (modifier.SourceCard != source) continue;
 
             modifier.SourceCard.CardReference.Effect.RemoveEffect(modifier, this);
             Modifiers.RemoveAt(i);
@@ -76,13 +75,11 @@ public sealed class Modifier
 {
     [NonSerialized] public CardInstance SourceCard;
     public Character SourceOnwer;
-    public int RemainingTurns;
     public int Amount; // if have
-    public Modifier(CardInstance sourceCard, Character sourceOnwer, int remainingTurns, int amount)
+    public Modifier(CardInstance sourceCard, Character sourceOnwer, int amount)
     {
         SourceCard = sourceCard;
         SourceOnwer = sourceOnwer;
-        RemainingTurns = remainingTurns;
         Amount = amount;
     }
 }

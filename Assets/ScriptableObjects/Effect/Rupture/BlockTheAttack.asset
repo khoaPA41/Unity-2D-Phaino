@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7af7ac79c9d42d9499796da107dfbdf6, type: 3}
   m_Name: BlockTheAttack
   m_EditorClassIdentifier: Assembly-CSharp::Countermeasure
-  <EffectDuration>k__BackingField: 2
+  <EffectDuration>k__BackingField: 1
   <Turns>k__BackingField: 1
   <TargetRule>k__BackingField: 2

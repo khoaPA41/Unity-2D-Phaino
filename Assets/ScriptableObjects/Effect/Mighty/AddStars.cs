@@ -36,7 +36,7 @@ public class AddStars : CardEffect
             int applied = battleStar - before;
             if (applied > 0)
             {
-                target.CardInstance.Modifiers.Add(new Modifier(source, ctx.Owner.character, Turns, applied));
+                target.CardInstance.Modifiers.Add(new Modifier(source, ctx.Owner.character, applied));
                 target.CardInstance.BattleStar = battleStar;
             }
 

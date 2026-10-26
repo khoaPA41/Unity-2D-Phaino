@@ -34,7 +34,7 @@ namespace Raziel.StateMachine
 
         private void CheckEffectDuration()
         {
-            _duelStateMachine.BattleBoard.ProcessEffectDuration(_duelStateMachine.CurrentTurn.character);
+            _duelStateMachine.CardEffectSystem.TickDuration(_duelStateMachine.CurrentTurn.character);
         }
     }
 }

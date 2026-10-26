@@ -10,9 +10,8 @@ public enum TargetRule
 
 public enum EffectDuration
 {
-    Forever,
     ByTurn,
-    StillExists
+    OneTime
 }
 
 public abstract class CardEffect : ScriptableObject
@@ -22,7 +21,7 @@ public abstract class CardEffect : ScriptableObject
     [field: SerializeField] public EffectDuration EffectDuration { get; private set; }
     [field: SerializeField] public int Turns { get; private set; } = 1;
 
-    protected int ModifierTurn => EffectDuration == EffectDuration.ByTurn ? Turns : NoExpiry;
+    public int ModifierTurn => EffectDuration == EffectDuration.ByTurn ? Turns : NoExpiry;
 
     [field: SerializeField] public TargetRule TargetRule { get; private set; }
     public virtual bool CanActivate(CardEffectContext ctx) => true;

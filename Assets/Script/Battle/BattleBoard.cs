@@ -21,6 +21,8 @@ namespace Raziel.Battle
         public event Action<Character, BoardSlot> ReturnAttackStance;
         public event Action<Character> EndGame = delegate { };
         public event Action<BoardSlot> SlotChanged = delegate { };
+        public event Action<CardInstance> CardLeaveBoard = delegate { };
+
         public event Action OnAttack = delegate { };
 
         // Rupture
@@ -279,19 +281,25 @@ namespace Raziel.Battle
 
         public void CardDeath(BoardSlot boardSlot)
         {
+            var card = boardSlot?.CardInstance;
+            if (card?.CardReference == null) return;
+
+            boardSlot.CardInstance = null;
+
+            CardLeaveBoard?.Invoke(card);
+
             if (boardSlot.Character == Character.Player)
             {
-                _player.OnCardDeath(boardSlot.CardInstance);
+                _player.OnCardDeath(card);
             }
             else
             {
-                _enemy.OnCardDeath(boardSlot.CardInstance);
+                _enemy.OnCardDeath(card);
             }
 
             var uiManager = UiBattleManagers.Instance;
             if (uiManager == null) return;
             uiManager.ReleaseCardOnBoardByCharacterAndIndex(boardSlot.Character, boardSlot);
-            boardSlot.CardInstance = null;
             // Nên dùng Event để giảm phụ thuộc
         }
 
@@ -325,29 +333,6 @@ namespace Raziel.Battle
                     card.IsAttackStance = true;
                     ReturnAttackStance?.Invoke(character, stanceSlot);
                 }
-            }
-        }
-
-        public void ProcessEffectDuration(Character ownerTurn)
-        {
-            TickField(PlayerSoulField, ownerTurn);
-            TickField(EnemySouldField, ownerTurn);
-        }
-
-        private void TickField(BoardSlot[] boardSlots, Character ownerTurn)
-        {
-            foreach (var slot in boardSlots)
-            {
-                var card = slot?.CardInstance;
-                if (card?.CardReference == null) continue;
-                var changed = card.TickModifiers(ownerTurn);
-
-                if (card.BattleStar <= 0)
-                {
-                    CardDeath(slot);
-                    continue;
-                }
-                if (changed) SlotChanged(slot);
             }
         }
 

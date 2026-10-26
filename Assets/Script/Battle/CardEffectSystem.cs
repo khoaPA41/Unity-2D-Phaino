@@ -16,7 +16,7 @@ public class CardEffectSystem
         return effect != null && effect.TargetRule != TargetRule.None;
     }
 
-    public List<BoardSlot> GetAllValidTarget(CardInstance source, DuelInformation owner)
+    public List<BoardSlot> GetAllValidTarget(CardInstance source, DuelInformation owner) // Return all targets valid
     {
         var result = new List<BoardSlot>();
         var effect = source?.CardReference?.Effect;
@@ -70,16 +70,20 @@ public class CardEffectSystem
             _battleBoard.NotiySlotChanged(target);
         }
 
-        if (effect.EffectDuration != EffectDuration.StillExists)
+        if (effect.EffectDuration != EffectDuration.ByTurn)
         {
             var sourceSlot = _battleBoard.FindSlot(source);
             if (sourceSlot != null) _battleBoard.CardDeath(sourceSlot);
+        }
+        else
+        {
+            source.EffectRemaining = effect.ModifierTurn;
         }
 
         return true;
     }
 
-    private bool AreTargetValid(CardInstance source, DuelInformation owner, IReadOnlyList<BoardSlot> targets)
+    private bool AreTargetValid(CardInstance source, DuelInformation owner, IReadOnlyList<BoardSlot> targets) // Check current target with targets valid list
     {
         if (!IsNeedTarget(source)) return targets.Count == 0;
         if (targets.Count == 0) return false;
@@ -101,7 +105,7 @@ public class CardEffectSystem
         }
     }
 
-    public bool TrySummon(CardInstance source, DuelInformation owner, List<BoardSlot> targets)
+    public bool TrySummon(CardInstance source, DuelInformation owner, List<BoardSlot> targets) // Try Summon Effect Card
     {
         var effect = source?.CardReference?.Effect;
         if (effect == null || source.HasUsedEffect) return false;
@@ -117,5 +121,58 @@ public class CardEffectSystem
         if (!effect.CanActivate(context)) return false;
 
         return true;
+    }
+
+    public void TickDuration(Character turnOwner) // Subtract turn if card effect is has Turn
+    {
+        var slots = _battleBoard.GetSlotByType(turnOwner, CardType.Mighty);
+
+        foreach (var slot in slots)
+        {
+            var card = slot?.CardInstance;
+            var effect = card?.CardReference?.Effect;
+
+            if (effect == null || !card.HasUsedEffect) continue;
+            if (effect.EffectDuration != EffectDuration.ByTurn) continue;
+
+
+            if (card.EffectRemaining > 0) card.EffectRemaining--;
+            if (card.EffectRemaining <= 0)
+            {
+                _battleBoard.CardDeath(slot);
+            }
+        }
+    }
+
+    public void RemoveSourceEffect(CardInstance source)
+    {
+        var effect = source?.CardReference?.Effect;
+        if (effect == null || !source.HasUsedEffect) return;
+        if (effect.EffectDuration != EffectDuration.ByTurn) return;
+
+        source.EffectRemaining = 0;
+
+        foreach (var side in new[] { Character.Player, Character.Enemy })
+        {
+            var slots = _battleBoard.GetSlotByType(side, CardType.Soul);
+
+            foreach (var slot in slots)
+            {
+                var card = slot?.CardInstance;
+
+                if (card?.CardReference == null) continue;
+
+                if (!card.RemoveModifierFromSource(source)) continue;
+
+                if (card.BattleStar <= 0)
+                {
+                    _battleBoard.CardDeath(slot);
+                }
+                else
+                {
+                    _battleBoard.NotiySlotChanged(slot);
+                }
+            }
+        }
     }
 }

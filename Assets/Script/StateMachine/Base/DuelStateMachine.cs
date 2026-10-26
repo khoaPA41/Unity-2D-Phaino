@@ -84,7 +84,9 @@ namespace Raziel.StateMachine
 
         private void OnEnable()
         {
+            if (BattleBoard == null || CardEffectSystem == null) return;
             BattleBoard.EndGame += ResultPhase;
+            BattleBoard.CardLeaveBoard += CardEffectSystem.RemoveSourceEffect;
         }
 
         private void Start()
@@ -94,7 +96,10 @@ namespace Raziel.StateMachine
 
         private void OnDisable()
         {
+            if (BattleBoard == null || CardEffectSystem == null) return;
             BattleBoard.EndGame -= ResultPhase;
+            BattleBoard.CardLeaveBoard -= CardEffectSystem.RemoveSourceEffect;
+
         }
 
         public void Draw()
