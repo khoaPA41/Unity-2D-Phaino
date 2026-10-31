@@ -59,7 +59,7 @@ namespace Raziel.Battle
 
         public void DrawCard()
         {
-            if (!Deck.DrawCard(1)) return;
+            if (!Deck.DrawCard(1)) Debug.Log("Out of deck");
             ChangesInHand?.Invoke();
         }
 
