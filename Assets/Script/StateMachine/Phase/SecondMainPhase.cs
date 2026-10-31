@@ -70,7 +70,7 @@ namespace Raziel.StateMachine
 
             if (_summon != null)
             {
-                _summon.onClick.RemoveListener(OnAcceptDef);
+                _summon.onClick.RemoveListener(SummonAction);
                 _summon.gameObject.SetActive(false);
             }
 
