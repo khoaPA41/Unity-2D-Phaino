@@ -104,15 +104,23 @@ namespace Raziel.StateMachine
 
             if (selectedCard == null || selectedCard.CardReference == null) return;
 
-            if (selectedCard.CardReference.CardType != CardType.Soul)
+            if (selectedCard.CardReference.CardType == CardType.Mighty) return; // mighty not accept this phase
+
+            if (selectedCard.CardReference.CardType != CardType.Soul) // if not soul card
             {
-                if (selectedCard.CardReference.CardType == CardType.Rupture)
+                if (selectedCard.CardReference.CardType == CardType.Rupture) // if rupture - just accept rupture in this phase
                     SummonFuncCard(boardIndex);
                 return;
             }
 
-            _currentBoardIndex = boardIndex;
 
+            if (selectedCard.BattleStar <= 1)
+            {
+                SummonFuncCard(boardIndex);
+                return;
+            }
+
+            _currentBoardIndex = boardIndex;
             _chooseAttackStance.gameObject.SetActive(true);
             _chooseDefenseStance.gameObject.SetActive(true);
             _stateMachine.IsCanUseCard = false;

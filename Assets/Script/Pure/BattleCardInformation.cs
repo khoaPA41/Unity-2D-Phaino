@@ -34,7 +34,7 @@ public class CardInstance // Class keep instance of card in battle
         {
             OriginalStar = cardReference.CardStar;
             BattleStar = cardReference.CardStar;
-            DefTurnLimit = cardReference.CardStar / 2;
+            DefTurnLimit = Math.Min(cardReference.CardStar / 2, 5);
         }
     }
 
